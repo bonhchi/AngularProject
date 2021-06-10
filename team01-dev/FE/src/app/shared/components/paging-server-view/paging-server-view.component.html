@@ -1,0 +1,106 @@
+<div style="height: 50px; position: relative; cursor: pointer">
+  <ng2-smart-table-pager
+    _ngcontent-serverapp-c237=""
+    _nghost-serverapp-c222=""
+    class="ng-star-inserted"
+    style="position: absolute; right: 0"
+  >
+    <nav
+      _ngcontent-serverapp-c222=""
+      class="ng2-smart-pagination-nav ng-star-inserted"
+    >
+      <ul _ngcontent-serverapp-c222="" class="ng2-smart-pagination pagination">
+        <li
+          _ngcontent-serverapp-c222=""
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: !data?.hasPreviousPage }"
+        >
+          <a
+            _ngcontent-serverapp-c222=""
+            (click)="onPageIndexChange(0)"
+            aria-label="First"
+            class="ng2-smart-page-link page-link"
+          >
+            <span _ngcontent-serverapp-c222="" aria-hidden="true">«</span>
+            <span _ngcontent-serverapp-c222="" class="sr-only">First</span>
+          </a>
+        </li>
+        <li
+          _ngcontent-serverapp-c222=""
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: !data?.hasPreviousPage }"
+        >
+          <a
+            _ngcontent-serverapp-c222=""
+            (click)="onPageIndexChange(data?.pageIndex - 1)"
+            aria-label="Prev"
+            class="ng2-smart-page-link page-link page-link-prev"
+          >
+            <span _ngcontent-serverapp-c222="" aria-hidden="true">&lt;</span>
+            <span _ngcontent-serverapp-c222="" class="sr-only">Prev</span>
+          </a>
+        </li>
+
+        <ng-container *ngFor="let item of pagelist">
+          <li
+            *ngIf="item == data?.pageIndex + 1"
+            _ngcontent-serverapp-c222=""
+            class="ng2-smart-page-item page-item active ng-star-inserted"
+          >
+            <span
+              _ngcontent-serverapp-c222=""
+              class="ng2-smart-page-link page-link ng-star-inserted"
+              >{{ item }}
+              <span _ngcontent-serverapp-c222="" class="sr-only"
+                >(current)</span
+              ></span
+            >
+          </li>
+          <li
+            *ngIf="item != data?.pageIndex + 1"
+            _ngcontent-serverapp-c222=""
+            class="ng2-smart-page-item page-item ng-star-inserted"
+          >
+            <a
+              _ngcontent-serverapp-c222=""
+              (click)="onPageIndexChange(item - 1)"
+              class="ng2-smart-page-link page-link ng-star-inserted"
+              >{{ item }}</a
+            >
+          </li>
+        </ng-container>
+
+        <li
+          _ngcontent-serverapp-c222=""
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: data?.pageIndex + 1 >= data?.totalPage }"
+        >
+          <a
+            _ngcontent-serverapp-c222=""
+            (click)="onPageIndexChange(data?.pageIndex + 1)"
+            aria-label="Next"
+            class="ng2-smart-page-link page-link page-link-next"
+            ><span _ngcontent-serverapp-c222="" aria-hidden="true">&gt;</span
+            ><span _ngcontent-serverapp-c222="" class="sr-only">Next</span></a
+          >
+        </li>
+        <li
+          _ngcontent-serverapp-c222=""
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{
+            disabled: data?.pageIndex + 1 >= data?.totalPage
+          }"
+        >
+          <a
+            _ngcontent-serverapp-c222=""
+            (click)="onPageIndexChange(data?.totalPage - 1)"
+            aria-label="Last"
+            class="ng2-smart-page-link page-link"
+            ><span _ngcontent-serverapp-c222="" aria-hidden="true">»</span
+            ><span _ngcontent-serverapp-c222="" class="sr-only">Last</span></a
+          >
+        </li>
+      </ul>
+    </nav></ng2-smart-table-pager
+  >
+</div>

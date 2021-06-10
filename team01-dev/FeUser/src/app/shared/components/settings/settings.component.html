@@ -1,0 +1,145 @@
+<div class="icon-nav">
+  <ul>
+    <li class="onhover-div mobile-search search-widgets" id="search-widgets">
+      <div (click)="searchToggle()">
+        <img src="assets/images/icon/search.png" class="img-fluid" alt="" />
+        <i class="ti-search"></i>
+      </div>
+      <div
+        id="search-overlay"
+        class="search-overlay"
+        [ngStyle]="{ display: search ? 'block' : 'none' }"
+      >
+        <div>
+          <span class="closebtn" title="Close Overlay" (click)="searchToggle()"
+            >×</span
+          >
+          <div class="overlay-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-xl-12">
+                  <form>
+                    <div class="form-group">
+                      <input
+                        [(ngModel)]="userFilter.name"
+                        type="text"
+                        class="form-control"
+                        id="exampleInputPassword1"
+                        placeholder="Nhập tên sản phẩm"
+                        name="name"
+                        (keypress)="onSearch($event)"
+                        (keyup)="getItem($event)"
+                      />
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </form>
+                  <h5>Sản phẩm liên quan</h5>
+                </div>
+              </div>
+              <div class="row">
+                <div *ngIf="userFilter.name" class="form-group">
+                  <ul
+                    class="nav"
+                    *ngFor="let item of data | filterBy: userFilter"
+                  >
+                    <li class="nav-item">
+                      <h6
+                        class="product-link mt-3"
+                        (click)="clickRouter(item.id)"
+                      >
+                        {{ item.name }}
+                      </h6>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="onhover-div mobile-cart">
+      <div>
+        <a [routerLink]="['/cart']">
+          <img src="assets/images/icon/cart.png" class="img-fluid" alt="" />
+          <i class="ti-shopping-cart"></i>
+        </a>
+      </div>
+      <span class="cart_qty_cls">{{ products?.length }}</span>
+      <ul class="show-div shopping-cart" *ngIf="!products?.length">
+        <h5>Giỏ hàng hiện đang trống</h5>
+      </ul>
+
+      <ul class="show-div shopping-cart pt-1" *ngIf="products?.length">
+        <li class="stickyOptions">
+          <div class="buttons">
+            <a [routerLink]="['/cart']" class="view-cart">xem giỏ hàng</a>
+            <a [routerLink]="['/checkout']" class="checkout">checkout</a>
+          </div>
+        </li>
+        <li *ngFor="let product of products">
+          <div class="media">
+            <a
+              [routerLink]="['/product-details']"
+              [queryParams]="{ id: product?.id }"
+            >
+              <app-image-wrapper
+                [data]="{
+                  url: getImage(product?.imageUrl.split(',')[0]),
+                  typeClass: typeDisPlayImage.CART_DROPDOWN,
+                  title: product?.categoryName,
+                  class: 'mr-3'
+                }"
+              ></app-image-wrapper>
+            </a>
+            <div class="media-body">
+              <a
+                [routerLink]="['/product-details']"
+                [queryParams]="{ id: product?.id }"
+              >
+                <h4>{{ product?.name }}</h4>
+              </a>
+
+              <h4>
+                <span>
+                  {{ product?.quantity }} x
+                  {{ product?.price | vndFormat }}
+                </span>
+              </h4>
+              <div class="qty-box">
+                <div class="input-group" style="justify-content: left">
+                  <span class="input-group-prepend">
+                    <button
+                      type="button"
+                      class="btn quantity-left-minus"
+                      data-type="minus"
+                      (click)="adjustQuantity(product, -1)"
+                    >
+                      <i class="ti-angle-left d-block"></i>
+                    </button>
+                  </span>
+                  <span class="input-group-prepend">
+                    <button
+                      type="button"
+                      class="btn quantity-right-plus"
+                      data-type="plus"
+                      [disabled]="exceed"
+                      (click)="adjustQuantity(product, 1)"
+                    >
+                      <i class="ti-angle-right d-block"></i>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="close-circle" (click)="removeItem(product)">
+            <a><i class="fa fa-times" aria-hidden="true"></i></a>
+          </div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

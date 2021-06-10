@@ -1,0 +1,118 @@
+<app-breadcrumb
+  [title]="'Danh sách yêu thích'"
+  [breadcrumb]="'Danh sách yêu thích'"
+></app-breadcrumb>
+<!--section start-->
+<section class="wishlist-section section-b-space">
+  <div class="container">
+    <div class="col-md-12 empty-cart-cls text-center" *ngIf="isEmpty">
+      <img
+        src="assets/images/empty-wishlist.png"
+        alt="Empty cart"
+        title="Empty cart"
+      />
+      <h3 class="mt-4"><b>Danh sách yêu thích trống</b></h3>
+      <h4>
+        Hãy tìm sản phẩm rồi thêm vào danh sách một vài sản phẩm yêu thích
+      </h4>
+    </div>
+    <div class="row" *ngIf="products.length">
+      <div class="col-sm-12">
+        <table class="table cart-table table-responsive-xs">
+          <thead>
+            <tr class="table-head">
+              <th scope="col">Hình ảnh</th>
+              <th scope="col">Tên sản phẩm</th>
+              <th scope="col">Giá</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let product of products">
+            <tr>
+              <td>
+                <a
+                  [routerLink]="['/product-details']"
+                  [queryParams]="{ id: product?.id }"
+                >
+                  <app-image-wrapper
+                    [data]="{
+                      url: getImage(product?.imageUrl.split(',')[0]),
+                      typeClass: typeDisplayImage.WISHLIST_IMAGE
+                    }"
+                  ></app-image-wrapper>
+                </a>
+              </td>
+              <td>
+                <a
+                  [routerLink]="['/product-details']"
+                  [queryParams]="{ id: product?.id }"
+                  >{{ product?.name }}</a
+                >
+                <div class="mobile-cart-content row">
+                  <div class="col-xs-3">
+                    <p>
+                      {{ checkStock(product) ? "in cart" : "out cart" }}
+                    </p>
+                  </div>
+                  <div class="col-xs-3">
+                    <h2 class="td-color">
+                      {{ product?.price | vndFormat }}
+                    </h2>
+                  </div>
+                  <div class="col-xs-3">
+                    <h2 class="td-color">
+                      <a
+                        href="javascript:void(0)"
+                        (click)="removeItem(product)"
+                        class="icon mb-2"
+                      >
+                        <i class="ti-close"></i>
+                      </a>
+                      <a
+                        href="javascript:void(0)"
+                        (click)="addToCart(product)"
+                        class="cart"
+                      >
+                        <i class="ti-shopping-cart"></i>
+                      </a>
+                    </h2>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <h2>
+                  {{ product?.price | vndFormat }}
+                </h2>
+              </td>
+              <td>
+                <a
+                  href="javascript:void(0)"
+                  (click)="removeItem(product)"
+                  class="icon mr-3"
+                >
+                  <i class="ti-close"></i>
+                </a>
+                <a
+                  href="javascript:void(0)"
+                  (click)="addToCart(product)"
+                  class="cart"
+                >
+                  <i class="ti-shopping-cart"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row wishlist-buttons">
+      <div class="col-12">
+        <a [routerLink]="['/product']" class="btn btn-solid"
+          >Tiếp tục mua sắm</a
+        >
+        <a [routerLink]="['/cart']" class="btn btn-solid">Xem giỏ hàng</a>
+      </div>
+    </div>
+  </div>
+</section>
+<!--section end-->

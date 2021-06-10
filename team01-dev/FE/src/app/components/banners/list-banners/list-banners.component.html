@@ -1,0 +1,30 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h5>Bảng quảng cáo</h5>
+    </div>
+    <div class="card-body vendor-table">
+      <div id="batchDelete" class="custom-datatable media-datatable">
+        <div class="table-responsive">
+          <ng2-smart-table
+            [settings]="settings"
+            [(source)]="banners"
+            (create)="openDetails($event)"
+            (delete)="delete($event)"
+            (edit)="openDetails($event)"
+          >
+          </ng2-smart-table>
+        </div>
+      </div>
+
+      <app-paging-server-view
+        *ngIf="data?.totalPage > 1"
+        [data]="data"
+        (page)="onPage($event)"
+      ></app-paging-server-view>
+    </div>
+  </div>
+</div>
+
+<!-- Container-fluid Ends-->

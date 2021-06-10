@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h5>Mạng xã hội</h5>
+    </div>
+    <div class="card-body vendor-table">
+      <div id="batchDelete" class="custom-datatable media-datatable">
+        <div class="table-responsive">
+          <ng2-smart-table
+            [settings]="settings"
+            [(source)]="socialMedias"
+            (create)="open(null)"
+            (edit)="open($event)"
+            (delete)="delete($event)"
+          ></ng2-smart-table>
+        </div>
+      </div>
+      <app-paging-server-view
+        *ngIf="data?.totalPage > 1"
+        [data]="data"
+        (page)="onPage($event)"
+      ></app-paging-server-view>
+    </div>
+  </div>
+</div>

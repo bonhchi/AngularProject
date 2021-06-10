@@ -1,0 +1,210 @@
+<app-modal-header
+  [data]="modalHeader"
+  (onAction)="close($event)"
+></app-modal-header>
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card tab2-card">
+        <div class="card-body">
+          <div
+            class="tab-pane fade active show"
+            id="account"
+            role="tabpanel"
+            aria-labelledby="account-tab"
+          >
+            <form
+              [formGroup]="couponForm"
+              class="needs-validation user-add"
+              novalidate=""
+            >
+              <h4>Chi tiết mã giảm giá</h4>
+              <div class="form-group row">
+                <label for="validationCustom0" class="col-xl-3 col-md-4"
+                  ><span>*</span> Mã giảm giá</label
+                >
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validationCustom0"
+                  type="text"
+                  required=""
+                  formControlName="code"
+                  [ngClass]="{
+                    'is-invalid':
+                      (CouponFormControl.code.touched || submitted) &&
+                      CouponFormControl.code.errors?.required
+                  }"
+                />
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (CouponFormControl.code.touched || submitted) &&
+                      CouponFormControl.code.errors?.required
+                    "
+                  >
+                    Mã giảm giá không được để trống hoặc sai định dạng
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="validationCustom1" class="col-xl-3 col-md-4"
+                  ><span>*</span> Tên giảm giá</label
+                >
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validationCustom1"
+                  type="text"
+                  required=""
+                  formControlName="name"
+                  [ngClass]="{
+                    'is-invalid ':
+                      (CouponFormControl.name.touched || submitted) &&
+                      CouponFormControl.name.errors?.required
+                  }"
+                />
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (CouponFormControl.name.touched || submitted) &&
+                      CouponFormControl.name.errors?.required
+                    "
+                  >
+                    Tên giảm giá không được để trống hoặc sai định dạng
+                  </span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="validationCustom2" class="col-xl-3 col-md-4"
+                  >Giảm theo %</label
+                >
+                <input
+                  class="form-check-input col-xl-7 col-md-6"
+                  id=""
+                  type="checkbox"
+                  formControlName="hasPercent"
+                  style="left: 0"
+                />
+              </div>
+              <div class="form-group row">
+                <label for="validationCustom3" class="col-xl-3 col-md-4"
+                  ><span>*</span> Giá trị giảm</label
+                >
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validationCustom3"
+                  type="number"
+                  required=""
+                  formControlName="value"
+                  [ngClass]="{
+                    'is-invalid ':
+                      (CouponFormControl.value.touched || submitted) &&
+                      (CouponFormControl.value.errors?.required ||
+                        couponForm.errors?.percent)
+                  }"
+                />
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (CouponFormControl.value.touched || submitted) &&
+                      CouponFormControl.value.errors?.required &&
+                      !couponForm.errors?.percent
+                    "
+                  >
+                    Giá trị giảm không được để trống hoặc sai định dạng
+                  </span>
+                  <span class="text-danger" *ngIf="couponForm.errors?.percent">
+                    Giá trị khi có % chỉ trong khoảng từ 1 đến 99
+                  </span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="validateStartDate" class="col-xl-3 col-md-4"
+                  ><span>*</span> Ngày bắt đầu</label
+                >
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validateStartDate"
+                  type="date"
+                  value="{{ item?.startDate | date: 'dd-MM-yyyy' }}"
+                  formControlName="startDate"
+                  required=""
+                  [ngClass]="{
+                    'is-invalid ':
+                      (CouponFormControl.startDate.touched || submitted) &&
+                      (CouponFormControl.startDate.errors?.required ||
+                        CouponFormControl.startDate.errors?.currentDate)
+                  }"
+                />
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <div
+                    *ngIf="
+                      (CouponFormControl.startDate.touched || submitted) &&
+                      CouponFormControl.startDate.errors?.required
+                    "
+                  >
+                    Ngày bắt đầu không được để trống
+                  </div>
+                  <div
+                    *ngIf="
+                      (CouponFormControl.startDate.touched || submitted) &&
+                      CouponFormControl.startDate.errors?.currentDate
+                    "
+                  >
+                    Ngày bắt đầu không hợp lệ
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="validationEndDate" class="col-xl-3 col-md-4"
+                  ><span>*</span> Ngày kết thúc</label
+                >
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validationEndDate"
+                  type="date"
+                  value="{{ item?.endDate | date: 'dd-MM-yyyy' }}"
+                  formControlName="endDate"
+                  required=""
+                  [ngClass]="{
+                    'is-invalid ':
+                      (CouponFormControl.endDate.touched || submitted) &&
+                      (CouponFormControl.endDate.errors?.required ||
+                        CouponFormControl.endDate.errors?.compared)
+                  }"
+                />
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <div
+                    *ngIf="
+                      (CouponFormControl.endDate.touched || submitted) &&
+                      CouponFormControl.endDate.errors?.required
+                    "
+                  >
+                    Ngày kết thúc không được để trống
+                  </div>
+                  <div
+                    *ngIf="
+                      (CouponFormControl.endDate.touched || submitted) &&
+                      CouponFormControl.endDate.errors?.compared
+                    "
+                  >
+                    Ngày kết thúc không hợp lệ
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+<app-modal-footer
+  [data]="modalFooter"
+  (onAction)="saveCoupon($event)"
+></app-modal-footer>

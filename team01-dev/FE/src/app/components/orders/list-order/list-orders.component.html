@@ -1,0 +1,96 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h5>Đơn hàng</h5>
+    </div>
+    <div class="card-body vendor-table">
+      <h6><strong>Trạng thái đơn hàng</strong></h6>
+      <div class="btn-group">
+        <button
+          #allButton
+          type="button"
+          (click)="
+            removeAllAction(
+              allButton,
+              newButton,
+              approvedButton,
+              rejectedButton
+            );
+            statusFilter(allButton)
+          "
+          class="btn btn-primary btn-xs mr-2"
+        >
+          Tất cả
+        </button>
+        <button
+          #newButton
+          type="button"
+          (click)="
+            removeAllAction(
+              allButton,
+              newButton,
+              approvedButton,
+              rejectedButton
+            );
+            statusFilter(newButton)
+          "
+          class="btn btn-primary btn-xs mr-2 active"
+        >
+          Mới
+        </button>
+        <button
+          #approvedButton
+          type="button"
+          (click)="
+            removeAllAction(
+              allButton,
+              newButton,
+              approvedButton,
+              rejectedButton
+            );
+            statusFilter(approvedButton)
+          "
+          class="btn btn-primary btn-xs mr-2"
+        >
+          Chấp nhận
+        </button>
+        <button
+          #rejectedButton
+          type="button"
+          (click)="
+            removeAllAction(
+              allButton,
+              newButton,
+              approvedButton,
+              rejectedButton
+            );
+            statusFilter(rejectedButton)
+          "
+          class="btn btn-primary btn-xs mr-2"
+        >
+          Từ chối
+        </button>
+      </div>
+    </div>
+    <div class="card-body vendor-table">
+      <div id="batchDelete" class="custom-datatable media-datatable">
+        <div class="table-responsive">
+          <ng2-smart-table
+            [settings]="settings"
+            [(source)]="orders"
+            (edit)="openUpdate($event)"
+          >
+          </ng2-smart-table>
+        </div>
+      </div>
+      <app-paging-server-view
+        *ngIf="!isGetOrders && data?.totalPage > 1"
+        [data]="data"
+        (page)="onPage($event)"
+      ></app-paging-server-view>
+    </div>
+  </div>
+</div>
+
+<!-- Container-fluid Ends-->

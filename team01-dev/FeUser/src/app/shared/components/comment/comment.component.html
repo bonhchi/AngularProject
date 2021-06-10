@@ -1,0 +1,40 @@
+<div class="container">
+  <span class="review row text-dark">Nhận xét</span>
+  <form
+    [formGroup]="commentForm"
+    (ngSubmit)="Submit()"
+    *ngIf="isLoading; else checkLoginToComment"
+  >
+    <div class="row pt-3">
+      <div class="form-group col-md-12 m-0 p-0">
+        <textarea
+          class="form-control"
+          rows="4"
+          formControlName="content"
+          placeholder="Để lại nhận xét"
+        ></textarea>
+      </div>
+      <div class="col-md-12 m-0 p-0">
+        <ngb-rating [max]="5" [(rate)]="currentRate" formControlName="rating">
+          <ng-template let-fill="fill" let-index="index">
+            <span class="star" [class.filled]="fill === 100">&#9733;</span>
+          </ng-template>
+        </ngb-rating>
+      </div>
+      <div class="col-md-12 m-0 p-0">
+        <button class="btn btn-solid" type="submit">Gửi</button>
+      </div>
+    </div>
+  </form>
+  <ng-template #checkLoginToComment>
+    <div class="row mt-3">
+      <span
+        >Hãy
+        <span (click)="returnLogin()" style="cursor: pointer; color: #ff4c3b"
+          >đăng nhập
+        </span>
+        để đăng nhận xét</span
+      >
+    </div>
+  </ng-template>
+</div>

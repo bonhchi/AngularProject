@@ -1,0 +1,214 @@
+<div class="row section-b-space">
+  <div class="col-lg-7">
+    <iframe
+      class="e2e-iframe-trusted-src"
+      [src]="src"
+      width="600"
+      height="450"
+      style="border: 0"
+      allowfullscreen
+      loading="lazy"
+    ></iframe>
+  </div>
+  <div class="col-lg-5">
+    <div class="contact-right">
+      <ul>
+        <li>
+          <div class="contact-icon">
+            <img
+              src="../assets/images/icon/phone.png"
+              alt="Generic placeholder image"
+            />
+            <h6>Số điện thoại</h6>
+          </div>
+          <div class="media-body">
+            <p>{{ pageContentInfo?.phone }}</p>
+          </div>
+        </li>
+        <li>
+          <div class="contact-icon">
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
+            <h6>Địa chỉ</h6>
+          </div>
+          <div class="media-body">
+            <p>{{ pageContentInfo?.address }}</p>
+          </div>
+        </li>
+        <li>
+          <div class="contact-icon">
+            <img
+              src="../assets/images/icon/email.png"
+              alt="Generic placeholder image"
+            />
+            <h6>Email</h6>
+          </div>
+          <div class="media-body">
+            <p>{{ pageContentInfo?.email }}</p>
+          </div>
+        </li>
+        <li>
+          <div class="contact-icon">
+            <i class="fa fa-fax" aria-hidden="true"></i>
+            <h6>Fax</h6>
+          </div>
+          <div class="media-body">
+            <p>{{ pageContentInfo?.fax }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="contactForm" (ngSubmit)="Submit()" class="theme-form">
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label> Tên</label>
+      <input
+        class="form-control"
+        type="text"
+        formControlName="firstName"
+        placeholder="Ví dụ: Bửu"
+        [ngClass]="{
+          'is-invalid':
+            contactForm.controls.firstName.errors &&
+            (contactForm.controls.firstName.dirty || submitted)
+        }"
+      />
+      <div
+        *ngIf="
+          contactForm.controls.firstName.errors &&
+          (contactForm.controls.firstName.dirty || submitted)
+        "
+        class="invalid-feedback"
+      >
+        <div *ngIf="contactForm.controls.firstName.errors?.required">
+          Tên không được để trống
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <label> Họ</label>
+      <input
+        class="form-control"
+        type="text"
+        formControlName="lastName"
+        placeholder="Ví dụ: Trần"
+        [ngClass]="{
+          'is-invalid':
+            contactForm.controls.lastName.errors &&
+            (contactForm.controls.lastName.dirty || submitted)
+        }"
+      />
+      <div
+        *ngIf="
+          contactForm.controls.lastName.errors &&
+          (contactForm.controls.lastName.dirty || submitted)
+        "
+        class="invalid-feedback"
+      >
+        <div *ngIf="contactForm.controls.lastName.errors?.required">
+          Họ không được để trống
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <label> Số điện thoại</label>
+      <input
+        class="form-control"
+        type="text"
+        formControlName="phoneNumber"
+        placeholder="Ví dụ: 0123456789"
+        [ngClass]="{
+          'is-invalid':
+            contactForm.controls.phoneNumber.errors &&
+            (contactForm.controls.phoneNumber.dirty || submitted)
+        }"
+      />
+      <div
+        *ngIf="
+          contactForm.controls.phoneNumber.errors &&
+          (contactForm.controls.phoneNumber.dirty || submitted)
+        "
+        class="invalid-feedback"
+      >
+        <div *ngIf="contactForm.controls.phoneNumber.errors?.required">
+          Số điện thoại không được để trống
+        </div>
+        <div *ngIf="contactForm.controls.phoneNumber.errors?.pattern">
+          Số điện thoại không hợp lệ
+        </div>
+        <div *ngIf="contactForm.controls.phoneNumber.errors?.isPhoneUnique">
+          Số điện thoại đã tồn tại
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <label> Email</label>
+      <input
+        class="form-control"
+        type="text"
+        formControlName="email"
+        placeholder="Ví dụ: abc@gmail.com"
+        [ngClass]="{
+          'is-invalid':
+            contactForm.controls.email.errors &&
+            (contactForm.controls.email.dirty || submitted)
+        }"
+      />
+      <div
+        *ngIf="
+          contactForm.controls.email.errors &&
+          (contactForm.controls.email.dirty || submitted)
+        "
+        class="invalid-feedback"
+      >
+        <div *ngIf="contactForm.controls.email.errors?.required">Required</div>
+        <div *ngIf="contactForm.controls.email.errors?.email">
+          Email không hợp lệ
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-12">
+      <label> Góp ý</label>
+      <textarea
+        class="form-control"
+        rows="4"
+        formControlName="message"
+        placeholder="Góp ý tối thiểu 500 ký tự"
+        [ngClass]="{
+          'is-invalid':
+            contactForm.controls.message.errors &&
+            (contactForm.controls.message.dirty || submitted)
+        }"
+      ></textarea>
+      <div style="display: flex; justify-content: space-between">
+        <div>
+          <div
+            *ngIf="
+              contactForm.controls.message.errors &&
+              (contactForm.controls.message.dirty || submitted)
+            "
+            class="invalid-feedback"
+            style="display: block"
+          >
+            <div *ngIf="contactForm.controls.message.errors?.required">
+              Góp ý không được để trống
+            </div>
+            <div *ngIf="contactForm.controls.message.errors?.maxlength">
+              Kí tự tối đa 500 ký tự
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="count-length-textarea">{{
+            contactForm.controls.message.value.length + "/500"
+          }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <button class="btn btn-solid" type="submit">Gửi góp ý của bạn</button>
+    </div>
+  </div>
+</form>

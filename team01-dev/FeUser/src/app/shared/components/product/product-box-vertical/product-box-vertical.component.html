@@ -1,0 +1,23 @@
+<div class="media">
+    <a [routerLink]="['/shop/product/left/sidebar/', product?.name]">
+        <img appUiImageLoader
+             [src]="product.imageUrl.split(',')[0]"  
+             class="img-fluid lazy-loading" alt="{{ product?.categoryName }}">
+    </a>
+	<div class="media-body align-self-center">
+		<!-- <div class="rating">
+			<bar-rating [rate]="5" [readOnly]="true"></bar-rating>
+		</div> -->
+        <a [routerLink]="['/shop/product/left/sidebar/', product?.name]">
+            <h6>{{ product?.name }}</h6>
+        </a>
+		<h4>{{ product?.price | vndFormat }}</h4>
+        <!-- <ul class="color-variant">
+            <li [class]="color" 
+                *ngFor="let color of Color(product?.variants)" 
+                [ngStyle]="{'background-color': color}"
+                (click)="ChangeVariants(color, product)">
+            </li>
+        </ul> -->
+	</div>
+</div>

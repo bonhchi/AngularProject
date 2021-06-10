@@ -1,0 +1,107 @@
+<app-breadcrumb [title]="'Bài báo'" [breadcrumb]="'Bài báo'"></app-breadcrumb>
+<section class="section-b-space blog-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-9 col-lg-8 col-md-7">
+        <div *ngFor="let item of blogs">
+          <div class="row blog-media">
+            <div class="col-xl-6">
+              <div class="blog-left">
+                <a [routerLink]="['/blog/', item.id]"
+                  ><img
+                    appUiImageLoader
+                    [src]="item.imageUrl"
+                    class="img-fluid"
+                    alt=""
+                /></a>
+              </div>
+            </div>
+            <div class="col-xl-6">
+              <div class="blog-right justify-content-start pl-5">
+                <div>
+                  <h6>{{ item.createByDate | date: "dd/MM/yyyy" }}</h6>
+                  <a [routerLink]="['/blog/', item.id]"
+                    ><h4>
+                      {{ item.title }}
+                    </h4></a
+                  >
+                  <ul class="post-social">
+                    <li>Người tạo : {{ item.createdByName }}</li>
+                    <li>
+                      <i class="fa fa-star"></i> {{ item.ratingScore }} sao
+                    </li>
+                  </ul>
+                  <p>
+                    {{ item.shortDes }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-4 col-md-5">
+        <div class="blog-sidebar">
+          <div class="theme-card">
+            <h4>Bài báo mới nhất</h4>
+            <ul class="recent-blog">
+              <li *ngFor="let item of recentBlogs">
+                <div class="media">
+                  <a [routerLink]="['/blog/', item.id]">
+                    <img
+                      class="img-fluid"
+                      [src]="getImage(item.imageUrl)"
+                      alt="Generic placeholder image"
+                  /></a>
+                  <div class="media-body align-self-center">
+                    <a [routerLink]="['/blog/', item.id]">
+                      <div *ngIf="item?.title.length > 25; else notTrim">
+                        <h6>{{ item?.title.substring(0, 25 - 1) + "..." }}</h6>
+                      </div>
+                      <ng-template #notTrim>
+                        <h6>{{ item.title }}</h6>
+                      </ng-template>
+                    </a>
+                    <p>{{ item.createByDate | date: "dd/MM/yyyy" }}</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="theme-card">
+            <h4>Bài báo được xem nhiều nhất</h4>
+            <ul class="popular-blog">
+              <li *ngFor="let item of topBlogs">
+                <div class="media">
+                  <div class="blog-date">
+                    <span>{{ item.createByDate | date: "dd" }} </span>
+                    <span>{{ item.createByDate | date: "MMM" }}</span>
+                  </div>
+                  <div class="media-body align-self-center">
+                    <a [routerLink]="['/blog/', item.id]"
+                      ><div *ngIf="item?.title.length > 25; else notTrim">
+                        <h6>{{ item?.title.substring(0, 25 - 1) + "..." }}</h6>
+                      </div>
+                      <ng-template #notTrim>
+                        <h6>{{ item.title }}</h6>
+                      </ng-template></a
+                    >
+                    <div *ngIf="item?.shortDes.length > 25; else notTrimDes">
+                      <p>
+                        {{ item?.shortDes.substring(0, 25 - 1) + "..." }}
+                      </p>
+                    </div>
+                    <ng-template #notTrimDes>
+                      <p>{{ item.shortDes }}</p>
+                    </ng-template>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

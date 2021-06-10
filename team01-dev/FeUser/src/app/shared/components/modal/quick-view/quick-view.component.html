@@ -1,0 +1,162 @@
+<ng-template class="theme-modal" #quickView let-modal>
+  <div class="modal-content quick-view-modal">
+    <div class="modal-body">
+      <button
+        type="button"
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="row">
+        <div class="col-lg-6">
+          <app-image-wrapper
+            [data]="{
+              url: ImageSrc ? ImageSrc : product.imageUrl.split(',')[0],
+              typeClass: typeDisplayImage.QUICK_VIEW_IMAGE,
+              style: typeSizeImage
+            }"
+          ></app-image-wrapper>
+          <div style="align-content: center">
+            <div class="ng-star-inserted">
+              <ul
+                class="product-thumb-list"
+                id="product-thumbnail-list"
+                *ngIf="product.imageUrl.split(',').length >= 2"
+              >
+                <li
+                  class="grid_thumb_img"
+                  [class.active]="ImageSrc == getImage(image)"
+                  *ngFor="let image of product.imageUrl.split(',')"
+                >
+                  <a
+                    href="javascript:void(0)"
+                    (click)="ChangeVariantsImage(getImage(image))"
+                  >
+                    <img
+                      appUiImageLoader
+                      [src]="image"
+                      style="width: 3rem; height: 3.3rem; margin: 5px 0"
+                    />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 rtl-text">
+          <div class="product-right">
+            <h2>
+              {{ product.name }}
+              <a
+                *ngIf="userInfo"
+                href="javascript:void(0)"
+                title="Add to Wishlist"
+                (click)="addToWishlist(product)"
+                style="color: red"
+              >
+                <i
+                  [ngClass]="[
+                    product.isInWishList ? 'fa fa-heart color-red' : 'ti-heart'
+                  ]"
+                  aria-hidden="true"
+                ></i>
+              </a>
+            </h2>
+
+            <h3>
+              {{ product.price | vndFormat }}
+              <!-- <del *ngIf="product?.discount"><span class="money">{{ product.price * currency?.price | currency:currency?.currency:'symbol' }}</span></del> -->
+            </h3>
+            <ng-template #t let-fill="fill">
+              <span class="star" [class.full]="fill === 100">
+                <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+              </span>
+            </ng-template>
+
+            <ngb-rating
+              [rate]="product?.ratingScore"
+              [starTemplate]="t"
+              [readonly]="true"
+              [max]="5"
+            ></ngb-rating>
+            <!-- <ul class="color-variant" *ngIf="Color(product.variants).length">
+                            <li [class]="color" *ngFor="let color of Color(product.variants)"
+                                [ngStyle]="{'background-color': color}" (click)="ChangeVariants(color, product)">
+                            </li>
+                        </ul> -->
+            <div class="border-product">
+              <h6 class="product-title">Mã sản phẩm</h6>
+              <p>{{ product.description }}</p>
+            </div>
+            <!-- <div class="product-description border-product">
+                            <div class="size-box" *ngIf="Size(product.variants).length">
+                                <ul>
+                                    <li *ngFor="let size of Size(product.variants)">
+                                        <a href="javascript:void(0)">{{ size | titlecase }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h5 class="avalibility" *ngIf="counter <= product.stock"><span>In Stock</span></h5>
+                            <h5 class="avalibility" *ngIf="counter > product.stock"><span>Out of Stock</span></h5>
+                            <h6 class="product-title">quantity</h6>
+                            <div class="qty-box">
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <button type="button" class="btn quantity-left-minus" data-type="minus" (click)="decrement()">
+                                            <i class="ti-angle-left"></i>
+                                        </button>
+                                    </span>
+                                    <input type="text" name="quantity" class="form-control input-number"  [value]="counter" disabled>
+                                    <span class="input-group-prepend">
+                                        <button type="button" class="btn quantity-right-plus" data-type="plus" (click)="increment()">
+                                            <i class="ti-angle-right"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div> -->
+            <div class="product-buttons">
+              <a
+                href="javascript:void(0)"
+                title="Add to cart"
+                (click)="addToCart(product)"
+                class="btn btn-solid"
+              >
+                thêm giỏ hàng
+              </a>
+              <!-- <a href="javascript:void(0)" class="btn btn-solid" [class.disabled]="counter > product.stock" (click)="addToCart(product)">add to cart</a> -->
+              <a
+                [routerLink]="['/product-details']"
+                [queryParams]="{ id: product?.id }"
+                class="btn btn-solid"
+                >xem</a
+              >
+            </div>
+            <div class="addeffect-section product-description border-product">
+              <div *ngIf="product?.contentHTML != null">
+                <h3 style="color: black">Mô tả sản phẩm</h3>
+                <div *ngIf="product?.contentHTML.length > 200; else notTrim">
+                  <p
+                    [innerHTML]="
+                      product?.contentHTML.substring(0, 200 - 1) + '...'
+                    "
+                  ></p>
+                </div>
+                <ng-template #notTrim>
+                  <p [innerHTML]="product?.contentHTML.substring(0, 200)"></p>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<app-cart-modal
+  #cartModalQuickView
+  [product]="product"
+  [currency]="currency"
+  *ngIf="cartModal"
+></app-cart-modal>

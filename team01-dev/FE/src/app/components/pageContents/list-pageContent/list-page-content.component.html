@@ -1,0 +1,24 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h5>Thông tin trang</h5>
+    </div>
+    <div class="card-body vendor-table">
+      <div class="custom-datatable media-datatable">
+        <div class="table-responsive">
+          <ng2-smart-table
+            [settings]="settings"
+            (create)="openPopup(null)"
+            (edit)="openPopup($event)"
+            (delete)="delete($event)"
+            [(source)]="pageContents"
+          ></ng2-smart-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <button (click)="openCreate()">Add</button> -->
+<!-- Container-fluid Ends-->

@@ -1,0 +1,159 @@
+<div class="page-wrapper">
+  <div class="authentication-box">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5 p-0 card-left">
+          <div class="card bg-primary">
+            <img
+              class="svg"
+              src="https://res.cloudinary.com/ngocphu/image/upload/v1622709208/vufymxnjiig3hno3ftnk.png"
+            />
+
+            <!-- <div class="single-item">
+              <owl-carousel-o [options]="owlcarouselOptions">
+                <ng-container *ngFor="let data of owlcarousel">
+                  <ng-template carouselSlide class="item">
+                    <div>
+                      <h3>{{ data.title }}</h3>
+                      <p>{{ data.desc }}</p>
+                    </div>
+                  </ng-template>
+                </ng-container>
+              </owl-carousel-o>
+            </div> -->
+          </div>
+        </div>
+        <div class="col-md-7 p-0 card-right">
+          <div class="card tab2-card">
+            <div class="card-body">
+              <ngb-tabset class="tab-coupon mb-0">
+                <ngb-tab>
+                  <ng-template ngbTabTitle
+                    ><i class="icon-user mr-2"></i>Đăng nhập</ng-template
+                  >
+                  <ng-template ngbTabContent>
+                    <div
+                      class="tab-pane fade active show"
+                      id="account"
+                      role="tabpanel"
+                      aria-labelledby="account-tab"
+                    >
+                      <form
+                        [formGroup]="loginForm"
+                        class="form-horizontal auth-form"
+                        novalidate=""
+                      >
+                        <div class="form-group">
+                          <input
+                            required=""
+                            name="login[username]"
+                            type="email"
+                            autocomplete="username"
+                            class="form-control"
+                            placeholder="Tên đăng nhập"
+                            id="exampleInputEmail1"
+                            formControlName="username"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.username.errors
+                            }"
+                          />
+                          <div
+                            *ngIf="submitted && f.username.errors"
+                            class="invalid-feedback"
+                          >
+                            <div *ngIf="f.username.errors.required">
+                              Tên đăng nhập không được để trống
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <input
+                            required=""
+                            name="login[password]"
+                            type="password"
+                            autocomplete="new-password"
+                            class="form-control"
+                            placeholder="Mật khẩu"
+                            formControlName="password"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.password.errors
+                            }"
+                          />
+                          <div
+                            *ngIf="submitted && f.password.errors"
+                            class="invalid-feedback"
+                          >
+                            <div *ngIf="f.password.errors.required">
+                              Mật khẩu không được để trống
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-terms">
+                          <div class="custom-control custom-checkbox mr-sm-2">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="customControlAutosizing"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="customControlAutosizing"
+                              >Ghi nhớ mật khẩu</label
+                            >
+                            <!-- <a
+                              href="javascript:void(0)"
+                              class="btn btn-default forgot-pass"
+                              >lost your password</a
+                            > -->
+                          </div>
+                        </div>
+                        <div class="form-button">
+                          <button class="btn btn-primary" (click)="onLogin()">
+                            Đăng nhập
+                          </button>
+                        </div>
+                        <!-- <div class="form-footer">
+                          <span>Or Login up with social platforms</span>
+                          <ul class="social">
+                            <li>
+                              <a
+                                class="icon-facebook"
+                                href="javascript:void(0)"
+                              ></a>
+                            </li>
+                            <li>
+                              <a
+                                class="icon-twitter"
+                                href="javascript:void(0)"
+                              ></a>
+                            </li>
+                            <li>
+                              <a
+                                class="icon-instagram"
+                                href="javascript:void(0)"
+                              ></a>
+                            </li>
+                            <li>
+                              <a
+                                class="icon-pinterest"
+                                href="javascript:void(0)"
+                              ></a>
+                            </li>
+                          </ul>
+                        </div> -->
+                      </form>
+                    </div>
+                  </ng-template>
+                </ngb-tab>
+              </ngb-tabset>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <a [routerLink]="'/'" class="btn btn-primary back-btn">
+                <app-feather-icons [icon]="'arrow-left'"></app-feather-icons>
+                back
+            </a> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,282 @@
+<app-breadcrumb
+  [title]="'Thông tin cá nhân'"
+  [breadcrumb]="'Thông tin cá nhân'"
+></app-breadcrumb>
+<section class="contact-page register-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-row">
+          <h3 class="col-md-6">Thông tin cá nhân</h3>
+          <div class="pull-right" [hidden]="!updateProfile">
+            <button class="btn btn-sm btn-solid" (click)="profileSwitch()">
+              Thay đổi thông tin
+            </button>
+          </div>
+        </div>
+
+        <form class="theme-form" [formGroup]="profileForm">
+          <div class="form-row">
+            <div class="col-md-6 form-group">
+              <label for="name">Tên</label>
+              <input
+                formControlName="firstName"
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="Tên"
+                [readonly]="updateProfile"
+                [ngClass]="{
+                  'is-invalid': submittedProfile && fProfile.firstName.errors
+                }"
+              />
+              <div
+                *ngIf="submittedProfile && fProfile.firstName.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="fProfile.firstName.errors.required">
+                  Tên không được để trống
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="email">Họ</label>
+              <input
+                formControlName="lastName"
+                type="text"
+                class="form-control"
+                id="last-name"
+                placeholder="Họ"
+                [readonly]="updateProfile"
+                [ngClass]="{
+                  'is-invalid': submittedProfile && fProfile.lastName.errors
+                }"
+              />
+              <div *ngIf="fProfile.lastName.errors" class="invalid-feedback">
+                <div
+                  *ngIf="submittedProfile && fProfile.lastName.errors.required"
+                >
+                  Họ không được để trống
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="review">Số điện thoại</label>
+              <input
+                formControlName="phone"
+                type="tel"
+                class="form-control"
+                id="review"
+                placeholder="Số điện thoại"
+                [readonly]="updateProfile"
+                [ngClass]="{
+                  'is-invalid': submittedProfile && fProfile.phone.errors
+                }"
+              />
+              <div
+                *ngIf="submittedProfile && fProfile.phone.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="fProfile.phone.errors?.required">
+                  Số điện thoại không được để trống
+                </div>
+                <div *ngIf="fProfile.phone.errors?.pattern">
+                  Sai kiểu số điện thoại
+                </div>
+                <div *ngIf="fProfile.phone.errors?.isPhoneUnique">
+                  Số điện thoại đã tồn tại
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="email">Email</label>
+              <input
+                formControlName="email"
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="Email"
+                [readonly]="updateProfile"
+                [ngClass]="{
+                  'is-invalid': submittedProfile && fProfile.email.errors
+                }"
+              />
+              <div
+                *ngIf="submittedProfile && fProfile.email.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="fProfile.email.errors?.required">
+                  Không được để trống Email
+                </div>
+                <div *ngIf="fProfile.email.errors?.pattern">Sai kiểu Email</div>
+                <div *ngIf="fProfile.email.errors?.isEmailUnique">
+                  Email đã tồn tại
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="name">Địa chỉ</label>
+              <input
+                formControlName="address"
+                type="text"
+                class="form-control"
+                id="address-two"
+                placeholder="Địa chỉ"
+                [readonly]="updateProfile"
+                [ngClass]="{
+                  'is-invalid': submittedProfile && fProfile.address.errors
+                }"
+              />
+              <div
+                *ngIf="submittedProfile && fProfile.address.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="fProfile.address.errors.required">
+                  Địa chỉ không được để trống
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12" [hidden]="updateProfile">
+              <div class="pull-left" style="margin-right: 5px">
+                <button
+                  class="btn btn-sm btn-solid"
+                  (click)="onUpdateProfile()"
+                >
+                  Lưu
+                </button>
+              </div>
+              <div class="pull-left">
+                <button class="btn btn-sm btn-solid" (click)="profileSwitch()">
+                  Thoát
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Password-->
+<section class="contact-page register-page section-b-space">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-row">
+          <h3 class="col-md-6">Thay đổi mật khẩu</h3>
+          <div class="pull-right" [hidden]="!updatePassword">
+            <button class="btn btn-sm btn-solid" (click)="passwordSwitch()">
+              Thay đổi mật khẩu
+            </button>
+          </div>
+        </div>
+        <form
+          class="theme-form"
+          [hidden]="updatePassword"
+          [formGroup]="changePasswordForm"
+        >
+          <div class="form-group">
+            <div class="col-md-6">
+              <label for="name">Mật khẩu hiện tại</label>
+              <input
+                type="password"
+                class="form-control"
+                autocomplete="new-password"
+                placeholder="Mật khẩu hiện tại"
+                formControlName="password"
+                [ngClass]="{
+                  'is-invalid': submittedPassword && fPassword.password.errors
+                }"
+              />
+              <div *ngIf="fPassword.password.errors" class="invalid-feedback">
+                <div
+                  *ngIf="
+                    submittedPassword && fPassword.password.errors.required
+                  "
+                >
+                  Mật khẩu hiện tại không được để trống
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="name">Mật khẩu mới</label>
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Mật khẩu mới"
+                formControlName="newPassword"
+                autocomplete="new-password"
+                [ngClass]="{
+                  'is-invalid':
+                    submittedPassword && fPassword.newPassword.errors
+                }"
+              />
+              <div
+                *ngIf="fPassword.newPassword.errors"
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    submittedPassword && fPassword.newPassword.errors.required
+                  "
+                >
+                  Mật khẩu mới không được để trống
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="name">Xác nhận mật khẩu</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="confirmPassword"
+                placeholder="Xác nhận mật khẩu"
+                autocomplete="new-password"
+                [ngClass]="{
+                  'is-invalid':
+                    submittedPassword && fPassword.confirmPassword.errors
+                }"
+              />
+              <div
+                *ngIf="fPassword.confirmPassword.errors"
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="
+                    submittedPassword &&
+                    fPassword.confirmPassword.errors.required
+                  "
+                >
+                  Xác nhận mật khẩu không được để trống
+                </div>
+                <div *ngIf="fPassword.confirmPassword.errors.mustMatch">
+                  Hai mật khẩu phải trùng nhau
+                </div>
+              </div>
+            </div>
+
+            <br />
+            <div class="col-md-12" [hidden]="updatePassword">
+              <div class="pull-left" style="margin-right: 5px">
+                <button
+                  class="btn btn-sm btn-solid"
+                  (click)="onChangePassword()"
+                >
+                  Lưu
+                </button>
+              </div>
+              <div class="pull-left">
+                <button class="btn btn-sm btn-solid" (click)="passwordSwitch()">
+                  Thoát
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,250 @@
+<app-breadcrumb [title]="'Checkout'" [breadcrumb]="'Checkout'"></app-breadcrumb>
+<!-- section start -->
+<section class="section-b-space">
+  <div class="container padding-cls">
+    <div class="checkout-page">
+      <div class="checkout-form">
+        <form #checkoutForm="ngForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-lg-6 col-sm-12 col-xs-12">
+              <div class="checkout-title">
+                <h3>Thông tin cá nhân</h3>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                  <div class="field-label" for="firstName">Tên</div>
+                  <input
+                    type="text"
+                    id="firstName"
+                    required
+                    name="firstName"
+                    #firstName="ngModel"
+                    placeholder="Tên"
+                    [(ngModel)]="order.firstName"
+                  />
+
+                  <div
+                    *ngIf="
+                      !firstName?.valid &&
+                      (firstName?.dirty || firstName?.touched)
+                    "
+                    class="error"
+                  >
+                    <div *ngIf="firstName.errors.required" style="color: red">
+                      Tên không được để trống
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                  <div class="field-label">Họ</div>
+                  <input
+                    type="text"
+                    id="lastName"
+                    required
+                    name="lastName"
+                    #lastName="ngModel"
+                    placeholder="Họ"
+                    [(ngModel)]="order.lastName"
+                  />
+                  <div
+                    *ngIf="
+                      !lastName?.valid && (lastName?.dirty || lastName?.touched)
+                    "
+                    class="error"
+                  >
+                    <div *ngIf="lastName.errors.required" style="color: red">
+                      Họ không được để trống
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                  <div class="field-label">Số điện thoại</div>
+                  <input
+                    type="text"
+                    id="phone"
+                    required
+                    name="phone"
+                    #phone="ngModel"
+                    [(ngModel)]="order.phone"
+                    placeholder="Số điện thoại"
+                  />
+                  <div
+                    *ngIf="!phone?.valid && (phone?.dirty || phone?.touched)"
+                    class="error"
+                  >
+                    <div *ngIf="phone.errors.required" style="color: red">
+                      Số điện thoại không được để trống
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                  <div class="field-label">Email</div>
+                  <input
+                    type="text"
+                    id="email"
+                    required
+                    email
+                    name="email"
+                    #email="ngModel"
+                    [(ngModel)]="order.email"
+                    placeholder="Email"
+                  />
+                  <div
+                    *ngIf="!email?.valid && (email?.dirty || email?.touched)"
+                    class="error"
+                  >
+                    <div *ngIf="email.errors.required" style="color: red">
+                      Email không được để trống
+                    </div>
+                    <div *ngIf="email.errors.email" style="color: red">
+                      Email không hợp lệ
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                  <div class="field-label">Địa chỉ</div>
+                  <input
+                    type="text"
+                    id="address"
+                    required
+                    name="address"
+                    #address="ngModel"
+                    placeholder="Địa chỉ"
+                    [(ngModel)]="order.address"
+                  />
+
+                  <div
+                    *ngIf="
+                      !address?.valid && (address?.dirty || address?.touched)
+                    "
+                    class="error"
+                  >
+                    <div *ngIf="address.errors.required" style="color: red">
+                      Địa chỉ không hợp lệ
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-12 col-xs-12">
+              <div class="checkout-details">
+                <div class="order-box">
+                  <div class="title-box">
+                    <div>Sản phẩm <span> Tổng cộng</span></div>
+                  </div>
+                  <ul class="qty" *ngFor="let product of products">
+                    <li>
+                      {{ product.name }} x {{ product.quantity }}
+                      <span
+                        >{{ product.quantity * product.price | vndFormat }}
+                      </span>
+                    </li>
+                  </ul>
+                  <ul class="qty sub-total">
+                    <li>
+                      Giá gốc
+                      <span class="count text-body">{{
+                        cart.totalAmount | vndFormat
+                      }}</span>
+                    </li>
+                  </ul>
+                  <ul class="qty sub-total" *ngIf="couponDisplay">
+                    <li>
+                      Mã giảm giá
+                      <span
+                        >-{{ couponValue | vndFormat }} <br /><br />
+                        {{ couponPercent }}</span
+                      >
+                      <br />
+                      ({{ couponName }})
+                    </li>
+                    <li></li>
+                  </ul>
+
+                  <ul class="total">
+                    <li>
+                      Tổng cộng
+                      <span class="count text-success">{{
+                        cart.totalAmount - couponValue | vndFormat
+                      }}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="payment-box">
+                  <div class="row">
+                    <div class="col-lg-12 col-sm-6 col-xs-12">
+                      <div class="row">
+                        <div class="col-lg-7 col-sm-12 col-xs-12">
+                          <input
+                            placeholder="Mã giảm giá"
+                            type="text"
+                            id="couponCode"
+                            name="couponCode"
+                            #ctrl="ngModel"
+                            [(ngModel)]="couponCode"
+                          />
+                          <div *ngIf="couponInvalid">
+                            <span class="text-danger"
+                              ><strong>Mã giảm giá không hợp lệ</strong></span
+                            >
+                          </div>
+                        </div>
+
+                        <div class="col-lg-5 col-sm-12 col-xs-12">
+                          <div class="row">
+                            <div class="btn-group col-lg-6">
+                              <button
+                                type="button"
+                                (click)="applyCoupon()"
+                                class="btn-solid btn btn-sm"
+                              >
+                                Áp dụng
+                              </button>
+                              <button
+                                *ngIf="couponDisplay || couponInvalid"
+                                type="button"
+                                (click)="removeCoupon()"
+                                class="ml-1 btn-solid btn btn-sm"
+                              >
+                                Xóa
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="col-lg-12 col-sm-6 col-xs-12">
+                      <div class="row">
+                        <div class="col-lg-7 col-sm-12 col-xs-12"></div>
+
+                        <div class="col-lg-5 col-sm-12 col-xs-12">
+                          <div class="row">
+                            <div class="btn-group col-lg-12">
+                              <button
+                                [disabled]="!checkoutForm.valid"
+                                type="submit"
+                                class="btn-solid btn"
+                              >
+                                Đặt hàng
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- section End -->

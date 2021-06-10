@@ -1,0 +1,25 @@
+<app-breadcrumb
+  [title]="pageContent?.title"
+  [breadcrumb]="pageContent?.title"
+></app-breadcrumb>
+
+<section class="about-page section-b-space">
+  <div class="container">
+    <ng-container *ngIf="isContactUs"
+      ><app-page-info></app-page-info
+    ></ng-container>
+    <div class="row" *ngIf="!isContactUs">
+      <div class="col-sm-12">
+        <ckeditor
+          *ngIf="pageContent?.description"
+          [editor]="editor"
+          class="col-12 p-0"
+          type="text"
+          [data]="pageContent.description"
+          disabled="true"
+          [config]="config"
+        ></ckeditor>
+      </div>
+    </div>
+  </div>
+</section>

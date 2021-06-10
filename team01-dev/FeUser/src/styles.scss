@@ -1,0 +1,132 @@
+/* You can add global styles to this file, and also import other style files */
+.home-product-image {
+  height: 350px;
+  width: 340px;
+}
+
+.blogImage {
+  height: 300px !important;
+  width: 340px !important;
+}
+
+.logo-image {
+  height: 50px;
+  margin-top: -25px;
+  margin-bottom: -25px;
+}
+.logo-image-footer {
+  height: 80px;
+  width: 80px;
+}
+
+.icon-image-footer {
+  height: 30px;
+  width: 30px;
+}
+
+.image-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.blog-detail {
+  width: 50%;
+}
+
+.setting-image {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.wish-list-image {
+  height: 90px;
+}
+
+img.customer-comment-image {
+  height: 50px;
+  width: 50px;
+  padding: 0 !important ;
+  margin: 0 !important;
+  margin-right: 20px !important;
+  border-radius: 100%;
+}
+.product-details {
+  height: 270px;
+  width: 150px;
+  display: inline-block;
+}
+.product-details-main {
+  max-height: 525px;
+  max-width: 350px;
+}
+
+.cart-image {
+  height: 200px;
+  width: 150px;
+  display: inline-block;
+}
+
+.cart-dropdown {
+  height: 75px;
+  width: 75px;
+  display: inline-block;
+}
+
+.page-item.active .page-link {
+  background-color: var(--theme-deafult) !important;
+  border-color: var(--theme-deafult) !important;
+  color: #ffff !important;
+}
+.page-link {
+  color: var(--theme-deafult);
+  &:hover {
+    color: var(--theme-deafult);
+  }
+}
+
+.cart-modal-image {
+  width: 180px;
+  height: 200px;
+}
+
+.cart-modal-big-image {
+  width: 190px;
+  height: 200px;
+}
+
+.logo-page-content {
+  width: 100px;
+  height: 100px;
+}
+
+.wishlist-tab ul {
+  margin-bottom: 10px !important;
+}
+
+.main-menu .menu-left .navbar {
+  display: inline-block;
+  /* padding: 40px 45px 40px 0; */
+  padding: 0 40px 0 0;
+}
+
+@media (min-width: 1200px) {
+  header .main-navbar .nav-menu > li > a {
+    padding: 25px 45px 25px 0;
+  }
+}
+
+.onhover-div {
+  padding: 25px 0 25px 0;
+}
+
+.toggle-nav {
+  padding: 25px 0;
+}
+.quick-view-image{
+  height: 650px;
+  width: 500px;
+}
+
+.fonts{
+  font-family: Nunito;
+}

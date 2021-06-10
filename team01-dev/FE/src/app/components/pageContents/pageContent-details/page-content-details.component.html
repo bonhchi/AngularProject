@@ -1,0 +1,141 @@
+<app-modal-header
+  [data]="modalHeader"
+  (onAction)="close($event)"
+></app-modal-header>
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card tab2-card">
+        <div class="card-body">
+          <div
+            class="tab-pane fade active show"
+            id="account"
+            role="tabpanel"
+            aria-labelledby="account-tab"
+          >
+            <form
+              [formGroup]="pageContentForm"
+              class="needs-validation user-add"
+              novalidate=""
+            >
+              <h4>Chi tiết thông tin trang</h4>
+              <div class="form-group row">
+                <label class="col-xl-3 col-md-4 d-flex flex-column"
+                  ><div><span>*</span> Tiêu đề</div>
+                </label>
+                <input
+                  class="form-control col-xl-9 col-md-8"
+                  type="text"
+                  formControlName="title"
+                  [ngClass]="{
+                    'is-invalid ':
+                      submitted && pageContentFormControl.title.errors?.required
+                  }"
+                />
+                <div class="invalid-feedback offset-md-4 offset-xl-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      submitted && pageContentFormControl.title.errors?.required
+                    "
+                    >Tiêu đề không được để trống hoặc sai định dạng</span
+                  >
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-xl-3 col-md-4"
+                  ><div>Giới thiệu ngắn</div>
+                </label>
+                <textarea
+                  class="form-control col-xl-9 col-md-8"
+                  rows="4"
+                  role="textbox"
+                  formControlName="shortDes"
+                ></textarea>
+              </div>
+              <div class="form-group row">
+                <label class="col-xl-3 col-md-4"
+                  ><div><span>*</span> Thứ tự</div></label
+                >
+                <input
+                  class="form-control col-xl-9 col-md-8"
+                  type="number"
+                  formControlName="order"
+                  [ngClass]="{
+                    'is-invalid ':
+                      submitted && pageContentFormControl.order.errors?.required
+                  }"
+                />
+                <div class="invalid-feedback offset-md-4 offset-xl-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      submitted && pageContentFormControl.order.errors?.required
+                    "
+                    >Thứ tự không được để trống</span
+                  >
+                </div>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="validationCustom2"
+                  class="col-xl-3 col-md-4 d-flex flex-column"
+                  ><div>Hình ảnh</div>
+                </label>
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validationCustom2"
+                  type="text"
+                  formControlName="imageUrl"
+                  hidden
+                />
+                <div class="col-xl-9 col-md-8 p-0">
+                  <app-upload-file
+                    [data]="modalFile"
+                    [fileURL]="fileURL"
+                    styleFile="width: 100%; height: auto;"
+                    (onChange)="onChangeData($event)"
+                  ></app-upload-file>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-11 pb-2 d-flex">
+                  <div class="d-flex mr-2">
+                    <span class="mr-1">*</span> Mô tả
+                  </div>
+                  <div class="invalid-feedback d-block">
+                    <span
+                      class="text-danger"
+                      *ngIf="
+                        submitted &&
+                        pageContentFormControl.description.errors?.required
+                      "
+                      >Hình ảnh không được để trống</span
+                    >
+                  </div>
+                </label>
+                <ckeditor
+                  [editor]="editor"
+                  [config]="editorConfig"
+                  class="col-12 p-0"
+                  type="text"
+                  formControlName="description"
+                  [config]="editorConfig"
+                  [ngClass]="{
+                    'invalid-ckeditor':
+                      submitted &&
+                      pageContentFormControl.description.errors?.required
+                  }"
+                  (ready)="onReady($event)"
+                ></ckeditor>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+<app-modal-footer [data]="modalFooter" (onAction)="save()"></app-modal-footer>

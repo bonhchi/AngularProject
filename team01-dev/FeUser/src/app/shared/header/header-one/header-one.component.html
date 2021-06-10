@@ -1,0 +1,87 @@
+<header class="sticky" [ngClass]="class" [class.fixed]="stick && sticky">
+  <div class="mobile-fix-option"></div>
+  <div class="top-header" *ngIf="topbar">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="header-contact" *ngIf="headerModel?.informationWeb">
+            <ul>
+              <li>{{ headerModel?.informationWeb?.title }}</li>
+              <li>
+                <i class="fa fa-phone" aria-hidden="true"></i>Gọi cho chúng tôi:
+                {{ headerModel?.informationWeb?.phone }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6 text-right">
+          <ul class="header-dropdown">
+            <li class="m-0 p-0"></li>
+            <li class="mobile-wishlist" (click)="GotoWishList()" *ngIf="user">
+              <!-- <a [routerLink]="['/wishlist']" -->
+              <i class="fa fa-heart" aria-hidden="true"></i>Yêu Thích
+            </li>
+            <li class="onhover-dropdown mobile-account">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              {{
+                user
+                  ? "Chào " + user.firstName + " " + user.lastName
+                  : "Chào bạn"
+              }}
+              <ul class="onhover-show-div">
+                <ng-container *ngIf="!user">
+                  <li>
+                    <a (click)="OpenLoginModal()"> Đăng nhập </a>
+                  </li>
+                  <li>
+                    <a (click)="OpenRegisterModal()"> Đăng ký </a>
+                  </li>
+                </ng-container>
+                <ng-container *ngIf="user">
+                  <li>
+                    <a (click)="loadUrlNavaigate('/profile')">
+                      Thông tin cá nhân
+                    </a>
+                  </li>
+                  <li>
+                    <a (click)="onLogout()"> Đăng xuất </a>
+                  </li>
+                </ng-container>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" #headerRef id="header-one">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="main-menu">
+          <div class="menu-left">
+            <app-left-menu></app-left-menu>
+            <div class="brand-logo">
+              <a routerLink="/home" id="headerlogo">
+                <app-image-wrapper
+                  *ngIf="headerModel?.informationWeb?.logo"
+                  [data]="{
+                    url: headerModel?.informationWeb?.logo,
+                    typeClass: typeDisplayImage.LOGO_IMAGE
+                  }"
+                ></app-image-wrapper>
+              </a>
+            </div>
+          </div>
+          <div class="menu-right pull-right">
+            <div>
+              <app-menu> </app-menu>
+            </div>
+            <div>
+              <app-settings></app-settings>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

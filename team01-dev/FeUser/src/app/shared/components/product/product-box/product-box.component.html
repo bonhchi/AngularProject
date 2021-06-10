@@ -1,0 +1,171 @@
+<div *ngIf="!loader" class="ng-star-inserted">
+  <div class="img-wrapper">
+    <div class="front">
+      <a
+        [routerLink]="['/product-details']"
+        [queryParams]="{ id: product?.id }"
+      >
+        <app-image-wrapper
+          [data]="{
+            title: product.name,
+            url: ImageSrc,
+            typeClass: typeDisplayImage.HOME_PRODUCT_IMAGE,
+            style: typeSizeImage
+          }"
+        ></app-image-wrapper>
+      </a>
+    </div>
+    <div class="back" *ngIf="onHowerChangeImage">
+      <a
+        [routerLink]="['/product-details']"
+        [queryParams]="{ id: product?.id }"
+      >
+        <img
+          appUiImageLoader
+          [src]="product?.imageUrl.split(',')[0]"
+          class="img-fluid lazy-loading"
+          alt="{{ product.categoryName }}"
+        />
+      </a>
+    </div>
+    <ul
+      class="product-thumb-list"
+      *ngIf="thumbnail && product.imageUrl.split(',').length >= 2"
+    >
+      <li
+        class="grid_thumb_img"
+        [class.active]="ImageSrc == getImage(image)"
+        *ngFor="let image of product.imageUrl.split(',')"
+      >
+        <a
+          href="javascript:void(0)"
+          (click)="ChangeVariantsImage(getImage(image))"
+        >
+          <img
+            appUiImageLoader
+            [src]="image"
+            style="width: 2.7rem; height: 3rem; margin: 5px 0"
+          />
+        </a>
+      </li>
+    </ul>
+    <div [class]="typePositionCart" style="background-color: white">
+      <a
+        href="javascript:void(0)"
+        title="Add to cart"
+        (click)="openModelCart(product)"
+        *ngIf="cartModal"
+      >
+        <i class="ti-shopping-cart"></i>
+      </a>
+      <a
+        href="javascript:void(0)"
+        title="Add to cart"
+        (click)="addToCart(product)"
+        *ngIf="!cartModal"
+      >
+        <i class="ti-shopping-cart"></i>
+      </a>
+      <a
+        *ngIf="userInfo"
+        href="javascript:void(0)"
+        title="Add to Wishlist"
+        (click)="addToWishlist(product)"
+      >
+        <i
+          [ngClass]="[
+            product.isInWishList ? 'fa fa-heart text-danger' : 'ti-heart'
+          ]"
+          aria-hidden="true"
+        ></i>
+      </a>
+      <a
+        href="javascript:void(0)"
+        title="Quick View"
+        (click)="openModalQuickView()"
+      >
+        <i class="ti-search" aria-hidden="true"></i>
+      </a>
+      <!-- Xóa compare vì không sử dụng -->
+      <!-- <a
+        href="javascript:void(0)"
+        title="Compare"
+        (click)="addToCompare(product)"
+      >
+        <i class="ti-reload" aria-hidden="true"></i>
+      </a> -->
+    </div>
+  </div>
+  <div [class]="typePositionInformation">
+    <div>
+      <ngb-rating
+        *ngIf="product?.ratingScore > 0"
+        [rate]="product?.ratingScore"
+        [starTemplate]="t"
+        [readonly]="true"
+        [max]="5"
+        ><ng-template #t let-fill="fill">
+          <span class="star" [class.full]="fill === 100">
+            <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+          </span>
+        </ng-template></ngb-rating
+      >
+      <br />
+      <br />
+      <!-- <a
+        [routerLink]="['/product-details']"
+        [queryParams]="{ id: product?.id }"
+      >
+        <h6>{{ product?.name }}</h6>
+      </a> -->
+      <div class="product-name">
+        <h6>
+          <a
+            [routerLink]="['/product-details']"
+            [queryParams]="{ id: product.id }"
+            style="color: black"
+            title="{{ product?.name }}"
+            *ngIf="product?.name.length > titleLength"
+            ><span>{{
+              product?.name.substring(0, titleLength - 1) + "..."
+            }}</span></a
+          >
+          <a
+            [routerLink]="['/product-details']"
+            [queryParams]="{ id: product.id }"
+            style="color: black"
+            title="{{ product?.name }}"
+            *ngIf="product?.name.length <= titleLength"
+            ><span>{{ product?.name.substring(0, titleLength) }}</span></a
+          >
+        </h6>
+      </div>
+      <p>
+        {{ product?.description }}
+      </p>
+      <h4>
+        {{ product?.price | vndFormat }}
+        <!-- <del *ngIf="product?.discount"><span class="money"> {{ product?.price * currency?.price | currency:currency?.currency:'symbol' }}</span></del> -->
+      </h4>
+      <!-- <ul class="color-variant" *ngIf="Color(product?.variants).length">
+        <li [class]="color" *ngFor="let color of Color(product?.variants)" [ngStyle]="{'background-color': color}"
+          (click)="ChangeVariants(color, product)">
+        </li>
+      </ul> -->
+    </div>
+  </div>
+</div>
+<app-skeleton-product-box *ngIf="loader"></app-skeleton-product-box>
+<app-quick-view
+  #quickView
+  #cartModalQuickView
+  [product]="product"
+  [currency]="currency"
+  [cartModal]="true"
+></app-quick-view>
+<app-cart-modal
+  #cartModal
+  [product]="product"
+  [currency]="currency"
+  *ngIf="cartModal"
+></app-cart-modal>

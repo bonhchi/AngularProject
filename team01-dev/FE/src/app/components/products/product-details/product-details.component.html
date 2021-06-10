@@ -1,0 +1,308 @@
+<app-modal-header
+  [data]="modalHeader"
+  (onAction)="close($event)"
+></app-modal-header>
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card tab2-card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <div
+                class="tab-pane fade active show"
+                id="account"
+                role="tabpanel"
+                aria-labelledby="account-tab"
+              >
+                <form
+                  [formGroup]="productsForm"
+                  class="needs-validation user-add"
+                  novalidate=""
+                >
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="form-group row">
+                        <label for="validationCustom0" class="col-xl-3 col-md-4"
+                          ><span>*</span> Tên sản phẩm</label
+                        >
+                        <input
+                          class="form-control col-xl-8 col-md-7"
+                          id="validationCustom0"
+                          type="text"
+                          required=""
+                          formControlName="name"
+                          [ngClass]="{
+                            'is-invalid ':
+                              ((productFormsControl.name.touched ||
+                                submitted) &&
+                                productFormsControl.name.errors?.required) ||
+                              productFormsControl.name.hasError('maxlength') ||
+                              productFormsControl.name.hasError('minlength')
+                          }"
+                        />
+                        <div class="invalid-feedback col-md-5 offset-md-3">
+                          <span
+                            class="text-danger"
+                            *ngIf="
+                              (productFormsControl.name.touched || submitted) &&
+                              productFormsControl.name.errors?.required
+                            "
+                            >Tên sản phẩm không được để trống hoặc sai định
+                            dạng</span
+                          >
+                          <span
+                            class="text-danger"
+                            *ngIf="
+                              productFormsControl.name.hasError('maxlength')
+                            "
+                            >Tối đa: 150 kí tự</span
+                          >
+                          <span
+                            class="text-danger"
+                            *ngIf="
+                              productFormsControl.name.hasError('minlength')
+                            "
+                            >Tối thiểu: 3 kí tự</span
+                          >
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="validationCustom1" class="col-xl-3 col-md-4"
+                          ><span>*</span> Chi tiết sản phẩm</label
+                        >
+                        <input
+                          class="form-control col-xl-8 col-md-7"
+                          id="validationCustom1"
+                          type="text"
+                          required=""
+                          formControlName="description"
+                          [ngClass]="{
+                            'is-invalid ':
+                              ((productFormsControl.description.touched ||
+                                submitted) &&
+                                productFormsControl.description.errors
+                                  ?.required) ||
+                              productFormsControl.description.hasError(
+                                'maxlength'
+                              )
+                          }"
+                        />
+                        <div class="invalid-feedback col-md-3 offset-md-3">
+                          <span
+                            class="text-danger"
+                            *ngIf="
+                              (productFormsControl.description.touched ||
+                                submitted) &&
+                              productFormsControl.description.errors?.required
+                            "
+                            >Chi tiết sản phẩm không được để trống hoặc sai định
+                            dạng</span
+                          >
+                          <span
+                            class="text-danger"
+                            *ngIf="
+                              productFormsControl.description.hasError(
+                                'maxlength'
+                              )
+                            "
+                            >Tối đa: 300 kí tự</span
+                          >
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="validationCustom5" class="col-xl-3 col-md-4"
+                          ><span>*</span> Giá</label
+                        >
+                        <input
+                          class="form-control col-xl-8 col-md-7"
+                          id="validationCustom5"
+                          type="number"
+                          required=""
+                          formControlName="price"
+                          [ngClass]="{
+                            'is-invalid ':
+                              ((productFormsControl.price.touched ||
+                                submitted) &&
+                                productFormsControl.price.errors?.required) ||
+                              productFormsControl.price.errors?.max ||
+                              productFormsControl.price.errors?.min
+                          }"
+                        />
+                        <div class="invalid-feedback col-md-3 offset-md-3">
+                          <span
+                            class="text-danger"
+                            *ngIf="
+                              (productFormsControl.price.touched ||
+                                submitted) &&
+                              productFormsControl.price.errors?.required
+                            "
+                            >Giá không được để trống</span
+                          >
+                          <span
+                            class="text-danger"
+                            *ngIf="productFormsControl.price.errors?.max"
+                            >Giá trị chỉ trong khoảng (1 ~ 1000000000)</span
+                          >
+                          <span
+                            class="text-danger"
+                            *ngIf="productFormsControl.price.errors?.min"
+                            >Giá trị chỉ trong khoảng (1 ~ 1000000000)</span
+                          >
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="validationCustom7" class="col-xl-3 col-md-4"
+                          ><span>*</span> Thứ tự</label
+                        >
+                        <input
+                          class="form-control col-xl-8 col-md-7"
+                          id="validationCustom7"
+                          type="number"
+                          required=""
+                          formControlName="displayOrder"
+                          [ngClass]="{
+                            'is-invalid ':
+                              (productFormsControl.displayOrder.touched ||
+                                submitted) &&
+                              productFormsControl.displayOrder.errors?.required
+                          }"
+                        />
+                        <div class="invalid-feedback col-md-3 offset-md-3">
+                          <span
+                            class="text-danger"
+                            *ngIf="
+                              (productFormsControl.displayOrder.touched ||
+                                submitted) &&
+                              productFormsControl.displayOrder.errors?.required
+                            "
+                            >Thứ tự không được để trống</span
+                          >
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="validationCustom6" class="col-xl-3 col-md-4"
+                          ><span>*</span> Tên danh mục</label
+                        >
+                        <select
+                          formControlName="category"
+                          [ngClass]="{
+                            'is-invalid ':
+                              (productFormsControl.category.touched ||
+                                submitted) &&
+                              productFormsControl.category.errors?.required
+                          }"
+                        >
+                          <option
+                            *ngFor="let category of categories"
+                            value="{{ category.id }}"
+                          >
+                            {{ category.name }}
+                          </option>
+                        </select>
+                        <div class="invalid-feedback col-md-3 offset-md-0">
+                          <span
+                            class="text-danger"
+                            *ngIf="
+                              (productFormsControl.category.touched ||
+                                submitted) &&
+                              productFormsControl.category.errors?.required
+                            "
+                            >Danh mục không được để trống</span
+                          >
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label
+                          for="validationCustom8"
+                          class="col-xl-7 col-md-4"
+                        >
+                          Hiển thị trên trang chủ</label
+                        >
+                        <input
+                          class="form-check-input col-xl-10 col-md-6"
+                          id="validationCustom8"
+                          type="checkbox"
+                          formControlName="hasDisplayHomePage"
+                        />
+                      </div>
+                      <div class="form-group row">
+                        <label
+                          for="validationCustom9"
+                          class="col-xl-7 col-md-4"
+                        >
+                          Sản phẩm nổi bật</label
+                        >
+                        <input
+                          class="form-check-input col-xl-10 col-md-6"
+                          id="validationCustom9"
+                          type="checkbox"
+                          formControlName="isFeatured"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                      <div class="form-group row">
+                        <input
+                          class="form-control col-lg-6 col-md-6 col-sm-6"
+                          id="validationCustom4"
+                          type="text"
+                          formControlName="imageUrl"
+                          required
+                          [ngClass]="{
+                            'is-invalid ':
+                              (productFormsControl.imageUrl.touched ||
+                                submitted) &&
+                              productFormsControl.imageUrl.errors?.required
+                          }"
+                        />
+
+                        <app-upload-file
+                          styleFile="width: 350px; height: 300px;"
+                          [data]="modalFile"
+                          [fileURL]="fileURL"
+                          sizeImage="650 x 700"
+                          (onChange)="onChangeData($event)"
+                        >
+                        </app-upload-file>
+                        <div class="invalid-feedback col-md-3 offset-md-3">
+                          <span
+                            class="text-danger"
+                            *ngIf="
+                              (productFormsControl.imageUrl.touched ||
+                                submitted) &&
+                              productFormsControl.imageUrl.errors?.required
+                            "
+                            >Hình ảnh không được để trống</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="validationCustom3" class="col-xl-6 col-md-4">
+                      Giới thiệu</label
+                    >
+                    <ckeditor
+                      [editor]="editor"
+                      class="col-xl-12 col-md-12 p-0"
+                      id="validationCustom3"
+                      type="text"
+                      formControlName="contentHTML"
+                      [config]="editorConfig"
+                      (ready)="onReady($event)"
+                    ></ckeditor>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+
+<app-modal-footer [data]="modalFooter" (onAction)="save()"> </app-modal-footer>

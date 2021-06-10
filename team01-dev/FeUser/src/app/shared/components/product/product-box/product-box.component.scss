@@ -1,0 +1,22 @@
+.color-red {
+  color: red !important ;
+}
+.star {
+  position: relative;
+  display: inline-block;
+  font-size: 1rem;
+  color: #d3d3d3;
+}
+.full {
+  color: #ffa200;
+}
+.half {
+  position: absolute;
+  display: inline-block;
+  overflow: hidden;
+  color: #ffa200;
+}
+.product-name {
+  text-align: center;
+  height: 30px;
+}

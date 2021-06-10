@@ -1,0 +1,29 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h5>Danh mục sản phẩm</h5>
+    </div>
+    <div class="card-body vendor-table">
+      <div id="batchDelete" class="custom-datatable media-datatable">
+        <div class="table-responsive">
+          <ng2-smart-table
+            [settings]="settings"
+            (edit)="openPopup($event)"
+            (create)="openPopup(null)"
+            (delete)="delete($event)"
+            [(source)]="categories"
+          ></ng2-smart-table>
+        </div>
+      </div>
+      <app-paging-server-view
+        *ngIf="data?.totalPage > 1"
+        [data]="data"
+        (page)="onPage($event)"
+      ></app-paging-server-view>
+    </div>
+  </div>
+</div>
+
+<!-- <button (click)="openCreate()">Add</button> -->
+<!-- Container-fluid Ends-->

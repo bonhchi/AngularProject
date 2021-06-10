@@ -1,0 +1,55 @@
+<div class="container">
+  <div [ngClass]="['row', class ? class : '']" #refComment>
+    <div class="col-12 mt-3 m-0 p-0" *ngIf="comments.results.length === 0">
+      <p>Phần này chưa có nhận xét</p>
+    </div>
+
+    <div class="col-md-12 m-0 p-0" *ngIf="comments.results.length > 0">
+      <ul class="comments">
+        <li *ngFor="let comment of comments.results">
+          <div class="media">
+            <div class="media-body">
+              <div class="row m-0">
+                <b>
+                  {{ comment.fullName }}
+                </b>
+              </div>
+              <div class="row m-0">
+                <div class="rating">
+                  <ngb-rating
+                    [max]="5"
+                    [rate]="comment.rating"
+                    [readonly]="true"
+                  >
+                    <ng-template let-fill="fill" let-index="index">
+                      <span class="star-detail" [class.filled]="fill === 100"
+                        >&#9733;</span
+                      >
+                    </ng-template>
+                  </ngb-rating>
+                </div>
+              </div>
+              <div class="row m-0 content">
+                <p style="font-size: 18px">{{ comment.content }}</p>
+              </div>
+              <div class="row m-0">
+                <p>{{ comment.createByDate | date: "dd/MM/yyyy HH:mm" }}</p>
+              </div>
+              <br />
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ngb-pagination
+        *ngIf="comments.totalPage > 1"
+        class="d-flex justify-content-start mt-3 text-default"
+        [collectionSize]="comments.totalItem"
+        [(page)]="page"
+        (pageChange)="pageChange($event)"
+        [pageSize]="comments.pageSize"
+        [boundaryLinks]="true"
+        size="sm"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

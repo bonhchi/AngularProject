@@ -1,0 +1,156 @@
+<app-modal-header
+  [data]="modalHeader"
+  (onAction)="close($event)"
+></app-modal-header>
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card tab2-card">
+        <div class="card-body">
+          <div
+            class="tab-pane fade active show"
+            id="account"
+            role="tabpanel"
+            aria-labelledby="account-tab"
+          >
+            <form
+              [formGroup]="blogForm"
+              class="needs-validation user-add"
+              novalidate=""
+            >
+              <h4>Chi tiết bài báo</h4>
+              <div class="form-group row">
+                <label for="validationCustom0" class="col-xl-3 col-md-4"
+                  ><span>*</span> Tiêu đề</label
+                >
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validationCustom0"
+                  type="text"
+                  required
+                  formControlName="title"
+                  [ngClass]="{
+                    'is-invalid ':
+                      (blogFormControl.title.touched || submitted) &&
+                      blogFormControl.title.errors?.required
+                  }"
+                />
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (blogFormControl.title.touched || submitted) &&
+                      blogFormControl.title.errors?.required
+                    "
+                  >
+                    Tiêu đề không được để trống hoặc không hợp lệ
+                  </span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="" class="col-xl-3 col-md-4"
+                  ><span>*</span> Giới thiệu ngắn</label
+                >
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id=""
+                  type="text"
+                  formControlName="shortDes"
+                  [ngClass]="{
+                    'is-invalid ':
+                      (blogFormControl.shortDes.touched || submitted) &&
+                      blogFormControl.shortDes.errors?.required
+                  }"
+                />
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (blogFormControl.shortDes.touched || submitted) &&
+                      blogFormControl.shortDes.errors?.required
+                    "
+                  >
+                    Giới thiệu ngắn không được để trống hoặc không hợp lệ
+                  </span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="validationCustom2" class="col-xl-3 col-md-4"
+                  ><span>*</span> Hình ảnh</label
+                >
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validationCustom2"
+                  type="text"
+                  formControlName="imageUrl"
+                  hidden
+                  [ngClass]="{
+                    'is-invalid ':
+                      (blogFormControl.imageUrl.touched || submitted) &&
+                      blogFormControl.imageUrl.errors?.required
+                  }"
+                />
+                <div class="col-xl-8 col-md-7 p-0">
+                  <app-upload-file
+                    [data]="modalFile"
+                    [fileURL]="fileURL"
+                    styleFile="width: 100%; height: auto;"
+                    (onChange)="onChangeData($event)"
+                  ></app-upload-file>
+                </div>
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (blogFormControl.imageUrl.touched || submitted) &&
+                      blogFormControl.imageUrl.errors?.required
+                    "
+                  >
+                    Hình ảnh không được để trống
+                  </span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="" class="col-xl-3 col-md-4"
+                  ><span>*</span> Nội dung</label
+                >
+                <ckeditor
+                  [editor]="editor"
+                  [config]="editorConfig"
+                  class="col-xl-9 col-md-8 p-0"
+                  id="validationCustom1"
+                  type="text"
+                  formControlName="contentHTML"
+                  [ngClass]="{
+                    'is-invalid ':
+                      (blogFormControl.shortDes.touched || submitted) &&
+                      blogFormControl.shortDes.errors?.required
+                  }"
+                  [config]="editorConfig"
+                  (ready)="onReady($event)"
+                ></ckeditor>
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (blogFormControl.contentHTML.touched || submitted) &&
+                      blogFormControl.contentHTML.errors?.required
+                    "
+                  >
+                    Nội dung không được để trống hoặc không hợp lệ
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+<app-modal-footer
+  [data]="modalFooter"
+  (onAction)="saveBlog($event)"
+></app-modal-footer>

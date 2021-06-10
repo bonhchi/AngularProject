@@ -1,0 +1,150 @@
+<app-breadcrumb [title]="'Giỏ hàng'" [breadcrumb]="'Giỏ hàng'"></app-breadcrumb>
+<!-- section start -->
+<section class="cart-section section-b-space">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table cart-table table-responsive-xs">
+          <thead>
+            <tr class="table-head">
+              <th scope="col">hình ảnh</th>
+              <th scope="col">tên sản phẩm</th>
+              <th scope="col">giá</th>
+              <th scope="col">số lượng</th>
+              <th scope="col"></th>
+              <th scope="col">tổng cộng</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products">
+              <td>
+                <app-image-wrapper
+                  [data]="{
+                    url: product.imageUrl.split(',')[0],
+                    typeClass: typeDisplayImage.CART_IMAGE_PRODUCT
+                  }"
+                ></app-image-wrapper>
+              </td>
+              <td>
+                <a>{{ product.name }}</a>
+                <div class="mobile-cart-content row">
+                  <div class="col-xs-3">
+                    <div class="qty-box">
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          name="quantity"
+                          class="form-control input-number"
+                          value="1"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <h2 class="td-color">
+                      <a
+                        [routerLink]="['/shop/product/left/sidebar/trim-dress']"
+                        class="icon"
+                      >
+                        <i class="ti-close"></i>
+                      </a>
+                    </h2>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <h2>{{ product?.price * product?.quantity | vndFormat }}</h2>
+              </td>
+              <td>
+                <div class="qty-box">
+                  <div class="input-group">
+                    <span class="input-group-prepend">
+                      <button
+                        type="button"
+                        class="btn quantity-left-minus"
+                        data-type="minus"
+                        (click)="adjustQuantity(product, -1)"
+                      >
+                        <i class="ti-angle-left"></i>
+                      </button>
+                    </span>
+                    <input
+                      type="text"
+                      name="quantity"
+                      class="form-control input-number"
+                      disabled
+                      value="{{ product.quantity }}"
+                    />
+                    <span class="input-group-prepend">
+                      <button
+                        type="button"
+                        class="btn quantity-right-plus"
+                        data-type="plus"
+                        [disabled]="exceed"
+                        (click)="adjustQuantity(product, 1)"
+                      >
+                        <i class="ti-angle-right"></i>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <a class="icon" style="cursor: pointer">
+                  <i class="ti-close" (click)="removeItem(product)"></i>
+                </a>
+              </td>
+              <td>
+                <h2 class="td-color">
+                  {{ product.quantity * product.price | vndFormat }}
+                </h2>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div
+          class="col-sm-12 text-center section-b-space mt-5 no-found"
+          *ngIf="cart.cartDetails.length == 0"
+        >
+          <img src="assets/images/empty-search.jpg" class="img-fluid mb-4" />
+          <h3>Bạn chưa có sản phẩm nào trong giỏ hàng!!!</h3>
+          <p>Hãy chọn "Tiếp tục mua sắm" để tìm kiếm sản phẩm của chúng tôi</p>
+          <a [routerLink]="['/product']" class="btn btn-solid"
+            >tiếp tục mua sắm</a
+          >
+        </div>
+
+        <table
+          class="table cart-table table-responsive-md"
+          *ngIf="cart.cartDetails.length != 0"
+        >
+          <tfoot>
+            <tr>
+              <td>tổng cộng :</td>
+              <td>
+                <h2>{{ cart.totalAmount | vndFormat }}</h2>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="row cart-buttons" *ngIf="cart.cartDetails.length != 0">
+      <div class="col-6">
+        <a [routerLink]="['/product']" class="btn btn-solid"
+          >tiếp tục mua sắm</a
+        >
+      </div>
+      <div class="col-6">
+        <a
+          *ngIf="products?.length > 0"
+          [routerLink]="['../checkout']"
+          class="btn btn-solid"
+          >check out</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
+<!--section end-->

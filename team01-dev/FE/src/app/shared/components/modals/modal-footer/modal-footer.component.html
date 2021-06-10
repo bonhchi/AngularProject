@@ -1,0 +1,10 @@
+<div class="modal-footer">
+  <button *ngIf="!data?.buttons" type="button" class="btn btn-primary" (click)="action()">
+    {{ data?.title }}
+  </button>
+  <ng-container *ngIf="data.buttons">
+    <button *ngFor="let button of data?.buttons" type="button"  [style]="{backgroundColor: button.color}" [class]="button.color" (click)="button.onAction()">
+      {{button.title}}
+    </button>
+  </ng-container>
+</div>

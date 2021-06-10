@@ -1,0 +1,158 @@
+<app-modal-header
+  [data]="modalHeader"
+  (onAction)="close($event)"
+></app-modal-header>
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card tab2-card">
+        <div class="card-body">
+          <div
+            class="tab-pane fade active show"
+            id="account"
+            role="tabpanel"
+            aria-labelledby="account-tab"
+          >
+            <form
+              [formGroup]="socialMediaForm"
+              class="needs-validation user-add"
+              novalidate=""
+            >
+              <h4>Mạng xã hội</h4>
+              <div class="form-group row">
+                <label for="validationCustom0" class="col-xl-3 col-md-4"
+                  ><span>*</span> Title</label
+                >
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validationCustom0"
+                  type="text"
+                  required
+                  formControlName="title"
+                  [ngClass]="{
+                    'is-invalid ':
+                      (SocialMediaFormControl.title.touched || submitted) &&
+                      (SocialMediaFormControl.title.errors?.required ||
+                        SocialMediaFormControl.title.errors?.pattern)
+                  }"
+                />
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (SocialMediaFormControl.title.touched || submitted) &&
+                      (SocialMediaFormControl.title.errors?.required ||
+                        SocialMediaFormControl.title.errors?.pattern)
+                    "
+                  >
+                    Tiêu đề không được bỏ trống
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="validationCustom1" class="col-xl-3 col-md-4"
+                  ><span>*</span> Đường dẫn
+                </label>
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validationCustom1"
+                  type="text"
+                  required=""
+                  formControlName="link"
+                  [ngClass]="{
+                    'is-invalid ':
+                      (SocialMediaFormControl.link.touched || submitted) &&
+                      SocialMediaFormControl.link.errors?.required
+                  }"
+                />
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (SocialMediaFormControl.link.touched || submitted) &&
+                      SocialMediaFormControl.link.errors?.required
+                    "
+                  >
+                    Đường dẫn không được để trống
+                  </span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="validationCustom2" class="col-xl-3 col-md-4"
+                  ><span>*</span> Icon</label
+                >
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validationCustom2"
+                  type="text"
+                  required=""
+                  formControlName="iconUrl"
+                  hidden
+                />
+
+                <div class="col-xl-8 col-md-7 p-0">
+                  <app-upload-file
+                    [data]="modalFile"
+                    [fileURL]="fileURL"
+                    styleFile="width: 100%; height: auto;"
+                    (onChange)="onChangeData($event)"
+                  ></app-upload-file>
+                </div>
+                <div
+                  class="invalid-feedback col-md-5 offset-md-3"
+                  style="display: block"
+                >
+                  <span
+                    *ngIf="
+                      (SocialMediaFormControl.iconUrl.touched || submitted) &&
+                      SocialMediaFormControl.iconUrl.errors?.required
+                    "
+                  >
+                    Icon không được để trống
+                  </span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="validationCustom3" class="col-xl-3 col-md-4"
+                  ><span>*</span> Thứ tự</label
+                >
+                <input
+                  class="form-control col-xl-8 col-md-7"
+                  id="validationCustom3"
+                  type="number"
+                  required=""
+                  formControlName="displayOrder"
+                  [ngClass]="{
+                    'is-invalid ':
+                      (SocialMediaFormControl.displayOrder.touched ||
+                        submitted) &&
+                      SocialMediaFormControl.displayOrder.errors?.required
+                  }"
+                />
+                <div class="invalid-feedback col-md-5 offset-md-3">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (SocialMediaFormControl.displayOrder.touched ||
+                        submitted) &&
+                      SocialMediaFormControl.displayOrder.errors?.required
+                    "
+                  >
+                    Thứ tự không được để trống
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+<app-modal-footer
+  [data]="modalFooter"
+  (onAction)="saveSocialMedia($event)"
+></app-modal-footer>

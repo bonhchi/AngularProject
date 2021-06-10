@@ -1,0 +1,61 @@
+<!-- side-bar single product slider start -->
+<div class="theme-card">
+  <h5 class="title-border">{{ title }}</h5>
+  <owl-carousel-o [options]="NewProductSliderConfig" class="offer-slider">
+    <ng-container *ngFor="let products of result">
+      <ng-template carouselSlide>
+        <div>
+          <div class="media" *ngFor="let product of products">
+            <a
+              [routerLink]="['/product-details']"
+              [queryParams]="{ id: product?.id }"
+            >
+              <img
+                appUiImageLoader
+                class="img-fluid"
+                [src]="product.imageUrl.split(',')[0]"
+                alt=""
+                [style]="typeSizeImage"
+              />
+            </a>
+            <div class="media-body align-self-center">
+              <ngb-rating
+                *ngIf="product?.ratingScore > 0"
+                [rate]="product?.ratingScore"
+                [starTemplate]="t"
+                [readonly]="true"
+                [max]="5"
+                ><ng-template #t let-fill="fill">
+                  <span class="star" [class.full]="fill === 100">
+                    <span class="half" [style.width.%]="fill">&#9733;</span
+                    >&#9733;
+                  </span>
+                </ng-template></ngb-rating
+              >
+              <br>
+              <br>
+              <a
+                [routerLink]="['/product-details']"
+                [queryParams]="{ id: product?.id }"
+              >
+                <h6>{{ product.name }}</h6></a
+              >
+              <h4>
+                {{ product?.price | vndFormat }}
+                <!-- <del *ngIf="product?.discount">
+                  <span class="money">
+                    {{
+                      product?.price * productService.Currency?.price
+                        | currency: productService.Currency?.currency:"symbol"
+                    }}
+                  </span>
+                </del> -->
+              </h4>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </owl-carousel-o>
+</div>
+<!-- side-bar single product slider end -->

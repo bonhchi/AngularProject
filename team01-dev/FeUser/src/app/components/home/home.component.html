@@ -1,0 +1,163 @@
+<!-- Home slider start-->
+<section class="p-0">
+  <app-slider
+    [sliders]="banners"
+    [textClass]="'text-center'"
+    [category]="'bike'"
+    [buttonText]="'mua ngay'"
+  >
+  </app-slider>
+</section>
+<!-- Home slider End -->
+<!-- Product slider start-->
+<div class="title1 section-t-space" bs-affix data-offset-top="500">
+  <h4>Khuyến mãi đặc biệt</h4>
+  <h2 class="title-inner1">Các sản phẩm hàng đầu</h2>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3">
+      <div class="product-para"></div>
+    </div>
+  </div>
+</div>
+<section class="section-b-space p-t-0">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <owl-carousel-o
+          class="product-m no-arrow"
+          [options]="ProductSliderConfig"
+        >
+          <ng-container
+            *ngFor="let product of productKeeper.topProduct | slice: 0:12"
+          >
+            <ng-template carouselSlide>
+              <div class="product-box">
+                <app-product-box
+                  [product]="product"
+                  [thumbnail]="true"
+                  [cartModal]="true"
+                  (action)="callProducts()"
+                >
+                </app-product-box>
+              </div>
+            </ng-template>
+          </ng-container>
+        </owl-carousel-o>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Product slider End -->
+
+<!-- Tab product start-->
+<div class="title1 section-t-space">
+  <h4>Sản phẩm đáng chú ý</h4>
+  <h2 class="title-inner1">Sản phẩm đặc biệt</h2>
+</div>
+<section class="section-b-space p-t-0">
+  <div class="container">
+    <div class="row">
+      <div class="col theme-tab">
+        <ngb-tabset
+          [justify]="'center'"
+          [type]="'pills'"
+          class="tabs tab-title"
+        >
+          <!-- New Products -->
+          <ngb-tab>
+            <ng-template ngbTabTitle>Sản phẩm mới</ng-template>
+            <ng-template ngbTabContent>
+              <div class="no-slider row">
+                <ng-container
+                  *ngFor="let product of productKeeper.newProduct | slice: 0:8"
+                >
+                  <div class="product-box">
+                    <app-product-box
+                      [product]="product"
+                      [thumbnail]="true"
+                      [cartModal]="true"
+                    >
+                    </app-product-box>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <!-- Best Seller -->
+          <ngb-tab>
+            <ng-template ngbTabTitle>Sản phẩm bán chạy</ng-template>
+            <ng-template ngbTabContent>
+              <div class="no-slider row">
+                <ng-container
+                  *ngFor="let product of productKeeper.bestSeller | slice: 0:8"
+                >
+                  <div class="product-box">
+                    <app-product-box
+                      [product]="product"
+                      [thumbnail]="true"
+                      [cartModal]="true"
+                    >
+                    </app-product-box>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <!-- Featured Products -->
+          <ngb-tab>
+            <ng-template ngbTabTitle>Sản phẩm nổi bật</ng-template>
+            <ng-template ngbTabContent>
+              <div class="no-slider row">
+                <ng-container
+                  *ngFor="
+                    let product of productKeeper.featuredProduct | slice: 0:8
+                  "
+                >
+                  <div class="product-box">
+                    <app-product-box
+                      [product]="product"
+                      [thumbnail]="true"
+                      [cartModal]="true"
+                    >
+                    </app-product-box>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Tab product End -->
+
+<!-- services start-->
+<div class="container">
+  <section class="service border-section small-section">
+    <app-services></app-services>
+  </section>
+</div>
+<!-- services End -->
+
+<!-- blog section start-->
+<section class="blog p-t-0">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="title1 section-t-space">
+          <h4>Thông tin gần đây</h4>
+          <h2 class="title-inner1">Từ tin tức</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-12">
+        <app-blog [blogs]="blogs"></app-blog>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- blog section End -->

@@ -1,0 +1,34 @@
+<ng-container *ngIf="data">
+  <ngx-dropzone
+    multiple="{{ data.multiBoolean }}"
+    (change)="onSelect($event)"
+    accept="{{ data.typeFile }}"
+    [style]="styleFile"
+  >
+    <ngx-dropzone-label>{{
+      isBannerUpload
+        ? "Kích thước hình ảnh phải lớn hơn 500x250"
+        : "Tải hình ảnh"
+    }}</ngx-dropzone-label>
+    <ng-container *ngIf="data.typeFile != typeIMAGE">
+      <ngx-dropzone-preview
+        *ngFor="let f of files"
+        [removable]="true"
+        (removed)="onRemove(f)"
+      >
+        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+      </ngx-dropzone-preview>
+    </ng-container>
+    <ng-container *ngIf="data.typeFile == typeIMAGE">
+      <ngx-dropzone-image-preview
+        ngProjectAs="ngx-dropzone-preview"
+        *ngFor="let f of files"
+        [removable]="true"
+        (removed)="onRemove(f)"
+        [file]="f"
+      >
+        <!-- <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label> -->
+      </ngx-dropzone-image-preview>
+    </ng-container>
+  </ngx-dropzone>
+</ng-container>

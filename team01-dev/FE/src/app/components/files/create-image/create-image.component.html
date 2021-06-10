@@ -1,0 +1,26 @@
+<app-modal-header
+  [data]="modalHeader"
+  (onAction)="close($event)"
+></app-modal-header>
+<div class="modal-body" class="card-body" style="margin: auto; width: 50%">
+  EnityID:
+  <input type="text" placeholder="ID" [(ngModel)]="modalImage.entityId" />
+  <br />
+  EnityType:
+  <select *ngIf="select" [(ngModel)]="modalImage.entityType">
+    <option *ngFor="let item of select" value="{{ item.key }}">
+      {{ item.value }}
+    </option>
+  </select>
+  <br />
+  <app-upload-file
+    [data]="modalImage"
+    styleFile="width: 200px; height: auto;"
+    (onChange)="onChangeData($event)"
+    [fileURL]="fileURL"
+  ></app-upload-file>
+</div>
+<app-modal-footer
+  [data]="modalFooter"
+  (onAction)="save($event)"
+></app-modal-footer>

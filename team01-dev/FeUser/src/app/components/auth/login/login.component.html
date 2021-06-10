@@ -1,0 +1,75 @@
+<app-breadcrumb
+  [title]="'Đăng nhập'"
+  [breadcrumb]="'Đăng nhập'"
+></app-breadcrumb>
+<!-- section start -->
+<section class="login-page section-b-space">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Đăng nhập</h3>
+        <div class="theme-card">
+          <form class="theme-form" [formGroup]="loginForm">
+            <div class="form-group">
+              <label for="username">Tên đăng nhập</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                formControlName="username"
+                autocomplete="username"
+                placeholder="Tên đăng nhập"
+                required=""
+                [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+              />
+              <div
+                *ngIf="submitted && f.username.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.username.errors.required">
+                  Tên đăng nhập không được để trống
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password">Mật khẩu</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                formControlName="password"
+                autocomplete="new-password"
+                placeholder="Mật khẩu"
+                required=""
+                [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+              />
+              <div
+                *ngIf="submitted && f.password.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.password.errors.required">
+                  Mật khẩu không được để trống
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-solid" (click)="onLogin()">Đăng nhập</button>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-6 right-login">
+        <h3>Khách hàng mới</h3>
+        <div class="theme-card authentication-right">
+          <h6 class="title-font">Tạo tài khoản</h6>
+          <p>
+            Tạo mới tài khoản để có trải nghiệm mua sắm tốt hơn. Để bắt đầu thì
+            bạn bấm vào nút đăng ký để bắt đầu.
+          </p>
+          <button class="btn btn-solid" (click)="callUrl('/auth/register')">
+            Đăng ký
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Section ends-->

@@ -1,0 +1,161 @@
+<app-breadcrumb
+  [title]="product?.name"
+  [breadcrumb]="product?.name"
+></app-breadcrumb>
+<!-- section start -->
+<section class="section-b-space">
+  <div class="collection-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5">
+          <owl-carousel-o
+            [options]="ProductDetailsMainSliderConfig"
+            #owlCar
+            class="product-slick"
+          >
+            <ng-container
+              *ngFor="let image of product?.imageUrl.split(','); index as i"
+            >
+              <ng-template carouselSlide [id]="i">
+                <div>
+                  <app-image-wrapper
+                    [data]="{
+                      url: image,
+                      typeClass: typeDisplayImage.PRODUCT_DETAIL_MAIN_IMAGE,
+                      style: typeSizeImage.LARGE
+                    }"
+                    (click)="owlCar.to((activeSlide = i.toString()))"
+                    class="img-fluid"
+                  ></app-image-wrapper>
+                </div>
+              </ng-template>
+            </ng-container>
+          </owl-carousel-o>
+          <div class="row">
+            <div class="col-12 p-0">
+              <div class="slider-nav">
+                <owl-carousel-o
+                  *ngIf="product?.imageUrl.split(',').length >= 2"
+                  [options]="ProductDetailsThumbConfig"
+                  class="product-slick"
+                >
+                  <ng-container
+                    *ngFor="
+                      let image of product?.imageUrl.split(',');
+                      index as i
+                    "
+                  >
+                    <ng-template carouselSlide [id]="i">
+                      <div class="owl-thumb" [class.active]="i == activeSlide">
+                        <app-image-wrapper
+                          [data]="{
+                            url: image,
+                            typeClass: typeDisplayImage.PRODUCT_DETAIL_IMAGE,
+                            style: typeSizeImage.SMALL
+                          }"
+                          (click)="owlCar.to((activeSlide = i.toString()))"
+                        ></app-image-wrapper>
+                      </div>
+                    </ng-template>
+                  </ng-container>
+                </owl-carousel-o>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="product-right product-description-box">
+            <div class="d-flex align-items-baseline">
+              <h2>
+                {{ product?.name }}
+                <a
+                  *ngIf="user"
+                  href="javascript:void(0)"
+                  title="Add to Wishlist"
+                  (click)="addToWishList(product)"
+                  style="color: red"
+                >
+                  <i
+                    [ngClass]="[
+                      'lead mr-2',
+                      product?.isInWishList
+                        ? 'fa fa-heart text-danger'
+                        : 'ti-heart'
+                    ]"
+                    aria-hidden="true"
+                  ></i
+                ></a>
+              </h2>
+            </div>
+            <div class="border-product">
+              <h4 class="product-title">Mã sản phẩm</h4>
+              <p>{{ product?.description.substring(0, 200) }}</p>
+            </div>
+            <div>
+              <h3 class="m-0">
+                {{ product?.price | vndFormat }}
+              </h3>
+            </div>
+            <ng-template #t let-fill="fill">
+              <span class="star" [class.full]="fill === 100">
+                <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+              </span>
+            </ng-template>
+
+            <ngb-rating
+              [rate]="product?.ratingScore"
+              [starTemplate]="t"
+              [readonly]="true"
+              [max]="5"
+            ></ngb-rating>
+            <hr class="m-0" />
+          </div>
+          <br />
+          <div class="d-flex">
+            <div
+              class="addeffect-section product-description border-product mr-2"
+            >
+              <a class="btn btn-solid" (click)="addToCart(product)"
+                >Thêm vào giỏ hàng
+              </a>
+            </div>
+          </div>
+          <br />
+          <div class="addeffect-section product-description border-product">
+            <div *ngIf="product?.contentHTML != ''">
+              <h3 style="color: black">Mô tả sản phẩm</h3>
+              <div [innerHTML]="product?.contentHTML"></div>
+            </div>
+            <br />
+            <ng-template #loading>
+              <button class="btn btn-primary" [routerLink]="['/auth/login']">
+                Bạn nên đăng nhập để đánh giá sản phẩm này
+              </button>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4"></div>
+    </div>
+    <section class="tab-product m-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-lg-12">
+            <app-comment
+              [dataComment]="dataComment"
+              (action)="getProduct()"
+            ></app-comment>
+            <app-comment-detail
+              *ngIf="comments"
+              (action)="changePageIndex($event)"
+              [comments]="comments"
+            >
+            </app-comment-detail>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+<app-size-modal #sizeChart [product]="product"></app-size-modal>
+<!-- Section ends -->

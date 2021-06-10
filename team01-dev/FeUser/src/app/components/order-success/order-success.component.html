@@ -1,0 +1,108 @@
+<!-- thank-you section start -->
+<section class="section-b-space">
+  <section class="section-b-space light-layout">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="success-text">
+            <i class="fa fa-check-circle" aria-hidden="true"></i>
+            <h2>Cảm ơn bạn đã đặt hàng</h2>
+            <p>Đơn hàng đã được tạo và sẽ giao cho bạn sớm nhất</p>
+            <p>Mã đơn hàng : {{ checkOutOrders.code }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Section ends -->
+  <!-- order-detail section start -->
+  <section class="section-b-space">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6" id="FlagElementToFixed">
+          <div class="product-order">
+            <h3>Đơn hàng của bạn</h3>
+            <div class="row product-order-detail">
+              <table class="table cart-table table-responsive-xs">
+                <thead>
+                  <tr class="table-head">
+                    <th scope="col">Hình ảnh</th>
+                    <th scope="col">Tên sản phẩm</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Giá</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let orderDetail of checkOutOrderDetails">
+                    <td>
+                      <img
+                        appUiImageLoader
+                        [src]="orderDetail.productImgUrl.split(',')[0]"
+                        alt=""
+                        class="img-fluid"
+                      />
+                    </td>
+                    <td>
+                      <h5>{{ orderDetail.productName }}</h5>
+                    </td>
+                    <td>
+                      <h5>{{ orderDetail.quantity }}</h5>
+                    </td>
+                    <td>
+                      <h5>{{ orderDetail.totalAmount | vndFormat }}</h5>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="final-total">
+              <h3>
+                tổng cộng
+                <span>{{ checkOutOrders.totalAmount | vndFormat }}</span>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div
+            class="row order-success-sec"
+            id="ElementFixed"
+            [ngStyle]="
+              blockBottom || blockTop
+                ? {
+                    position: 'fixed',
+                    width: widthElementFixed + 'px',
+                    top: blockTop ? offsetHeightHeader + 'px' : '',
+                    bottom: blockBottom ? bottomMargin + 'px' : ''
+                  }
+                : ''
+            "
+          >
+            <div class="col-sm-6">
+              <h4>tổng kết</h4>
+              <ul class="order-detail">
+                <li>Mã đơn hàng: {{ checkOutOrders.code }}</li>
+                <li>
+                  Ngày đặt: {{ checkOutOrders.createByDate | slice: 0:10 }}
+                </li>
+                <li>Tổng kết: {{ checkOutOrders.totalAmount | vndFormat }}</li>
+              </ul>
+            </div>
+            <div class="col-sm-6">
+              <h4>Địa chỉ đơn hàng</h4>
+              <div class="order-detail">
+                {{ checkOutOrders.address }}
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="delivery-sec">
+                <h2>Đơn đặt hàng của bạn sẽ sớm giao tới!</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+<!-- Section ends -->

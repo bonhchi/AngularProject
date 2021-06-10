@@ -1,0 +1,35 @@
+<owl-carousel-o [options]="BlogSliderConfig" class="no-arrow">
+  <ng-container *ngFor="let blog of blogs">
+    <ng-template carouselSlide>
+      <div class="">
+        <a [routerLink]="['/blog/', blog.id]">
+          <div class="classic-effect">
+            <app-image-wrapper
+              [data]="{
+                title: blog.title,
+                url: getImage(blog.imageUrl),
+                typeClass: typeDisplayImage.BLOG_IMAGE
+              }"
+            ></app-image-wrapper>
+            <span></span>
+          </div>
+        </a>
+        <div class="blog-details">
+          <h4>{{ getDate(blog.createByDate) | date: "dd/MM/yyyy" }}</h4>
+          <a [routerLink]="['/blog/', blog.id]">
+            <div *ngIf="blog?.title.length > 60; else nopadding">
+              <p>{{ blog?.title.substring(0, 60 - 1) + "..." }}</p>
+            </div>
+            <ng-template #nopadding>
+              <p>{{ blog?.title.substring(0, 60) }}</p>
+            </ng-template>
+          </a>
+          <hr class="style1" />
+          <h6 style="word-wrap: break-word">
+            {{ blog.shortDes }}
+          </h6>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+</owl-carousel-o>

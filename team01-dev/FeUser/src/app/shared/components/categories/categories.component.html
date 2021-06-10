@@ -1,0 +1,32 @@
+<!-- Start Categories List -->
+<div class="collection-collapse-block border-0" [class.open]="collapse">
+  <h3 class="collapse-block-title" (click)="collapse = !collapse">Danh mục</h3>
+  <div class="collection-collapse-block-content">
+    <div class="collection-brand-filter">
+      <ul class="category-list">
+        <li>
+          <a
+            class="ALL"
+            (mouseenter)="bigImg($event.target.style)"
+            (mouseleave)="normalImg($event.target.style)"
+            (click)="onSelect($event.target.style, 'ALL')"
+            style="cursor: pointer"
+          >
+            Tất cả
+          </a>
+        </li>
+        <li *ngFor="let category of filterbyCategory">
+          <a
+            (mouseenter)="bigImg($event.target.style)"
+            (mouseleave)="normalImg($event.target.style)"
+            (click)="onSelect($event.target.style, category.name)"
+            style="cursor: pointer"
+          >
+            {{ category.name }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- End Categories List -->

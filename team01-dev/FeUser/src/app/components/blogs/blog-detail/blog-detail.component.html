@@ -1,0 +1,69 @@
+<app-breadcrumb
+  [title]="
+    data?.title.length > 20
+      ? data?.title.substring(0, 20 - 1) + '...'
+      : data?.title
+  "
+  [breadcrumb]="
+    data?.title.length > 20
+      ? data?.title.substring(0, 20 - 1) + '...'
+      : data?.title
+  "
+></app-breadcrumb>
+<!--section start-->
+<section class="blog-detail-page section-b-space">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 blog-detail">
+        <app-image-wrapper
+          *ngIf="data"
+          [data]="{
+            title: data.title,
+            url: getImage(data.imageUrl),
+            typeClass: typeDisplayImage.BLOG_DETAIL
+          }"
+        ></app-image-wrapper>
+        <h3>
+          {{ data?.title }}
+        </h3>
+        <ul class="post-social">
+          <li>{{ data?.createByDate | date: "dd/MM/yyyy" }}</li>
+          <li>Người đăng : admin</li>
+          <li>
+            <i class="fa fa-comments"></i>
+            {{ comments?.results.length + " Bình luận" }}
+          </li>
+          <li>
+            Đánh giá:
+            <ngb-rating
+              [max]="5"
+              [rate]="data?.ratingScore"
+              [starTemplate]="t"
+              [readonly]="true"
+            >
+              <ng-template #t let-fill="fill">
+                <span class="star" [class.full]="fill === 100">
+                  <span class="half" [style.width.%]="fill">&#9733;</span
+                  >&#9733;
+                </span>
+              </ng-template>
+            </ngb-rating>
+          </li>
+        </ul>
+        <div [innerHTML]="data?.contentHTML"></div>
+
+        <div class="mt-3" #refComment>
+          <app-comment
+            [dataComment]="dataComment"
+            (action)="getBlog()"
+          ></app-comment>
+          <app-comment-detail
+            *ngIf="comments"
+            (action)="changePageIndex($event)"
+            [comments]="comments"
+          ></app-comment-detail>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

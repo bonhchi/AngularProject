@@ -1,0 +1,229 @@
+<div class="modal-body wishlist-tab theme-tab">
+  <!-- <h3 class="text-center mb-4" style="font-weight: bold; color: black">
+    Please login to go to wish list
+  </h3> -->
+
+  <ngb-tabset
+    [activeId]="activeIdString"
+    [justify]="'center'"
+    [type]="'pills'"
+    class="tabs tab-title"
+  >
+    <ngb-tab id="tab-login">
+      <ng-template ngbTabTitle class="m-0">Đăng nhập</ng-template>
+      <ng-template ngbTabContent
+        ><form class="theme-form" [formGroup]="loginForm">
+          <div class="form-group">
+            <label for="username">Tên đăng nhập</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              formControlName="username"
+              autocomplete="username"
+              placeholder="Nhập tên đăng nhập"
+              required=""
+              [ngClass]="{ 'is-invalid': submitted && loginF.username.errors }"
+            />
+            <div
+              *ngIf="submitted && loginF.username.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="loginF.username.errors.required">
+                Tên đăng nhập không được để trống
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              formControlName="password"
+              autocomplete="new-password"
+              placeholder="Nhập mật khẩu"
+              required=""
+              [ngClass]="{ 'is-invalid': submitted && loginF.password.errors }"
+            />
+            <div
+              *ngIf="submitted && loginF.password.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="loginF.password.errors.required">
+                Mật khẩu không được để trống
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-solid" (click)="onLogin()">Đăng nhập</button>
+        </form>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab id="tab-register">
+      <ng-template ngbTabTitle>Đăng ký</ng-template>
+      <ng-template ngbTabContent
+        ><form class="theme-form" [formGroup]="registForm">
+          <div class="form-row">
+            <div class="col-md-6 form-group">
+              <label for="firstName">Tên</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="firstName"
+                autocomplete="fname"
+                id="firstName"
+                placeholder="Tên"
+                required=""
+                [ngClass]="{
+                  'is-invalid': submitted && registerF.firstName.errors
+                }"
+              />
+              <div
+                *ngIf="submitted && registerF.firstName.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="registerF.firstName.errors.required">
+                  Tên không được để trống
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="lastName">Họ</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="lastName"
+                id="lastName"
+                autocomplete="lname"
+                placeholder="Họ"
+                required=""
+                [ngClass]="{
+                  'is-invalid': submitted && registerF.lastName.errors
+                }"
+              />
+              <div
+                *ngIf="submitted && registerF.lastName.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="registerF.lastName.errors.required">
+                  Họ không được để trống
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 form-group">
+              <label for="username">Tên đăng nhập</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="username"
+                id="username"
+                autocomplete="username"
+                placeholder="Tên đăng nhập"
+                required=""
+                [ngClass]="{
+                  'is-invalid': submitted && registerF.username.errors
+                }"
+              />
+              <div
+                *ngIf="submitted && registerF.username.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="registerF.username.errors?.required">
+                  Tên đăng nhập không được để trống
+                </div>
+                <div *ngIf="registerF.username.errors?.isUserNameUnique">
+                  Tên đăng nhập đã tồn tại
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                formControlName="email"
+                id="email"
+                autocomplete="email"
+                placeholder="Email"
+                required=""
+                [ngClass]="{
+                  'is-invalid': submitted && registerF.email.errors
+                }"
+              />
+              <div
+                *ngIf="submitted && registerF.email.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="registerF.email.errors?.required">
+                  Email không được để trống
+                </div>
+                <div *ngIf="registerF.email.errors?.pattern">
+                  Sai kiểu Email
+                </div>
+                <div *ngIf="registerF.email.errors?.isEmailUnique">
+                  Email đã tồn tại
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 form-group">
+              <label for="password">Mật khẩu</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="password"
+                id="password"
+                autocomplete="new-password"
+                placeholder="Mật khẩu"
+                required=""
+                [ngClass]="{
+                  'is-invalid': submitted && registerF.password.errors
+                }"
+              />
+              <div
+                *ngIf="submitted && registerF.password.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="registerF.password.errors.required">
+                  Mật khẩu không được để trống
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="confirmpassword">Nhập lại mật khẩu</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="confirmpassword"
+                id="confirmpassword"
+                autocomplete="new-password"
+                placeholder="Nhập lại mật khẩu"
+                required=""
+                [ngClass]="{
+                  'is-invalid': submitted && registerF.confirmpassword.errors
+                }"
+              />
+              <div
+                *ngIf="submitted && registerF.confirmpassword.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="registerF.confirmpassword.errors.required">
+                  Mật khẩu không được để trống
+                </div>
+                <div *ngIf="registerF.confirmpassword.errors.mustMatch">
+                  Mật khẩu nhập lại phải trung với mật khẩu đã nhập
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-solid" (click)="onRegist()">
+            Tạo tài khoản
+          </button>
+        </form>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>

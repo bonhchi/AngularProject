@@ -1,0 +1,108 @@
+<!-- Add to cart modal popup start-->
+<ng-template #cartModal let-modal>
+  <div class="modal-body">
+    <div class="container-fluid p-0">
+      <div class="row">
+        <div class="col-12">
+          <div class="modal-bg addtocart">
+            <button
+              type="button"
+              id="close-cart-modal"
+              class="close"
+              (click)="modal.dismiss('Cross click')"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="media">
+              <a
+                [routerLink]="['/product-details']"
+                [queryParams]="{ id: product?.id }"
+              >
+                <img
+                  appUiImageLoader
+                  class="img-fluid pro-img"
+                  [src]="product.imageUrl.split(',')[0]"
+                  [alt]=""
+                />
+              </a>
+              <div class="media-body align-self-center text-center">
+                <a
+                  [routerLink]="['/product-details']"
+                  [queryParams]="{ id: product?.id }"
+                >
+                  <h6>
+                    <i class="fa fa-check"></i>Item
+                    <span>{{ product.name }}</span>
+                    <span> đã được thêm vào giỏ hàng</span>
+                  </h6>
+                </a>
+                <div class="buttons">
+                  <a [routerLink]="['../cart']" class="view-cart btn btn-solid"
+                    >Giỏ hàng</a
+                  >
+                  <a
+                    [routerLink]="['../checkout']"
+                    class="checkout btn btn-solid"
+                    >checkout</a
+                  >
+                  <a
+                    (click)="modal.dismiss('Cross click')"
+                    class="continue btn btn-solid"
+                    >Tiếp tục mua hàng</a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="product-section">
+              <div class="col-12 product-upsell text-center">
+                <h4>Các khách hàng khác đã chọn những sản phẩm sau</h4>
+              </div>
+              <div class="row" id="upsell_product">
+                <ng-container *ngFor="let product of products | slice: 0:4">
+                  <div class="product-box col-sm-3 col-6">
+                    <div class="img-wrapper">
+                      <app-product-box
+                        style="width: 100%"
+                        [product]="product"
+                        [thumbnail]="false"
+                        [cartModal]="true"
+                        [typeGridLayout]="grid"
+                        (isCloseModal)="onCloseModal($event, modal)"
+                      >
+                      </app-product-box>
+                      <!-- <div class="front">
+                        <a
+                          [routerLink]="['/product-details']"
+                          [queryParams]="{ id: product.id }"
+                        >
+                          <app-image-wrapper
+                            [data]="{
+                              url: product.imageUrl.split(',')[0],
+                              typeClass: typeDisplayImage.CART_MODAL_IMAGE,
+                              class: 'img-fluid mb-1'
+                            }"
+                          ></app-image-wrapper>
+                        </a>
+                      </div> -->
+                      <!-- <div class="product-detail">
+                        <h4>
+                          <span>{{
+                            product.price * currency?.price
+                              | discount: product
+                              | vndFormat
+                          }}</span>
+                        </h4>
+                      </div> -->
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- Add to cart modal popup end-->

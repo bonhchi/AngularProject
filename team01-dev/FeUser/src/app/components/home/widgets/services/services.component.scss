@@ -1,0 +1,14 @@
+.link-page-content {
+  color: black !important;
+  &:hover {
+    color: var(--theme-deafult) !important;
+  }
+}
+
+.media {
+  &:hover .link-page-content {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.5s;
+  }
+}

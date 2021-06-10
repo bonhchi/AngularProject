@@ -1,0 +1,13 @@
+<div class="image-wrapper">
+  <img
+    appUiImageLoader
+    [src]="data?.url"
+    class="img-fluid lazy-loading"
+    [alt]="data?.title"
+    [ngClass]="[
+      data?.typeClass > -1 ? templateType[data.typeClass] : '',
+      data?.class ? data.class : ''
+    ]"
+    [style]="data?.style"
+  />
+</div>

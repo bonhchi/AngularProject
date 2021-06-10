@@ -1,0 +1,54 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid bulk-cate">
+  <div class="card">
+    <div class="card-header">
+      <h5>Media File List</h5>
+    </div>
+    <div class="card-body">
+      <button
+        type="button"
+        class="btn"
+        style="background-color: blue; color: white"
+        (click)="open(null, 1)"
+      >
+        Add Single Image
+      </button>
+      <button
+        type="button"
+        class="btn"
+        style="background-color: darkcyan; color: white"
+        (click)="open(null, 2)"
+      >
+        Add Multi Image
+      </button>
+      <button
+        type="button"
+        class="btn"
+        style="background-color: rgb(76, 0, 139); color: white"
+        (click)="open(null, 3)"
+      >
+        Add Single File
+      </button>
+      <button
+        type="button"
+        class="btn"
+        style="background-color: rgb(139, 0, 120); color: white"
+        (click)="open(null, 4)"
+      >
+        Add Multi File
+      </button>
+      <div
+        id="batchDelete"
+        class="category-table custom-datatable media-datatable"
+      >
+        <div class="table-responsive">
+          <ng2-smart-table
+            [settings]="settings"
+            [source]="media"
+          ></ng2-smart-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
