@@ -128,7 +128,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
         this.route.snapshot.data.user = resp.data;
         if (!resp.hasError) {
           this.messageService.notification(
-            'Profile has been updated',
+            'Thông tin đã được cập nhật',
             TypeSweetAlertIcon.SUCCESS
           );
           this.updateSwitch();
@@ -138,7 +138,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
         this.messageService.alert(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            'Server Disconnecter',
+            'Mất kết nối với máy chủ',
           TypeSweetAlertIcon.ERROR
         );
       });
@@ -163,7 +163,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
       .then((resp) => {
         this.passwordForm.reset();
         this.messageService.notification(
-          'Password has been changed',
+          'Mật khẩu đã được thay đổi',
           TypeSweetAlertIcon.SUCCESS
         );
         this.submitted = false;
@@ -172,7 +172,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
         this.messageService.notification(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            'Server Disconnected',
+            'Mất kết nối với máy chủ',
           TypeSweetAlertIcon.ERROR
         );
       });
@@ -207,7 +207,6 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
   }
 
   get getImage() {
-    // console.log("get image");
     return this.userInfo?.imageUrl;
   }
 }
