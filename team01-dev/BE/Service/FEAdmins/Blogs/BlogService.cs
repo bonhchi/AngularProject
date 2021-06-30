@@ -9,22 +9,23 @@ using Infrastructure.Extensions;
 using System;
 using Common.StringEx;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.Blogs
 {
     public class BlogService : IBlogService
     {
-        private readonly IRepository<Blog> _blogRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<Blog> _blogRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
-        public BlogService(IRepository<Blog> blogRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public BlogService(IRepositoryAsync<Blog> blogRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper)
         {
             _blogRepository = blogRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public ReturnMessage<BlogDTO> Create(CreateBlogDTO model)
+        public async Task<ReturnMessage<BlogDTO>> CreateAsync(CreateBlogDTO model)
         {
             model.Title = StringExtension.CleanString(model.Title);
             model.ShortDes = StringExtension.CleanString(model.ShortDes);
@@ -40,10 +41,10 @@ namespace Service.Blogs
             {
 
                 var entity = _mapper.Map<CreateBlogDTO, Blog>(model);
-                entity.CreatedByName = CommonConstantsBlog.CreateByName;
+                entity.CreatedByName = CommonConstantsBlog.CreateByName; //name depends on user who logged in with role
                 entity.Insert();
-                _blogRepository.Insert(entity);
-                _unitOfWork.SaveChangesAsync();
+                _blogRepository.InsertAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<BlogDTO>(false, _mapper.Map<Blog, BlogDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -53,16 +54,16 @@ namespace Service.Blogs
             }
         }
 
-        public ReturnMessage<BlogDTO> Delete(DeleteBlogDTO model)
+        public async Task<ReturnMessage<BlogDTO>> DeleteAsync(DeleteBlogDTO model)
         {
             try
             {
-                var entity = _blogRepository.Find(model.Id);
+                var entity = await _blogRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Delete();
                     _blogRepository.Delete(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<BlogDTO>(false, _mapper.Map<Blog, BlogDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -74,7 +75,7 @@ namespace Service.Blogs
             }
         }
 
-        public ReturnMessage<BlogDTO> Update(UpdateBlogDTO model)
+        public async Task<ReturnMessage<BlogDTO>> UpdateAsync(UpdateBlogDTO model)
         {
             model.Title = StringExtension.CleanString(model.Title);
             model.ShortDes = StringExtension.CleanString(model.ShortDes);
@@ -88,12 +89,12 @@ namespace Service.Blogs
             }
             try
             {
-                var entity = _blogRepository.Find(model.Id);
+                var entity = await _blogRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Update(model);
-                    _blogRepository.Update(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _blogRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<BlogDTO>(false, _mapper.Map<Blog, BlogDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
 
@@ -105,14 +106,24 @@ namespace Service.Blogs
                 return new ReturnMessage<BlogDTO>(true, null, ex.Message);
             }
         }
-
-        public ReturnMessage<PaginatedList<BlogDTO>> SearchPagination(SearchPaginationDTO<BlogDTO> search)
+        // check for async
+        public async Task<ReturnMessage<PaginatedList<BlogDTO>>> SearchPaginationAsync(SearchPaginationDTO<BlogDTO> search)
         {
             if (search == null)
             {
                 return new ReturnMessage<PaginatedList<BlogDTO>>(false, null, MessageConstants.GetPaginationFail);
             }
 
+            //var query = await _blogRepository.GetPaginatedListAsync(it => search.Search == null ||
+            //    (
+            //        (
+            //            (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+            //            it.Title.Contains(search.Search.Title) ||
+            //            it.ShortDes.Contains(search.Search.ShortDes) ||
+            //            it.ContentHTML.Contains(search.Search.ContentHTML) ||
+            //            it.ImageUrl.Contains(search.Search.ImageUrl)
+            //        )
+            //    ) && !it.IsDeleted).OrderBy(it => it.Title).ThenBy(it => it.Title.Length);
 
             var query = _blogRepository.Queryable().Where(it => search.Search == null ||
                 (

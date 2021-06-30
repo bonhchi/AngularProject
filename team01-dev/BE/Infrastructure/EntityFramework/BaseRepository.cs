@@ -83,6 +83,7 @@ namespace Infrastructure.EntityFramework
                 Update(entity);
             }
         }
+
         public virtual void Delete(object id)
         {
             var entity = _dbSet.Find(id);
@@ -209,6 +210,15 @@ namespace Infrastructure.EntityFramework
             _dbSet.Attach(entity);
             _context.SyncObjectState(entity);
             return entity;
+        }
+
+        public async Task<IEnumerable<TEntity>> UpdateRangeAsync(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                await UpdateAsync(entity);
+            }
+            return entities;
         }
 
         public async Task<IEnumerable<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate = null,

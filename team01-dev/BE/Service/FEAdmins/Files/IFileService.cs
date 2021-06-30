@@ -7,12 +7,13 @@ using Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.Files
 {
     public interface IFileService : ICommonCRUDService<List<FileDTO>,List<CreateFileDTO>,List<UpdateFileDTO>,List<DeleteFileDTO>>
     {
-        ReturnMessage<PaginatedList<FileDTO>> SearchPagination(SearchPaginationDTO<FileDTO> search);
-        ReturnMessage<List<FileDTO>> UpdateIdFile(List<FileDTO> files, Guid? entityId);
+        Task<ReturnMessage<PaginatedList<FileDTO>>> SearchPagination(SearchPaginationDTO<FileDTO> search);
+        Task<ReturnMessage<List<FileDTO>>> UpdateIdFile(List<FileDTO> files, Guid? entityId);
     }
 }

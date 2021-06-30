@@ -19,14 +19,15 @@ using System.Text;
 
 namespace Service.Auth
 {
+    //missing async
     public class AuthService : IAuthService
     {
-        private IRepository<User> _userRepository;
-        private IUserManager _userManager;
-        private IMapper _mapper;
+        private readonly IRepositoryAsync<User> _userRepository;
+        private readonly IUserManager _userManager;
+        private readonly IMapper _mapper;
 
         public AuthService(
-            IUserManager userManager, IRepository<User> repository, IMapper mapper,
+            IUserManager userManager, IRepositoryAsync<User> repository, IMapper mapper,
             IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;

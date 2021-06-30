@@ -18,8 +18,6 @@ namespace BE.Controllers.FEAdmins
     public class BannerController : BaseController
     {
         private readonly IBannerService _bannerService;
-
-
         public BannerController(IBannerService bannerService, IAuthService authService, IUserManager userManager, IFileService fileService) : base(authService, userManager, fileService)
         {
             _bannerService = bannerService;
@@ -40,7 +38,7 @@ namespace BE.Controllers.FEAdmins
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -56,7 +54,7 @@ namespace BE.Controllers.FEAdmins
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);

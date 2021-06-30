@@ -6,6 +6,7 @@ using System.Security.Claims;
 
 namespace Service.Auth
 {
+    // async method
     public interface IAuthService
     {
         ReturnMessage<UserDataReturnDTO> CheckLogin(UserLoginDTO data);

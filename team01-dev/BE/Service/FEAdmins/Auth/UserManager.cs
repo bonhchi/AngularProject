@@ -14,18 +14,19 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.Auth
 {
     public class UserManager : IUserManager
     {
-        private IRepository<User> _userRepository;
-        private IMapper _mapper;
+        private readonly IRepositoryAsync<User> _userRepository;
+        private readonly IMapper _mapper;
         private readonly JwtTokenConfig _jwtTokenConfig;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly byte[] _secret;
 
-        public UserManager(JwtTokenConfig jwtTokenConfig, IMapper mapper, IRepository<Domain.Entities.User> repository, IHttpContextAccessor httpContextAccessor)
+        public UserManager(JwtTokenConfig jwtTokenConfig, IMapper mapper, IRepositoryAsync<User> repository, IHttpContextAccessor httpContextAccessor)
         {
             _jwtTokenConfig = jwtTokenConfig;
             _secret = Encoding.ASCII.GetBytes(jwtTokenConfig.Secret); // Secret key
@@ -71,13 +72,14 @@ namespace Service.Auth
                 var result = _mapper.Map<Domain.Entities.User, UserDataReturnDTO>(data);
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
                 return new UserDataReturnDTO();
             }
         }
 
-        public UserInformationDTO GetInformationUser()
+        //missing aysnc?
+        public async Task<UserInformationDTO> GetInformationUser()
         {
             try
             {

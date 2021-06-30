@@ -46,7 +46,7 @@ namespace Service.Files
             }
             var filePath = Path.Combine(UrlConstants.BaseLocalUrlFile, Path.GetFileName(url));
 
-            if (!System.IO.File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
                 return new FileStreamResult(memory, "application/octet-stream");
             }
@@ -131,7 +131,7 @@ namespace Service.Files
 
                         if (!DataType.TypeAccept[DataType.ETypeFile.Image].Contains(ext))
                         {
-                            using (var stream = System.IO.File.Create(filePath))
+                            using (var stream = File.Create(filePath))
                             {
                                 //stream.Write();
                                 formFile.CopyTo(stream);

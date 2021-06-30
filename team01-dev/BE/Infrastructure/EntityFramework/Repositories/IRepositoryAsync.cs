@@ -12,6 +12,8 @@ namespace Infrastructure.EntityFramework
 
         Task<TEntity> UpdateAsync(TEntity entity);
 
+        Task<IEnumerable<TEntity>> UpdateRangeAsync(IEnumerable<TEntity> entities);
+
         Task<TEntity> FindAsync(params object[] keyValues);
 
         Task<TEntity> FindAsync(CancellationToken cancellationToken, params object[] keyValues);

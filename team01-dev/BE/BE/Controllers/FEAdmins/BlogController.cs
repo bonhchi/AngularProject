@@ -28,21 +28,21 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<BlogDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<BlogDTO> serachPagination)
         {
-            var result = _blogService.SearchPagination(serachPagination);
+            var result = await _blogService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateBlogDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateBlogDTO model)
         {
-            var result = _blogService.Create(model);
+            var result = await _blogService.CreateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -51,14 +51,14 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateBlogDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateBlogDTO model)
         {
-            var result = _blogService.Update(model);
+            var result = await _blogService.UpdateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -67,9 +67,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteBlogDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteBlogDTO model)
         {
-            var result = _blogService.Delete(model);
+            var result = await _blogService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

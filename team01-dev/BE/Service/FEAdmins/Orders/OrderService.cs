@@ -14,24 +14,21 @@ using Service.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.Orders
 {
     public class OrderService : IOrderService
     {
-        private readonly IRepository<Order> _orderRepository;
-        private readonly IRepository<Coupon> _couponRepository;
-        private readonly IRepository<Product> _productRepository;
-
+        private readonly IRepositoryAsync<Order> _orderRepository;
+        private readonly IRepositoryAsync<Coupon> _couponRepository;
+        private readonly IRepositoryAsync<Product> _productRepository;
         private readonly ICouponService _couponService;
         private readonly IProductService _productService;
-
-
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
-        public OrderService(IRepository<Product> productRepository, IProductService productService, ICouponService couponService, IRepository<Order> orderRepository, IUnitOfWork unitOfWork, IMapper mapper, IRepository<Coupon> couponRepository)
+        public OrderService(IRepositoryAsync<Product> productRepository, IProductService productService, ICouponService couponService, IRepositoryAsync<Order> orderRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IRepositoryAsync<Coupon> couponRepository)
         {
-
             _orderRepository = orderRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -41,9 +38,8 @@ namespace Service.Orders
             _productRepository = productRepository;
         }
 
-        public ReturnMessage<OrderDTO> Create(CreateOrderDTO model)
+        public async Task<ReturnMessage<OrderDTO>> CreateAsync(CreateOrderDTO model)
         {
-
             try
             {
                 if(model.OrderDetails.IsNullOrEmpty())
@@ -73,9 +69,9 @@ namespace Service.Orders
                     _unitOfWork.BeginTransaction();
                     entity.Insert(coupon);
 
-                    _orderRepository.Insert(entity);
+                    _orderRepository.InsertAsync(entity);
 
-                    _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.SaveChangesAsync();
                     _unitOfWork.Commit();
 
                     var result = GetById(entity.Id);
@@ -92,7 +88,7 @@ namespace Service.Orders
             }
         }
 
-
+        //missing async method 
         public ReturnMessage<OrderDTO> GetById(Guid id)
         {
             var order = _orderRepository.Queryable()
@@ -104,7 +100,7 @@ namespace Service.Orders
             return result;
 
         }
-        public ReturnMessage<OrderDTO> Delete(DeleteOrderDTO model)
+        public async Task<ReturnMessage<OrderDTO>> DeleteAsync(DeleteOrderDTO model)
         {
             try
             {
@@ -112,8 +108,8 @@ namespace Service.Orders
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Delete();
-                    _orderRepository.Delete(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _orderRepository.DeleteAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<OrderDTO>(false, _mapper.Map<Order, OrderDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -125,7 +121,7 @@ namespace Service.Orders
             }
         }
 
-
+        // missing async
         public ReturnMessage<PaginatedList<OrderDTO>> SearchPagination(SearchPaginationDTO<OrderDTO> search)
         {
             if (search == null)
@@ -151,10 +147,11 @@ namespace Service.Orders
             return result;
         }
 
-        public ReturnMessage<OrderDTO> Update(UpdateOrderDTO model)
+        public async Task<ReturnMessage<OrderDTO>> UpdateAsync(UpdateOrderDTO model)
         {
             try
             {
+                //missing async query
                 var entity = _orderRepository.Queryable().AsNoTracking().Include(t => t.OrderDetails).FirstOrDefault(t=> t.Id == model.Id);
                 if (entity.Status == CodeConstants.RejectedOrder)
                 {
@@ -178,8 +175,8 @@ namespace Service.Orders
                         });
                     }
                     entity.Update(model);
-                    _orderRepository.Update(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _orderRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<OrderDTO>(false, _mapper.Map<Order, OrderDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }

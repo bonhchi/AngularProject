@@ -7,8 +7,8 @@ using System;
 using System.Collections.Generic;
 
 namespace Service.Orders
-
 {
+    //method async
     public interface IOrderService : ICommonCRUDService<OrderDTO, CreateOrderDTO, UpdateOrderDTO, DeleteOrderDTO>
     {
         ReturnMessage<PaginatedList<OrderDTO>> SearchPagination(SearchPaginationDTO<OrderDTO> search);
