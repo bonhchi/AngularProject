@@ -60,7 +60,7 @@ namespace Service.CustomerProfileFeUser
                 var userInfo = _mapper.Map<User, UserInformationDTO>(user);
                 user.ChangePassword(userInfo, model);
                 _userRepository.Update(user);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
 
                 return new ReturnMessage<CustomerDataReturnDTO>(false, null, MessageConstants.UpdateSuccess);
             }
@@ -105,7 +105,7 @@ namespace Service.CustomerProfileFeUser
                 _unitOfWork.BeginTransaction();
                 _userRepository.Update(user);
                 _customerRepository.Update(customer);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
 
                 return new ReturnMessage<CustomerDataReturnDTO>(false, _mapper.Map<User, CustomerDataReturnDTO>(user), MessageConstants.UpdateSuccess);

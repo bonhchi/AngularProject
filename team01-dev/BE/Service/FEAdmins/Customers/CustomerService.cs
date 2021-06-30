@@ -84,12 +84,12 @@ namespace Service.Customers
                 customer.User = user;
                 _customerRepository.Insert(customer);
 
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
 
                 user.CustomerId = customer.Id;
                 user.Customer = customer;
                 _userRepository.Update(user);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
 
                 _unitOfWork.Commit();
                 var result = new ReturnMessage<CustomerDTO>(false, _mapper.Map<User, CustomerDTO>(user), MessageConstants.CreateSuccess);
@@ -128,7 +128,7 @@ namespace Service.Customers
                     customer.Delete(userInfo);
                     _customerRepository.Update(customer);
                 }
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
                 var result = new ReturnMessage<CustomerDTO>(false, _mapper.Map<User, CustomerDTO>(user), MessageConstants.DeleteSuccess);
                 return result;
@@ -193,7 +193,7 @@ namespace Service.Customers
                 _userRepository.Update(user);
                 customer.Update(userInfo, model);
                 _customerRepository.Update(customer);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
                 var result = new ReturnMessage<CustomerDTO>(false, _mapper.Map<User, CustomerDTO>(user), MessageConstants.UpdateSuccess);
                 return result;

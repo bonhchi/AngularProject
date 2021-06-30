@@ -304,5 +304,24 @@ namespace Infrastructure.EntityFramework
             var result = new PaginatedList<TEntity>(query, skip, take);
             return result;
         }
+
+        public async Task<PaginatedList<TEntity>> GetPaginatedListAsync(Expression<Func<TEntity, bool>> predicate = null,
+        int take = 50, int skip = 0,
+        Expression<Func<TEntity, object>> orderExpression = null,
+        params string[] propertiesIncluded)
+        {
+            var query = DbSet.DynamicIncludeProperty(propertiesIncluded).AsQueryable();
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            if (orderExpression != null)
+            {
+                query = query.OrderByDescending(orderExpression);
+            }
+            var entities = new PaginatedList<TEntity>(query, skip, take);
+            return entities;
+        }
     }
 }

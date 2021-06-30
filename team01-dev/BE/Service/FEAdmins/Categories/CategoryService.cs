@@ -45,7 +45,7 @@ namespace Service.Categories
                 var entity = _mapper.Map<CreateCategoryDTO, Category>(model);
                 entity.Insert();
                 _categoryRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<CategoryDTO>(false, _mapper.Map<Category, CategoryDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -74,7 +74,7 @@ namespace Service.Categories
                     }
                     entity.Delete();
                     _categoryRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<CategoryDTO>(false, _mapper.Map<Category, CategoryDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -131,7 +131,7 @@ namespace Service.Categories
                 {
                     entity.Update(model);
                     _categoryRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<CategoryDTO>(false, _mapper.Map<Category, CategoryDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }

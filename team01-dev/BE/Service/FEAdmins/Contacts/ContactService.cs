@@ -48,7 +48,7 @@ namespace Service.Contacts
                 {
                     entity.Update(model);
                     _repository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<ContactDTO>(false, _mapper.Map<Contact, ContactDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }   
@@ -77,7 +77,7 @@ namespace Service.Contacts
                 var entity = _mapper.Map<CreateContactDTO, Contact>(model);
                 entity.Insert();
                 _repository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<ContactDTO>(false, _mapper.Map<Contact, ContactDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -96,7 +96,7 @@ namespace Service.Contacts
                 {
                     entity.Delete();
                     _repository.Delete(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<ContactDTO>(false, _mapper.Map<Contact, ContactDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }

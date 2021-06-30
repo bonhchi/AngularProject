@@ -33,7 +33,7 @@ namespace Service.PageContents
                 var entity = _mapper.Map<CreatePageContentDTO, PageContent>(model);
                 entity.Insert();
                 _pageContentRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 var data = _mapper.Map<PageContent, PageContentDTO>(entity);
                 return new ReturnMessage<PageContentDTO>(false, data, MessageConstants.CreateSuccess);
             }
@@ -92,7 +92,7 @@ namespace Service.PageContents
                     return new ReturnMessage<PageContentDTO>(true, null, MessageConstants.Error);
                 entity.Update(model);
                 _pageContentRepository.Update(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
 
                 var data = _mapper.Map<PageContent, PageContentDTO>(entity);
                 var result = new ReturnMessage<PageContentDTO>(false, data, MessageConstants.ListSuccess);
@@ -118,7 +118,7 @@ namespace Service.PageContents
                 var entity = _pageContentRepository.Find(model.Id);
                 entity.Delete();
                 _pageContentRepository.Update(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<PageContentDTO>(false, null, MessageConstants.DeleteSuccess);
                 return result;
             }

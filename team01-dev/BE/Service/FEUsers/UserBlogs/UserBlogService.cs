@@ -31,7 +31,7 @@ namespace Service.UserBlogs
             {
                 var entity = _blogRepository.Find(id);
                 entity.Update();
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 return new ReturnMessage<BlogDTO>(false, _mapper.Map<Blog, BlogDTO>(entity), MessageConstants.GetSuccess);
             }
             catch (Exception ex)

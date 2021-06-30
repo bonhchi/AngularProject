@@ -9,17 +9,18 @@ using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
 using Service.Auth;
 using System;
+using System.Threading.Tasks;
 
 namespace Service.Banners
 {
     public class BannerService : IBannerService
     {
-        private readonly IRepository<Banner> _bannerRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<Banner> _bannerRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserManager _userManager;
 
-        public BannerService(IRepository<Banner> bannerRepository, IUnitOfWork unitOfWork, IMapper mapper, IUserManager userManager)
+        public BannerService(IRepositoryAsync<Banner> bannerRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IUserManager userManager)
         {
             _bannerRepository = bannerRepository;
             _unitOfWork = unitOfWork;
@@ -27,7 +28,7 @@ namespace Service.Banners
             _userManager = userManager;
         }
 
-        public ReturnMessage<BannerDTO> Create(CreateBannerDTO model)
+        public async Task<ReturnMessage<BannerDTO>> CreateAsync(CreateBannerDTO model)
         {
             model.Title = StringExtension.CleanString(model.Title);
             if(model.Title == null)
@@ -37,15 +38,15 @@ namespace Service.Banners
             }
             try
             {
-                var userInfo = _userManager.GetInformationUser();
+                var userInfo = await _userManager.GetInformationUser();
                 if (userInfo.IsNullOrEmpty())
                 {
                     return new ReturnMessage<BannerDTO>(true, null, MessageConstants.CreateFail);
                 }
                 var entity = _mapper.Map<CreateBannerDTO, Banner>(model);
                 entity.Insert(userInfo);
-                _bannerRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _bannerRepository.InsertAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<BannerDTO>(false, _mapper.Map<Banner, BannerDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -55,21 +56,21 @@ namespace Service.Banners
             }
         }
 
-        public ReturnMessage<BannerDTO> Delete(DeleteBannerDTO model)
+        public async Task<ReturnMessage<BannerDTO>> DeleteAsync(DeleteBannerDTO model)
         {
             try
             {
-                var userInfo = _userManager.GetInformationUser();
+                var userInfo = await _userManager.GetInformationUser();
                 if (userInfo.IsNullOrEmpty())
                 {
                     return new ReturnMessage<BannerDTO>(true, null, MessageConstants.CreateFail);
                 }
-                var entity = _bannerRepository.Find(model.Id);
+                var entity = await _bannerRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Delete(userInfo);
                     _bannerRepository.Delete(entity);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<BannerDTO>(false, _mapper.Map<Banner, BannerDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -80,9 +81,8 @@ namespace Service.Banners
                 return new ReturnMessage<BannerDTO>(true, null, ex.Message);
             }
         }
-        public ReturnMessage<BannerDTO> Update(UpdateBannerDTO model)
+        public async Task<ReturnMessage<BannerDTO>> UpdateAsync(UpdateBannerDTO model)
         {
-
             model.Title = StringExtension.CleanString(model.Title);
             if (model.Title == null)
             {
@@ -90,17 +90,17 @@ namespace Service.Banners
             }
             try
             {
-                var userInfo = _userManager.GetInformationUser();
+                var userInfo = await _userManager.GetInformationUser();
                 if (userInfo.IsNullOrEmpty())
                 {
                     return new ReturnMessage<BannerDTO>(true, null, MessageConstants.CreateFail);
                 }
-                var entity = _bannerRepository.Find(model.Id);
+                var entity = await _bannerRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Update(userInfo, model);
-                    _bannerRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    await _bannerRepository.UpdateAsync(entity); //test flow
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<BannerDTO>(false, _mapper.Map<Banner, BannerDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -111,14 +111,14 @@ namespace Service.Banners
                 return new ReturnMessage<BannerDTO>(true, null, ex.Message);
             }
         }
-        public ReturnMessage<PaginatedList<BannerDTO>> SearchPagination(SearchPaginationDTO<BannerDTO> search)
+        public async Task<ReturnMessage<PaginatedList<BannerDTO>>> SearchPagination(SearchPaginationDTO<BannerDTO> search)
         {
             if (search == null)
             {
                 return new ReturnMessage<PaginatedList<BannerDTO>>(false, null, MessageConstants.DeleteSuccess);
             }
 
-            var resultEntity = _bannerRepository.GetPaginatedList(it => search.Search == null ||
+            var resultEntity = await _bannerRepository.GetPaginatedListAsync(it => search.Search == null ||
                 (
                     (
                         (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||

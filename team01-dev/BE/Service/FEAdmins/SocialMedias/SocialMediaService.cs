@@ -38,7 +38,7 @@ namespace Service.SocialMedias
                 var entity = _mapper.Map<CreateSocialMediaDTO, SocialMedia>(model);
                 entity.Insert();
                 _socialMediaRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<SocialMediaDTO>(false, _mapper.Map<SocialMedia, SocialMediaDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -57,7 +57,7 @@ namespace Service.SocialMedias
                 {
                     entity.Delete();
                     _socialMediaRepository.Delete(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<SocialMediaDTO>(false, _mapper.Map<SocialMedia, SocialMediaDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -83,7 +83,7 @@ namespace Service.SocialMedias
                 {
                     entity.Update(model);
                     _socialMediaRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<SocialMediaDTO>(false, _mapper.Map<SocialMedia, SocialMediaDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }

@@ -43,7 +43,7 @@ namespace Service.Blogs
                 entity.CreatedByName = CommonConstantsBlog.CreateByName;
                 entity.Insert();
                 _blogRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<BlogDTO>(false, _mapper.Map<Blog, BlogDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -62,7 +62,7 @@ namespace Service.Blogs
                 {
                     entity.Delete();
                     _blogRepository.Delete(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<BlogDTO>(false, _mapper.Map<Blog, BlogDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -93,7 +93,7 @@ namespace Service.Blogs
                 {
                     entity.Update(model);
                     _blogRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<BlogDTO>(false, _mapper.Map<Blog, BlogDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
 

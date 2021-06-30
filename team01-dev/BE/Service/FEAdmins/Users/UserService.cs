@@ -60,7 +60,7 @@ namespace Service.Users
                 entity.Insert();
                 entity.Type = UserType.Admin;
                 _userRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<UserDTO>(false, _mapper.Map<User, UserDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -83,7 +83,7 @@ namespace Service.Users
                 {
                     entity.Delete();
                     _userRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<UserDTO>(false, _mapper.Map<User, UserDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -116,7 +116,7 @@ namespace Service.Users
                 {
                     entity.Update(model);
                     _userRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<UserDTO>(false, _mapper.Map<User, UserDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }

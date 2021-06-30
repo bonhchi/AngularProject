@@ -44,7 +44,7 @@ namespace Service.Coupons
                 {
                     entity.Insert();
                     _couponRepository.Insert(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<CouponDTO>(false, _mapper.Map<Coupon, CouponDTO>(entity), MessageConstants.CreateSuccess);
                     return result;
                 }
@@ -65,7 +65,7 @@ namespace Service.Coupons
                 {
                     entity.Delete();
                     _couponRepository.Delete(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<CouponDTO>(false, _mapper.Map<Coupon, CouponDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -93,7 +93,7 @@ namespace Service.Coupons
                 {
                     entity.Update(model);
                     _couponRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<CouponDTO>(false, _mapper.Map<Coupon, CouponDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
 

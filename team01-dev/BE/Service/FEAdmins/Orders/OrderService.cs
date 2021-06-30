@@ -75,7 +75,7 @@ namespace Service.Orders
 
                     _orderRepository.Insert(entity);
 
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     _unitOfWork.Commit();
 
                     var result = GetById(entity.Id);
@@ -113,7 +113,7 @@ namespace Service.Orders
                 {
                     entity.Delete();
                     _orderRepository.Delete(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<OrderDTO>(false, _mapper.Map<Order, OrderDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -179,7 +179,7 @@ namespace Service.Orders
                     }
                     entity.Update(model);
                     _orderRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<OrderDTO>(false, _mapper.Map<Order, OrderDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }

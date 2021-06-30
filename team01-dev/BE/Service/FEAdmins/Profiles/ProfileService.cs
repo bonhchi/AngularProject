@@ -43,7 +43,7 @@ namespace Service.Profiles
                 {
                     entity.ChangePassword(model);
                     _userRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<UpdateProfileDTO>(false, _mapper.Map<User, UpdateProfileDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }
@@ -71,7 +71,7 @@ namespace Service.Profiles
                 {
                     entity.UpdateProfile(model);
                     _userRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<UserDataReturnDTO>(false, _mapper.Map<User, UserDataReturnDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }

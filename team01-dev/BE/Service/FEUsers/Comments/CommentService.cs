@@ -62,7 +62,7 @@ namespace Service.Comments
                 entity.Insert();
                 
                 _commentRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<CommentDTO>(false, _mapper.Map<Comment, CommentDTO>(entity), MessageConstants.UpdateRatingSuccess);
                 decimal ratingScore = CalculateRating(model);
                 var productEntity = _productRepository.Queryable().FirstOrDefault(p => p.Id == model.EntityId);
@@ -70,11 +70,11 @@ namespace Service.Comments
                 {
                     var blogEntity = _blogRepository.Queryable().FirstOrDefault(p => p.Id == model.EntityId);
                     blogEntity.UpdateRating(ratingScore);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     return result;
                 }
                 productEntity.UpdateRating(ratingScore);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 return result;
             }
             catch
@@ -93,7 +93,7 @@ namespace Service.Comments
                 {
                     entity.Delete();
                     _commentRepository.Delete(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<CommentDTO>(false, _mapper.Map<Comment, CommentDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }

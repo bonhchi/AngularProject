@@ -44,7 +44,7 @@ namespace Service.CustomerWishLists
                     {
                         checkExistEntity.Delete();
                         _wishListRepository.Delete(checkExistEntity);
-                        _unitOfWork.SaveChanges();
+                        _unitOfWork.SaveChangesAsync();
                         var _result = _mapper.Map<CustomerWishList, CustomerWishListDTO>(checkExistEntity);
                         return new ReturnMessage<CustomerWishListDTO>(false, _result, MessageConstants.DeleteSuccess);
                     }
@@ -53,7 +53,7 @@ namespace Service.CustomerWishLists
                     entity.CustomerId = userInfo.CustomerId.GetValueOrDefault();
                     entity.Insert();
                     _wishListRepository.Insert(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
 
                     var result = _mapper.Map<CustomerWishList, CustomerWishListDTO>(entity);
                     return new ReturnMessage<CustomerWishListDTO>(false, result, MessageConstants.CreateSuccess);

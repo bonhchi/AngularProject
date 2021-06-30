@@ -121,12 +121,12 @@ namespace Service.AuthCustomer
                 customer.User = user;
                 _customerRepository.Insert(customer);
 
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
 
                 user.CustomerId = customer.Id;
                 user.Customer = customer;
                 _userRepository.Update(user);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
 
                 var claims = new Claim[]
                     {

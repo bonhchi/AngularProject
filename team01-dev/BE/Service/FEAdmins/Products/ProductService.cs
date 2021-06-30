@@ -51,7 +51,7 @@ namespace Service.Products
                 entity.Category = category;
                 entity.Insert();
                 _productRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<ProductDTO>(false, _mapper.Map<Product, ProductDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -70,7 +70,7 @@ namespace Service.Products
                 {
                     entity.Delete();
                     _productRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<ProductDTO>(false, _mapper.Map<Product, ProductDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -149,7 +149,7 @@ namespace Service.Products
                 {
                     entity.Update(model);
                     _productRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<ProductDTO>(false, _mapper.Map<Product, ProductDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }
@@ -197,7 +197,7 @@ namespace Service.Products
                 var entity = _mapper.Map<Product>(product);
 
                 _productRepository.Update(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<UpdateProductDTO>(false, product, MessageConstants.UpdateSuccess);
                 return result;
                 

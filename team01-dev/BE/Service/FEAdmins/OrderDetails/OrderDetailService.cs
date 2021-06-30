@@ -42,7 +42,7 @@ namespace Service.OrderDetails
                 {
                     entity.Delete();
                     _orderDetailRepository.Delete(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<OrderDetailDTO>(false, _mapper.Map<OrderDetail, OrderDetailDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -87,7 +87,7 @@ namespace Service.OrderDetails
                 {
                     entity.Update(model);
                     _orderDetailRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<OrderDetailDTO>(false, _mapper.Map<OrderDetail, OrderDetailDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }

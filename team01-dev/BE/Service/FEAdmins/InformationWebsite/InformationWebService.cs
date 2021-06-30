@@ -60,7 +60,7 @@ namespace Service.InformationWebsiteServices
                 {
                     entity.Update(model);
                     _informationWebRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
 
                     var result = new ReturnMessage<InformationWebDTO>(false, _mapper.Map<InformationWebsite, InformationWebDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;

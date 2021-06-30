@@ -6,11 +6,12 @@ using Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.Banners
 {
     public interface IBannerService : ICommonCRUDService<BannerDTO, CreateBannerDTO, UpdateBannerDTO, DeleteBannerDTO>
     {
-        ReturnMessage<PaginatedList<BannerDTO>> SearchPagination(SearchPaginationDTO<BannerDTO> search);
+        Task<ReturnMessage<PaginatedList<BannerDTO>>> SearchPagination(SearchPaginationDTO<BannerDTO> search);
     }
 }

@@ -30,5 +30,10 @@ namespace Infrastructure.EntityFramework
         Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate = null);
 
         Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, params string[] propertiesIncluded);
+
+        Task<PaginatedList<TEntity>> GetPaginatedListAsync(Expression<Func<TEntity, bool>> predicate = null,
+        int take = 50, int skip = 0,
+        Expression<Func<TEntity, object>> orderExpression = null,
+        params string[] propertiesIncluded);
     }
 }

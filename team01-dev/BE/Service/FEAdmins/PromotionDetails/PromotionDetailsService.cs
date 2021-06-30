@@ -31,7 +31,7 @@ namespace Service.PromotionDetails
                 var entity = _mapper.Map<CreatePromotionDetailDTO, PromotionDetail>(model);
                 entity.Insert();
                 _promotionDetailRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<PromotionDetailDTO>(false, _mapper.Map<PromotionDetail, PromotionDetailDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -51,7 +51,7 @@ namespace Service.PromotionDetails
                     entity.Delete();
                     entity.IsDeleted = true;
                     _promotionDetailRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<PromotionDetailDTO>(false, _mapper.Map<PromotionDetail, PromotionDetailDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -96,7 +96,7 @@ namespace Service.PromotionDetails
                 {
                     entity.Update(model);
                     _promotionDetailRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<PromotionDetailDTO>(false, _mapper.Map<PromotionDetail, PromotionDetailDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }
