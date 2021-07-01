@@ -28,7 +28,8 @@ namespace BE.Controllers.FEUsers
 
         [HttpGet]
         [Route(UrlConstants.Category)]
-        public IActionResult GetCategory()
+        //async
+        public async Task<IActionResult> GetCategory()
         {
             var result = _userProductListService.GetCategory();
             return CommonResponse(result);
@@ -36,11 +37,12 @@ namespace BE.Controllers.FEUsers
 
         [HttpGet]
         [Route(UrlConstants.Product)]
-        public IActionResult GetProduct([FromQuery] SearchPaginationUserFEDTO<ProductDTO> dto)
+        public async Task<IActionResult> GetProduct([FromQuery] SearchPaginationUserFEDTO<ProductDTO> dto)
         {
-            var result = _userProductListService.SearchPagination(dto);
+            var result = await _userProductListService.SearchPagination(dto);
             return CommonResponse(result);
         }
+        //async
         [HttpGet]
         [Route(UrlConstants.ByCategory)]
         public IActionResult GetByCategory([FromQuery] Guid id)

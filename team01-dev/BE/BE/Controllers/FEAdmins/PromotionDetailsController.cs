@@ -25,33 +25,32 @@ namespace BE.Controllers.FEAdmins
         {
             _promotionDetailsService = promotionDetailsService;
         }
-
+        //async
         [HttpGet]
         public IActionResult Get([FromQuery] SearchPaginationDTO<PromotionDetailDTO> serachPagination)
         {
-
             var result = _promotionDetailsService.SearchPagination(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreatePromotionDetailDTO model)
+        public async Task<IActionResult> Create([FromBody] CreatePromotionDetailDTO model)
         {
-            var result = _promotionDetailsService.Create(model);
+            var result = await _promotionDetailsService.CreateAsync(model);
             return CommonResponse(result);
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdatePromotionDetailDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdatePromotionDetailDTO model)
         {
-            var result = _promotionDetailsService.Update(model);
+            var result = await _promotionDetailsService.UpdateAsync(model);
             return CommonResponse(result);
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeletePromotionDetailDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeletePromotionDetailDTO model)
         {
-            var result = _promotionDetailsService.Delete(model);
+            var result = await _promotionDetailsService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

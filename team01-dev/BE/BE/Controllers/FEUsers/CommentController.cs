@@ -44,16 +44,16 @@ namespace BE.Controllers.FEUsers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Post([FromBody] CreateCommentDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateCommentDTO model)
         {
-            var result = _commentService.Create(model);
+            var result = await _commentService.CreateAsync(model);
             return CommonResponse(result);
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteCommentDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteCommentDTO model)
         {
-            var result = _commentService.Delete(model);
+            var result = await _commentService.DeleteAsync(model);
             return CommonResponse(result);
         }
         

@@ -8,6 +8,7 @@ using Service.Files;
 using Service.Home;
 using Service.PageContents;
 using System;
+using System.Threading.Tasks;
 
 namespace BE.ControllersFeUser.FEAdmins
 {
@@ -32,25 +33,25 @@ namespace BE.ControllersFeUser.FEAdmins
 
         [Authorize]
         [HttpPost]
-        public IActionResult Create([FromBody] CreatePageContentDTO model)
+        public async Task<IActionResult> Create([FromBody] CreatePageContentDTO model)
         {
-            var result = _pageContentService.Create(model);
+            var result = await _pageContentService.CreateAsync(model);
             return CommonResponse(result);
         }
 
         [Authorize]
         [HttpPut]
-        public IActionResult Put([FromBody] UpdatePageContentDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdatePageContentDTO model)
         {
-            var result = _pageContentService.Update(model);
+            var result = await _pageContentService.UpdateAsync(model);
             return CommonResponse(result);
         }
 
         [Authorize]
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeletePageContentDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeletePageContentDTO model)
         {
-            var result = _pageContentService.Delete(model);
+            var result = await _pageContentService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

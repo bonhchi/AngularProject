@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using static Common.Constants.DataType;
 
 namespace Service.UserProductList
@@ -32,7 +33,7 @@ namespace Service.UserProductList
             _productRepository = productRepository;
             _mapper = mapper;
             _userManager = userManager;
-            _userInformationDto = _userManager.GetInformationUser();
+
         }
 
         public ReturnMessage<List<ProductDTO>> GetByCategory(Guid id)
@@ -66,10 +67,11 @@ namespace Service.UserProductList
             }
         }
 
-        public ReturnMessage<PaginatedList<ProductDTO>> SearchPagination(SearchPaginationUserFEDTO<ProductDTO> search)
+        public async Task<ReturnMessage<PaginatedList<ProductDTO>>> SearchPagination(SearchPaginationUserFEDTO<ProductDTO> search)
         {
             try
             {
+                _userInformationDto = await _userManager.GetInformationUser();
                 if (search == null)
                 {
                     return new ReturnMessage<PaginatedList<ProductDTO>>(false, null, MessageConstants.Error);

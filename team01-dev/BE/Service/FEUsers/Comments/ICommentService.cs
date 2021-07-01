@@ -6,6 +6,7 @@ using Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.Comments
 {
@@ -13,8 +14,8 @@ namespace Service.Comments
     {
         public ReturnMessage<PaginatedList<CommentDTO>> BlogPagination(SearchPaginationDTO<CommentDTO> search);
         public ReturnMessage<PaginatedList<CommentDTO>> ProductPagination(SearchPaginationDTO<CommentDTO> search);
-        public ReturnMessage<CommentDTO> Create(CreateCommentDTO model);
-        public ReturnMessage<CommentDTO> Delete(DeleteCommentDTO model);
+        public Task<ReturnMessage<CommentDTO>> CreateAsync(CreateCommentDTO model);
+        public Task<ReturnMessage<CommentDTO>> DeleteAsync(DeleteCommentDTO model);
 
     }
 }

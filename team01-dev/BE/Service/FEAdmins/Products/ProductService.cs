@@ -11,16 +11,17 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.Products
 {
     public class ProductService : IProductService
     {
-        private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<Product> _productRepository;
+        private readonly IRepositoryAsync<Category> _categoryRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
-        public ProductService(IRepository<Category> categoryRepository, IRepository<Product> productRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public ProductService(IRepositoryAsync<Category> categoryRepository, IRepositoryAsync<Product> productRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper)
         {
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
@@ -28,7 +29,7 @@ namespace Service.Products
             _categoryRepository = categoryRepository;
         }
 
-        public ReturnMessage<ProductDTO> Create(CreateProductDTO model)
+        public async Task<ReturnMessage<ProductDTO>> CreateAsync(CreateProductDTO model)
         {
             model.Name = StringExtension.CleanString(model.Name);
             model.Description = StringExtension.CleanString(model.Description);
@@ -42,7 +43,7 @@ namespace Service.Products
             try
             {
                 var entity = _mapper.Map<CreateProductDTO, Product>(model);
-                var category = _categoryRepository.Find(model.CategoryId);
+                var category = await _categoryRepository.FindAsync(model.CategoryId);
                 if (category == null)
                 {
                     return new ReturnMessage<ProductDTO>(true, null, MessageConstants.Error);
@@ -50,8 +51,8 @@ namespace Service.Products
                 entity.CategoryId = category.Id;
                 entity.Category = category;
                 entity.Insert();
-                _productRepository.Insert(entity);
-                _unitOfWork.SaveChangesAsync();
+                _productRepository.InsertAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<ProductDTO>(false, _mapper.Map<Product, ProductDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -61,16 +62,16 @@ namespace Service.Products
             }
         }
 
-        public ReturnMessage<ProductDTO> Delete(DeleteProductDTO model)
+        public async Task<ReturnMessage<ProductDTO>> DeleteAsync(DeleteProductDTO model)
         {
             try
             {
-                var entity = _productRepository.Find(model.Id);
+                var entity = await _productRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Delete();
-                    _productRepository.Update(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _productRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<ProductDTO>(false, _mapper.Map<Product, ProductDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -123,7 +124,7 @@ namespace Service.Products
             return result;
         }
 
-        public ReturnMessage<ProductDTO> Update(UpdateProductDTO model)
+        public async Task<ReturnMessage<ProductDTO>> UpdateAsync(UpdateProductDTO model)
         {
 
             model.Name = StringExtension.CleanString(model.Name);
@@ -137,7 +138,7 @@ namespace Service.Products
             try
             {
                 var entity = _mapper.Map<UpdateProductDTO, Product>(model);
-                var category = _categoryRepository.Find(model.CategoryId);
+                var category = await _categoryRepository.FindAsync(model.CategoryId);
                 if (category == null)
                 {
                     return new ReturnMessage<ProductDTO>(true, null, MessageConstants.Error);
@@ -148,8 +149,8 @@ namespace Service.Products
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Update(model);
-                    _productRepository.Update(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _productRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<ProductDTO>(false, _mapper.Map<Product, ProductDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }

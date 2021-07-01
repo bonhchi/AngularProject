@@ -64,7 +64,7 @@ namespace Service.Files
 
         }
 
-        public async Task<ReturnMessage<List<FileDTO>>> Delete(List<DeleteFileDTO> model)
+        public async Task<ReturnMessage<List<FileDTO>>> DeleteAsync(List<DeleteFileDTO> model)
         {
             if (model.IsNullOrEmpty())
             {
@@ -78,7 +78,7 @@ namespace Service.Files
                 {
                     return new ReturnMessage<List<FileDTO>>(true, null, MessageConstants.CreateFail);
                 }
-                var entities = _fileRepository.Queryable().Where(it => model.IndexOf(_mapper.Map<Domain.Entities.File, DeleteFileDTO>(it)) > -1);
+                var entities = _fileRepository.Queryable().Where(it => model.IndexOf(_mapper.Map<File, DeleteFileDTO>(it)) > -1);
                 entities.ToList().ForEach(it =>
                 {
                     it.Delete(userInfo);
@@ -89,7 +89,7 @@ namespace Service.Files
                 await _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
 
-                var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<Domain.Entities.File>, List<FileDTO>>(entities.ToList()), MessageConstants.DeleteSuccess);
+                var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<File>, List<FileDTO>>(entities.ToList()), MessageConstants.DeleteSuccess);
                 return result;
             }
             catch (Exception ex)
@@ -123,7 +123,7 @@ namespace Service.Files
             return result;
         }
 
-        public async Task<ReturnMessage<List<FileDTO>>> Update(List<UpdateFileDTO> model)
+        public async Task<ReturnMessage<List<FileDTO>>> UpdateAsync(List<UpdateFileDTO> model)
         {
             if (model.IsNullOrEmpty())
             {

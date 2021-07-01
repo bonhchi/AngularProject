@@ -16,18 +16,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.Customers
 {
     public class CustomerService : ICustomerService
     {
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Customer> _customerRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<User> _userRepository;
+        private readonly IRepositoryAsync<Customer> _customerRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserManager _userManager;
 
-        public CustomerService(IRepository<User> userRepository, IUnitOfWork unitOfWork, IMapper mapper, IRepository<Customer> customerRepository, IUserManager userManager)
+        public CustomerService(IRepositoryAsync<User> userRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IRepositoryAsync<Customer> customerRepository, IUserManager userManager)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
@@ -36,7 +37,7 @@ namespace Service.Customers
             _userManager = userManager;
         }
 
-        public ReturnMessage<CustomerDTO> Create(CreateCustomerDTO model)
+        public async Task<ReturnMessage<CustomerDTO>> CreateAsync(CreateCustomerDTO model)
         {
             model.Username = StringExtension.CleanString(model.Username);
             model.Password = StringExtension.CleanString(model.Password);
@@ -47,7 +48,7 @@ namespace Service.Customers
             }
             try
             {
-                var userInfo = _userManager.GetInformationUser();
+                var userInfo = await _userManager.GetInformationUser();
                 if (userInfo.IsNullOrEmpty())
                 {
                     return new ReturnMessage<CustomerDTO>(true, null, MessageConstants.CreateFail);
@@ -78,18 +79,20 @@ namespace Service.Customers
                 customer.Insert(userInfo);
 
                 _unitOfWork.BeginTransaction();
-                _userRepository.Insert(user);
+                _userRepository.InsertAsync(user);
+                
+                //check error with savechange
 
                 customer.UserId = user.Id;
                 customer.User = user;
                 _customerRepository.Insert(customer);
 
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
 
                 user.CustomerId = customer.Id;
                 user.Customer = customer;
                 _userRepository.Update(user);
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
 
                 _unitOfWork.Commit();
                 var result = new ReturnMessage<CustomerDTO>(false, _mapper.Map<User, CustomerDTO>(user), MessageConstants.CreateSuccess);
@@ -102,11 +105,11 @@ namespace Service.Customers
             }
         }
 
-        public ReturnMessage<CustomerDTO> Delete(DeleteCustomerDTO model)
+        public async Task<ReturnMessage<CustomerDTO>> DeleteAsync(DeleteCustomerDTO model)
         {
             try
             {
-                var userInfo = _userManager.GetInformationUser();
+                var userInfo = await _userManager.GetInformationUser();
                 if (userInfo.IsNullOrEmpty())
                 {
                     return new ReturnMessage<CustomerDTO>(true, null, MessageConstants.CreateFail);
@@ -122,13 +125,13 @@ namespace Service.Customers
                 var customer = _customerRepository.Find(user.CustomerId);
 
                 _unitOfWork.BeginTransaction();
-                _userRepository.Update(user);
+                await _userRepository.UpdateAsync(user);
                 if(customer.IsNotNullOrEmpty())
                 {
                     customer.Delete(userInfo);
                     _customerRepository.Update(customer);
                 }
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
                 var result = new ReturnMessage<CustomerDTO>(false, _mapper.Map<User, CustomerDTO>(user), MessageConstants.DeleteSuccess);
                 return result;
@@ -140,7 +143,7 @@ namespace Service.Customers
             }
         }
 
-        public ReturnMessage<CustomerDTO> Update(UpdateCustomerDTO model)
+        public async Task<ReturnMessage<CustomerDTO>> UpdateAsync(UpdateCustomerDTO model)
         {
             model.Username = StringExtension.CleanString(model.Username);
             model.Password = StringExtension.CleanString(model.Password);
@@ -151,7 +154,7 @@ namespace Service.Customers
             }
             try
             {
-                var userInfo = _userManager.GetInformationUser();
+                var userInfo = await _userManager.GetInformationUser();
                 if (userInfo.IsNullOrEmpty())
                 {
                     return new ReturnMessage<CustomerDTO>(true, null, MessageConstants.CreateFail);
@@ -167,7 +170,7 @@ namespace Service.Customers
                     return new ReturnMessage<CustomerDTO>(true, null, MessageConstants.Error);
                 }
 
-                var customer = _customerRepository.Find(user.CustomerId);
+                var customer = await _customerRepository.FindAsync(user.CustomerId);
                 if (customer.IsNullOrEmpty())
                 {
                     return new ReturnMessage<CustomerDTO>(true, null, MessageConstants.Error);
@@ -192,8 +195,8 @@ namespace Service.Customers
                 user.Update(userInfo, model);
                 _userRepository.Update(user);
                 customer.Update(userInfo, model);
-                _customerRepository.Update(customer);
-                _unitOfWork.SaveChangesAsync();
+                await _customerRepository.UpdateAsync(customer);
+                await _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
                 var result = new ReturnMessage<CustomerDTO>(false, _mapper.Map<User, CustomerDTO>(user), MessageConstants.UpdateSuccess);
                 return result;

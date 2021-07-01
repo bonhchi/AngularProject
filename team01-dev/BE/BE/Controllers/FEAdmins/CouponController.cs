@@ -26,31 +26,33 @@ namespace BE.Controllers.FEAdmins
         {
             _couponService = couponService;
         }
+
+        // async 
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<CouponDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<CouponDTO> serachPagination)
         {
             var result = _couponService.SearchPagination(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateCouponDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateCouponDTO model)
         {
-            var result = _couponService.Create(model);
+            var result = await _couponService.CreateAsync(model);
             return CommonResponse(result);
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateCouponDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateCouponDTO model)
         {
-            var result = _couponService.Update(model);
+            var result = await _couponService.UpdateAsync(model);
             return CommonResponse(result);
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteCouponDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteCouponDTO model)
         {
-            var result = _couponService.Delete(model);
+            var result = await _couponService.DeleteAsync(model);
             return CommonResponse(result);
         }
 

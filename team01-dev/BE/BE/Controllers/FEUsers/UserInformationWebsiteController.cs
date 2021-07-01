@@ -21,11 +21,10 @@ namespace BE.Controllers.FEUsers
             _infomationWebService = infomationWebService;
         }
 
-
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var result = _infomationWebService.GetInfo();
+            var result = await _infomationWebService.GetInfo();
             return CommonResponse(result);
         }
     }

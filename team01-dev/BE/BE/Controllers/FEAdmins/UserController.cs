@@ -8,6 +8,7 @@ using Service.Auth;
 using Service.Files;
 using Service.Users;
 using System;
+using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
 {
@@ -34,22 +35,22 @@ namespace BE.Controllers.FEAdmins
         [Authorize]
         [Route(UrlConstants.GetUser)]
         [HttpGet]
-        public IActionResult GetDetailUser(Guid id)
+        public async Task<IActionResult> GetDetailUser(Guid id)
         {
-            var result = _userService.GetDetailUser(id);
+            var result = await _userService.GetDetailUser(id);
             return CommonResponse(result);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult Create([FromBody] CreateUserDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateUserDTO model)
         {
-            var result = _userService.Create(model);
+            var result = await _userService.CreateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -59,14 +60,14 @@ namespace BE.Controllers.FEAdmins
 
         [Authorize]
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateUserDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateUserDTO model)
         {
-            var result = _userService.Update(model);
+            var result = await _userService.UpdateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -76,9 +77,9 @@ namespace BE.Controllers.FEAdmins
 
         [Authorize]
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteUserDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteUserDTO model)
         {
-            var result = _userService.Delete(model);
+            var result = await _userService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

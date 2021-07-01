@@ -27,22 +27,23 @@ namespace BE.Controllers.FEAdmins
             _customerService = customerService;
         }
 
+        //async
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<CustomerDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<CustomerDTO> serachPagination)
         {
             var result = _customerService.SearchPagination(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateCustomerDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateCustomerDTO model)
         {
-            var result = _customerService.Create(model);
+            var result = await _customerService.CreateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -51,14 +52,14 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateCustomerDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateCustomerDTO model)
         {
-            var result = _customerService.Update(model);
+            var result = await _customerService.UpdateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -67,9 +68,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteCustomerDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteCustomerDTO model)
         {
-            var result = _customerService.Delete(model);
+            var result = await _customerService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

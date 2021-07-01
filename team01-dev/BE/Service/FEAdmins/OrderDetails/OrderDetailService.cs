@@ -12,37 +12,38 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.OrderDetails
 {
     public class OrderDetailService : IOrderDetailService
     {
-        private readonly IRepository<OrderDetail> _orderDetailRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<OrderDetail> _orderDetailRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
-        public OrderDetailService(IRepository<OrderDetail> orderDetailRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public OrderDetailService(IRepositoryAsync<OrderDetail> orderDetailRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper)
         {
             _orderDetailRepository = orderDetailRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public ReturnMessage<OrderDetailDTO> Create(CreateOrderDetailDTO model)
+        //not use
+        public async Task<ReturnMessage<OrderDetailDTO>> CreateAsync(CreateOrderDetailDTO model)
         {
-
-                return new ReturnMessage<OrderDetailDTO>(false, null, null);
+            return new ReturnMessage<OrderDetailDTO>(false, null, null);
         }
 
-        public ReturnMessage<OrderDetailDTO> Delete(DeleteOrderDetailDTO model)
+        public async Task<ReturnMessage<OrderDetailDTO>> DeleteAsync(DeleteOrderDetailDTO model)
             {
             try
             {
-                var entity = _orderDetailRepository.Find(model.Id);
+                var entity = await _orderDetailRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Delete();
-                    _orderDetailRepository.Delete(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _orderDetailRepository.DeleteAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<OrderDetailDTO>(false, _mapper.Map<OrderDetail, OrderDetailDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -78,16 +79,16 @@ namespace Service.OrderDetails
             return result;
         }
 
-        public ReturnMessage<OrderDetailDTO> Update(UpdateOrderDetailDTO model)
+        public async Task<ReturnMessage<OrderDetailDTO>> UpdateAsync(UpdateOrderDetailDTO model)
         {
             try
             {
-                var entity = _orderDetailRepository.Find(model.Id);
+                var entity = await _orderDetailRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Update(model);
-                    _orderDetailRepository.Update(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _orderDetailRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<OrderDetailDTO>(false, _mapper.Map<OrderDetail, OrderDetailDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }

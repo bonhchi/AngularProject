@@ -26,21 +26,21 @@ namespace Service.AuthCustomer
 {
     public class AuthCustomerUserService : IAuthCustomerUserService
     {
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Customer> _customerRepository;
+        private readonly IRepositoryAsync<User> _userRepository;
+        private readonly IRepositoryAsync<Customer> _customerRepository;
 
         private readonly IUserManager _userManager;
         private readonly IMapper _mapper;
         private readonly IGmailService _gmailService;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IInfomationWebService _infomationWebService;
 
-        public AuthCustomerUserService(IRepository<User> repository,
+        public AuthCustomerUserService(IRepositoryAsync<User> repository,
             IMapper mapper,
-            IRepository<Customer> customerRepository,
+            IRepositoryAsync<Customer> customerRepository,
             IUserManager userManager,
             IGmailService gmailService,
-            IUnitOfWork unitOfWork, IInfomationWebService infomationWebService)
+            IUnitOfWorkAsync unitOfWork, IInfomationWebService infomationWebService)
         {
             _userRepository = repository;
             _mapper = mapper;

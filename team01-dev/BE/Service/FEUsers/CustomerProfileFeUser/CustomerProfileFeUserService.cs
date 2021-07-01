@@ -23,14 +23,14 @@ namespace Service.CustomerProfileFeUser
 {
     public class CustomerProfileFeUserService : ICustomerProfileFeUserService
     {
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Customer> _customerRepository;
-        private readonly IAuthCustomerUserService _authCustomerUserService;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<User> _userRepository;
+        private readonly IRepositoryAsync<Customer> _customerRepository;
+        private readonly IAuthCustomerUserService _authCustomerUserService;//not use
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserManager _userManager;
 
-        public CustomerProfileFeUserService(IRepository<User> userRepository, IRepository<Customer> customerRepository, IAuthCustomerUserService authCustomerUserService, IUnitOfWork unitOfWork, IMapper mapper, IAuthService authService, IUserManager userManager)
+        public CustomerProfileFeUserService(IRepositoryAsync<User> userRepository, IRepositoryAsync<Customer> customerRepository, IAuthCustomerUserService authCustomerUserService, IUnitOfWorkAsync unitOfWork, IMapper mapper, IAuthService authService, IUserManager userManager)
         {
             _userRepository = userRepository;
             _customerRepository = customerRepository;

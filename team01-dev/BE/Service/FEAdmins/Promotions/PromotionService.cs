@@ -10,29 +10,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.Promotions
 {
     public class PromotionService : IPromotionService
     {
-        private readonly IRepository<Promotion> _promotionRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<Promotion> _promotionRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
 
-        public PromotionService(IRepository<Promotion> promotionRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public PromotionService(IRepositoryAsync<Promotion> promotionRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper)
         {
             _promotionRepository = promotionRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public ReturnMessage<PromotionDTO> Create(CreatePromotionDTO model)
+        public async Task<ReturnMessage<PromotionDTO>> CreateAsync(CreatePromotionDTO model)
         {
             try
             {
                 var entity = _mapper.Map<CreatePromotionDTO, Promotion>(model);
                 entity.Insert();
-                _promotionRepository.Insert(entity);
-                _unitOfWork.SaveChangesAsync();
+                _promotionRepository.InsertAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<PromotionDTO>(false, _mapper.Map<Promotion, PromotionDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -42,17 +43,17 @@ namespace Service.Promotions
             }
         }
 
-        public ReturnMessage<PromotionDTO> Delete(DeletePromotionDTO model)
+        public async Task<ReturnMessage<PromotionDTO>> DeleteAsync(DeletePromotionDTO model)
         {
             try
             {
-                var entity = _promotionRepository.Find(model.Id);
+                var entity = await _promotionRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Delete();
                     entity.IsDeleted = true;
                     _promotionRepository.Update(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<PromotionDTO>(false, _mapper.Map<Promotion, PromotionDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -90,16 +91,16 @@ namespace Service.Promotions
             return result;
         }
 
-        public ReturnMessage<PromotionDTO> Update(UpdatePromotionDTO model)
+        public async Task<ReturnMessage<PromotionDTO>> UpdateAsync(UpdatePromotionDTO model)
         {
             try
             {
-                var entity = _promotionRepository.Find(model.Id);
+                var entity = await _promotionRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Update(model);
-                    _promotionRepository.Update(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _promotionRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<PromotionDTO>(false, _mapper.Map<Promotion, PromotionDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }

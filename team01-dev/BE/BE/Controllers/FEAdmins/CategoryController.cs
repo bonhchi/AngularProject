@@ -10,6 +10,7 @@ using Service.Categories;
 using Service.Files;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
 {
@@ -28,20 +29,19 @@ namespace BE.Controllers.FEAdmins
         [HttpGet]
         public IActionResult Get([FromQuery] SearchPaginationDTO<CategoryDTO> serachPagination)
         {
-
             var result = _categoryService.SearchPagination(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateCategoryDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateCategoryDTO model)
         {
-            var result = _categoryService.Create(model);
+            var result = await _categoryService.CreateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -50,14 +50,14 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateCategoryDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateCategoryDTO model)
         {
-            var result = _categoryService.Update(model);
+            var result = await _categoryService.UpdateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -66,9 +66,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteCategoryDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteCategoryDTO model)
         {
-            var result = _categoryService.Delete(model);
+            var result = await _categoryService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

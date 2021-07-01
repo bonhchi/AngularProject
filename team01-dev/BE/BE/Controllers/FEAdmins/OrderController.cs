@@ -9,6 +9,7 @@ using Service.Orders;
 using Service.Files;
 using System;
 using Service.OrderDetails;
+using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
 {
@@ -23,7 +24,7 @@ namespace BE.Controllers.FEAdmins
         {
             _orderService = orderService;
         }
-
+        //async
         [HttpGet]
         public IActionResult Get([FromQuery] SearchPaginationDTO<OrderDTO> serachPagination)
         {
@@ -32,14 +33,14 @@ namespace BE.Controllers.FEAdmins
         }
         [HttpGet]
         [Route(UrlConstants.OrderStatus)]
-
+        //async
         public IActionResult GetByStatus([FromQuery] string status)
         {
             var result = _orderService.GetByStatus(status);
             return CommonResponse(result);
         }
 
-
+        //async
         [HttpGet]
         [Route(UrlConstants.OrderId)]
         public IActionResult GetById([FromQuery] Guid id)
@@ -50,23 +51,23 @@ namespace BE.Controllers.FEAdmins
 
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateOrderDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateOrderDTO model)
         {
-            var result = _orderService.Create(model);
+            var result = await _orderService.CreateAsync(model);
             return CommonResponse(result);
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateOrderDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateOrderDTO model)
         {
-            var result = _orderService.Update(model);
+            var result = await _orderService.UpdateAsync(model);
             return CommonResponse(result);
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteOrderDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteOrderDTO model)
         {
-            var result = _orderService.Delete(model);
+            var result = await _orderService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

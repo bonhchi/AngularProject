@@ -6,6 +6,7 @@ using Infrastructure.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.UserProductList
 {
@@ -13,7 +14,7 @@ namespace Service.UserProductList
     {
         public ReturnMessage<IEnumerable<CategoryDTO>> GetCategory();
         ReturnMessage<List<ProductDTO>> GetByCategory(Guid id);
-        ReturnMessage<PaginatedList<ProductDTO>> SearchPagination(SearchPaginationUserFEDTO<ProductDTO> search);
+        Task<ReturnMessage<PaginatedList<ProductDTO>>> SearchPagination(SearchPaginationUserFEDTO<ProductDTO> search);
         ReturnMessage<List<ProductDTO>> RelevantProduct(string name);
     }
 }

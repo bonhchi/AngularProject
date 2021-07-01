@@ -8,23 +8,24 @@ using AutoMapper;
 using Common.Constants;
 using Infrastructure.Extensions;
 using Common.StringEx;
+using System.Threading.Tasks;
 
 namespace Service.InformationWebsiteServices
 {
     public class InformationWebService : IInfomationWebService
     {
-        private readonly IRepository<InformationWebsite> _informationWebRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<InformationWebsite> _informationWebRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
-        public InformationWebService(IRepository<InformationWebsite> informationWebRepository, IMapper mapper, IUnitOfWork unitOfWork)
+        public InformationWebService(IRepositoryAsync<InformationWebsite> informationWebRepository, IMapper mapper, IUnitOfWorkAsync unitOfWork)
         {
             _informationWebRepository = informationWebRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
-        public ReturnMessage<InformationWebDTO> GetInfo()
+        public async Task<ReturnMessage<InformationWebDTO>> GetInfo()
         {
-            var entity = _informationWebRepository.Find(CommonConstants.WebSiteInformationId);
+            var entity = await _informationWebRepository.FindAsync(CommonConstants.WebSiteInformationId);
 
             if(entity == null)
             {
@@ -38,7 +39,7 @@ namespace Service.InformationWebsiteServices
             return result;
         }
 
-        public ReturnMessage<InformationWebDTO> Update(UpdateInformationWebDTO model)
+        public async Task<ReturnMessage<InformationWebDTO>> UpdateAsync(UpdateInformationWebDTO model)
         {
             model.Title = StringExtension.CleanString(model.Title);
             model.Description = StringExtension.CleanString(model.Description);
@@ -55,12 +56,12 @@ namespace Service.InformationWebsiteServices
             }
             try
             {
-                var entity = _informationWebRepository.Find(CommonConstants.WebSiteInformationId);
+                var entity = await _informationWebRepository.FindAsync(CommonConstants.WebSiteInformationId);
                 if(entity.IsNotNullOrEmpty())
                 {
                     entity.Update(model);
-                    _informationWebRepository.Update(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _informationWebRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
 
                     var result = new ReturnMessage<InformationWebDTO>(false, _mapper.Map<InformationWebsite, InformationWebDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
@@ -69,7 +70,6 @@ namespace Service.InformationWebsiteServices
             }
             catch(Exception ex)
             {
-
                 return new ReturnMessage<InformationWebDTO>(true, null, ex.Message);
             }
 

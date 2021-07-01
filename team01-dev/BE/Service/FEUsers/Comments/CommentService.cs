@@ -11,34 +11,35 @@ using Service.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.Comments
 {
     public class CommentService : ICommentService
     {
-        private readonly IRepository<Comment> _commentRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<Comment> _commentRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<Blog> _blogRepository;
+        private readonly IRepositoryAsync<Product> _productRepository;
+        private readonly IRepositoryAsync<Blog> _blogRepository;
         private readonly IUserManager _userManager;
-        private readonly UserInformationDTO _userInformation;
+        //private readonly UserInformationDTO _userInformation;
 
-        public CommentService(IRepository<Comment> commentRepository, IUnitOfWork unitOfWork, IMapper mapper, IUserManager userManager, IRepository<Product> productRepository, IRepository<Blog> blogRepository)
+        public CommentService(IRepositoryAsync<Comment> commentRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IUserManager userManager, IRepositoryAsync<Product> productRepository, IRepositoryAsync<Blog> blogRepository)
         {
             _commentRepository = commentRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _userManager = userManager;
-            _userInformation = _userManager.GetInformationUser();
             _productRepository = productRepository;
             _blogRepository = blogRepository;
         }
 
-        public ReturnMessage<CommentDTO> Create(CreateCommentDTO model)
+        public async Task<ReturnMessage<CommentDTO>> CreateAsync(CreateCommentDTO model)
         {
             try
             {
+                var _userInformation = await _userManager.GetInformationUser();
                 if (String.IsNullOrEmpty(model.Content.Trim()))
                     return new ReturnMessage<CommentDTO>(true, null, MessageConstants.EmptyContentComment);
 
@@ -61,8 +62,8 @@ namespace Service.Comments
                 entity.FullName = _userInformation.FirstName + " " + _userInformation.LastName;
                 entity.Insert();
                 
-                _commentRepository.Insert(entity);
-                _unitOfWork.SaveChangesAsync();
+                _commentRepository.InsertAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<CommentDTO>(false, _mapper.Map<Comment, CommentDTO>(entity), MessageConstants.UpdateRatingSuccess);
                 decimal ratingScore = CalculateRating(model);
                 var productEntity = _productRepository.Queryable().FirstOrDefault(p => p.Id == model.EntityId);
@@ -70,11 +71,11 @@ namespace Service.Comments
                 {
                     var blogEntity = _blogRepository.Queryable().FirstOrDefault(p => p.Id == model.EntityId);
                     blogEntity.UpdateRating(ratingScore);
-                    _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.SaveChangesAsync();
                     return result;
                 }
                 productEntity.UpdateRating(ratingScore);
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
                 return result;
             }
             catch
@@ -83,17 +84,17 @@ namespace Service.Comments
             }
         }
 
-        
-        public ReturnMessage<CommentDTO> Delete(DeleteCommentDTO model)
+        //not use
+        public async Task<ReturnMessage<CommentDTO>> DeleteAsync(DeleteCommentDTO model)
         {
             try
             {
-                var entity = _commentRepository.Find(model.Id);
+                var entity = await _commentRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Delete();
                     _commentRepository.Delete(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<CommentDTO>(false, _mapper.Map<Comment, CommentDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }

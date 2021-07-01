@@ -3,13 +3,14 @@ using Domain.DTOs.InfomationWeb;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.InformationWebsiteServices
 {
     public interface IInfomationWebService
     {
-        ReturnMessage<InformationWebDTO> GetInfo();
+        Task<ReturnMessage<InformationWebDTO>> GetInfo();
 
-        ReturnMessage<InformationWebDTO> Update(UpdateInformationWebDTO model);
+        Task<ReturnMessage<InformationWebDTO>> UpdateAsync(UpdateInformationWebDTO model);
     }
 }

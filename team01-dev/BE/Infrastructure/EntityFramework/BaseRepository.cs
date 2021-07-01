@@ -122,6 +122,12 @@ namespace Infrastructure.EntityFramework
             return _dbSet;
         }
 
+        //Async Dbset???
+        public async Task<IQueryable<TEntity>> QueryableAsync()
+        {
+            return _dbSet;
+        }
+
         public IRepository<T> GetRepository<T>() where T : class, IObjectState
         {
             return _unitOfWork.Repository<T>();

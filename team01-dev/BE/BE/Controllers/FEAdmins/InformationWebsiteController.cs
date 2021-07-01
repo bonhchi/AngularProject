@@ -26,16 +26,16 @@ namespace BE.Controllers.FEAdmins
 
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var result = _infomationWebService.GetInfo();
+            var result = await _infomationWebService.GetInfo();
             return CommonResponse(result);
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateInformationWebDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateInformationWebDTO model)
         {
-            var result = _infomationWebService.Update(model);
+            var result =  await _infomationWebService.UpdateAsync(model);
             return CommonResponse(result);
         }
     }

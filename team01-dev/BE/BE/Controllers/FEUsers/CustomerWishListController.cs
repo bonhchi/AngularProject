@@ -9,6 +9,7 @@ using Service.Contacts;
 using Service.CustomerWishLists;
 using Service.Files;
 using System;
+using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers
 {
@@ -25,18 +26,17 @@ namespace BE.Controllers.FEUsers
 
         [Authorize]
         [HttpGet]
-        public IActionResult GetByCustomer()
+        public async Task<IActionResult> GetByCustomer()
         {
-            var result = _service.GetByCustomer();
+            var result = await _service.GetByCustomer();
             return CommonResponse(result);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult CreateOrDelete([FromBody] CreateOrDeleteCustomerWishListDTO model)
+        public async Task<IActionResult> CreateOrDelete([FromBody] CreateOrDeleteCustomerWishListDTO model)
         {
-
-            var result = _service.CreateOrDelete(model);
+            var result = await _service.CreateOrDelete(model);
             return CommonResponse(result);
         }
     }

@@ -8,6 +8,7 @@ using Service.Contacts;
 using Service.Files;
 using Service.Home;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BE.FeUserControllers.FEAdmins
 {
@@ -31,24 +32,23 @@ namespace BE.FeUserControllers.FEAdmins
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreateContactDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateContactDTO model)
         {
-
-            var result = _contactService.Create(model);
+            var result = await _contactService.CreateAsync(model);
             return CommonResponse(result);
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] UpdateContactDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateContactDTO model)
         {
-            var result = _contactService.Update(model);
+            var result = await _contactService.UpdateAsync(model);
             return CommonResponse(result);
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteContactDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteContactDTO model)
         {
-            var result = _contactService.Delete(model);
+            var result = await _contactService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

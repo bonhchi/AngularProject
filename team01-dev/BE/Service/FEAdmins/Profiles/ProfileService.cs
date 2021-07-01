@@ -12,20 +12,21 @@ using Infrastructure.Extensions;
 using Service.Auth;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.Profiles
 {
     public class ProfileService : IProfileService
     {
-        private readonly IRepository<User> _userRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<User> _userRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserManager _userManager;
         private readonly IAuthService _authService;
 
 
 
-        public ProfileService(IRepository<User> userRepository, IUnitOfWork unitOfWork, IMapper mapper, IUserManager userManager, IAuthService authService)
+        public ProfileService(IRepositoryAsync<User> userRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IUserManager userManager, IAuthService authService)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
@@ -55,7 +56,7 @@ namespace Service.Profiles
             }
         }
 
-        public ReturnMessage<UserDataReturnDTO> Update(UpdateProfileDTO model)
+        public async Task<ReturnMessage<UserDataReturnDTO>> UpdateAsync(UpdateProfileDTO model)
         {
             model.FirstName = StringExtension.CleanString(model.FirstName);
             model.LastName = StringExtension.CleanString(model.LastName);
@@ -66,12 +67,12 @@ namespace Service.Profiles
             }
             try
             {
-                var entity = _userRepository.Find(model.Id);
+                var entity = await _userRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.UpdateProfile(model);
                     _userRepository.Update(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<UserDataReturnDTO>(false, _mapper.Map<User, UserDataReturnDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }

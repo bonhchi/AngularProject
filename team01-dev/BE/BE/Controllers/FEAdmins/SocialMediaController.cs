@@ -29,23 +29,23 @@ namespace BE.Controllers.FEAdmins
         {
             _socialMediaService = socialMediaService;
         }
-
+        //async
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<SocialMediaDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<SocialMediaDTO> serachPagination)
         {
             var result = _socialMediaService.SearchPagination(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateSocialMediaDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateSocialMediaDTO model)
         {
-            var result = _socialMediaService.Create(model);
+            var result = await _socialMediaService.CreateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -54,14 +54,14 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateSocialMediaDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateSocialMediaDTO model)
         {
-            var result = _socialMediaService.Update(model);
+            var result = await _socialMediaService.UpdateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -70,9 +70,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteSocialMediaDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteSocialMediaDTO model)
         {
-            var result = _socialMediaService.Delete(model);
+            var result = await _socialMediaService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

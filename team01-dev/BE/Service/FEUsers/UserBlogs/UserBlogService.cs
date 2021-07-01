@@ -14,11 +14,11 @@ namespace Service.UserBlogs
 {
     public class UserBlogService : IUserBlogService
     {
-        private readonly IRepository<Blog> _blogRepository;
+        private readonly IRepositoryAsync<Blog> _blogRepository;
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWorkAsync _unitOfWork;
 
-        public UserBlogService(IRepository<Blog> blogRepository, IMapper mapper, IUnitOfWork unitOfWork)
+        public UserBlogService(IRepositoryAsync<Blog> blogRepository, IMapper mapper, IUnitOfWorkAsync unitOfWork)
         {
             _blogRepository = blogRepository;
             _mapper = mapper;

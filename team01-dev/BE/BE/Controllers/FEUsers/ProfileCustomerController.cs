@@ -28,14 +28,15 @@ namespace BE.Controllers.FEUsers
 
         [Authorize]
         [HttpPut]
-        public IActionResult UpdateProfile([FromBody] UpdateCustomerProfileFeUserDTO model)
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateCustomerProfileFeUserDTO model)
         {
+            //async
             var result = _customerProfileFeUserService.UpdateProfile(model);
             if(result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if(uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -43,11 +44,11 @@ namespace BE.Controllers.FEUsers
             return CommonResponse(result);
         }
 
+        //async
         [Authorize]
         [HttpPut(UrlConstants.Password)]
         public IActionResult ChangePassword([FromBody] ChangePasswordCustomerProfileFeUserDTO dto)
         {
-
             var result = _customerProfileFeUserService.ChangePassword(dto);
             return CommonResponse(result);
         }

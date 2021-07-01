@@ -14,19 +14,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.Home
 {
     public class HomeService : IHomeService
     {
-        private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<Blog> _blogRepository;
-        private readonly IRepository<Banner> _bannerRepository;
+        private readonly IRepositoryAsync<Product> _productRepository;
+        private readonly IRepositoryAsync<Blog> _blogRepository;
+        private readonly IRepositoryAsync<Banner> _bannerRepository;
         private readonly IUserManager _userManager;
         private readonly IMapper _mapper;
         private UserInformationDTO _userInformationDto;
 
-        public HomeService(IRepository<Product> productRepository, IUserManager userManager, IRepository<Blog> blogRepository, IRepository<Banner> bannerRepository, IMapper mapper)
+        public HomeService(IRepositoryAsync<Product> productRepository, IUserManager userManager, IRepositoryAsync<Blog> blogRepository, IRepositoryAsync<Banner> bannerRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _bannerRepository = bannerRepository;
@@ -34,13 +35,14 @@ namespace Service.Home
             _bannerRepository = bannerRepository;
             _mapper = mapper;
             _userManager = userManager;
-            _userInformationDto = _userManager.GetInformationUser();
+            /*_userInformationDto = _userManager.GetInformationUser();*/ // not use
         }
 
-        public ReturnMessage<List<ProductDTO>> GetTopCollectionProducts()
+        public async Task<ReturnMessage<List<ProductDTO>>> GetTopCollectionProducts()
         {
             try
             {
+                var _userInformationDto = await _userManager.GetInformationUser();
                 var resultEntity = _productRepository.Queryable()
                                     .Include(t => t.Category)
                                     .Include(t => t.CustomerWishLists)
@@ -62,10 +64,11 @@ namespace Service.Home
             }
         }
 
-        public ReturnMessage<List<ProductDTO>> GetNewProducts()
+        public async Task<ReturnMessage<List<ProductDTO>>> GetNewProducts()
         {
             try
             {
+                var _userInformationDto = await _userManager.GetInformationUser();
                 var resultEntity = _productRepository.Queryable()
                                     .Include(t => t.Category)
                                     .Include(t => t.CustomerWishLists)
@@ -87,8 +90,9 @@ namespace Service.Home
             }
         }
 
-        public ReturnMessage<List<ProductDTO>> GetBestSellerProducts()
+        public async Task<ReturnMessage<List<ProductDTO>>> GetBestSellerProducts()
         {
+            var _userInformationDto = await _userManager.GetInformationUser();
             try
             {
                 var resultEntity = _productRepository.Queryable()
@@ -112,10 +116,11 @@ namespace Service.Home
             }
         }
 
-        public ReturnMessage<List<ProductDTO>> GetFeaturedProducts()
+        public async Task<ReturnMessage<List<ProductDTO>>> GetFeaturedProducts()
         {
             try
             {
+                var _userInformationDto = await _userManager.GetInformationUser();
                 var resultEntity = _productRepository.Queryable()
                                     .AsQueryable()
                                     .Include(t => t.Category)
@@ -138,11 +143,12 @@ namespace Service.Home
             }
         }
 
-        public ReturnMessage<List<BlogDTO>> GetBlogs()
+        //async missing
+        public async Task<ReturnMessage<List<BlogDTO>>> GetBlogs()
         {
             try
             {
-                var resultEntity = _blogRepository.Queryable().Where(i => i.IsDeleted == false).OrderByDescending(it => it.UpdateByDate).Take(12).ToList();
+                var resultEntity =  _blogRepository.Queryable().Where(i => i.IsDeleted == false).OrderByDescending(it => it.UpdateByDate).Take(12).ToList();
                 var data = _mapper.Map<List<Blog>, List<BlogDTO>>(resultEntity);
                 var result = new ReturnMessage<List<BlogDTO>>(false, data, MessageConstants.ListSuccess);
                 return result;
@@ -152,8 +158,8 @@ namespace Service.Home
                 return new ReturnMessage<List<BlogDTO>>(true, null, MessageConstants.Error);
             }
         }
-
-        public ReturnMessage<List<BannerDTO>> GetBanners()
+        //async missing
+        public async Task<ReturnMessage<List<BannerDTO>>> GetBanners()
         {
             try
             {

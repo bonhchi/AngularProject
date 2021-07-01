@@ -28,22 +28,22 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<PromotionDTO> serachPagination)
+        //async
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<PromotionDTO> serachPagination)
         {
-
             var result = _promotionService.SearchPagination(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreatePromotionDTO model)
+        public async Task<IActionResult> Create([FromBody] CreatePromotionDTO model)
         {
-            var result = _promotionService.Create(model);
+            var result = await _promotionService.CreateAsync(model);
             if (model.Files.IsNullOrEmpty() || result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -52,14 +52,14 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdatePromotionDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdatePromotionDTO model)
         {
-            var result = _promotionService.Update(model);
+            var result = await _promotionService.UpdateAsync(model);
             if (model.Files.IsNullOrEmpty() || result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -68,9 +68,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeletePromotionDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeletePromotionDTO model)
         {
-            var result = _promotionService.Delete(model);
+            var result = await _promotionService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }
