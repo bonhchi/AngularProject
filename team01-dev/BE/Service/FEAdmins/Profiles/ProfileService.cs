@@ -5,7 +5,6 @@ using Common.MD5;
 using Common.StringEx;
 using Domain.DTOs.Profiles;
 using Domain.DTOs.User;
-using Domain.DTOs.Users;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
@@ -24,8 +23,6 @@ namespace Service.Profiles
         private readonly IUserManager _userManager;
         private readonly IAuthService _authService;
 
-
-
         public ProfileService(IRepositoryAsync<User> userRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IUserManager userManager, IAuthService authService)
         {
             _userRepository = userRepository;
@@ -35,7 +32,7 @@ namespace Service.Profiles
             _authService = authService;
         }
 
-        public ReturnMessage<UpdateProfileDTO> ChangePassword(ChangePassworProfileDTO model)
+        public async Task<ReturnMessage<UpdateProfileDTO>> ChangePassword(ChangePassworProfileDTO model)
         {
             try
             {
@@ -43,8 +40,8 @@ namespace Service.Profiles
                 if (entity.IsNotNullOrEmpty() && (model.ConfirmNewPassword == model.NewPassword))
                 {
                     entity.ChangePassword(model);
-                    _userRepository.Update(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    await _userRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<UpdateProfileDTO>(false, _mapper.Map<User, UpdateProfileDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }
@@ -71,7 +68,7 @@ namespace Service.Profiles
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.UpdateProfile(model);
-                    _userRepository.Update(entity);
+                    await _userRepository.UpdateAsync(entity);
                     await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<UserDataReturnDTO>(false, _mapper.Map<User, UserDataReturnDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;

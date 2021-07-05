@@ -1,8 +1,6 @@
 ﻿using Common.Constants;
-using Common.Http;
 using Common.Pagination;
 using Domain.DTOs.OrderDetails;
-using Domain.DTOs.Orders;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
@@ -26,18 +24,18 @@ namespace BE.Controllers.FEAdmins
 
         //async
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<OrderDetailDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<OrderDetailDTO> serachPagination)
         {
-            var result = _orderDetailService.SearchPagination(serachPagination);
+            var result = await _orderDetailService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 
         //async
         [HttpGet]
-        [Route("order")]
-        public IActionResult GetByOrder([FromQuery]Guid id)
+        [Route("order")]//const
+        public async Task<IActionResult> GetByOrder([FromQuery]Guid id)
         {
-            var result = _orderDetailService.GetByOrder(id);
+            var result = await _orderDetailService.GetByOrder(id);
             return CommonResponse(result);
         }
 

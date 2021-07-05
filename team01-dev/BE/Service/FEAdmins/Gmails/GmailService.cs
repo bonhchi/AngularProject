@@ -9,6 +9,7 @@ using System.Text;
 
 namespace Service.Gmails
 {
+    //terminated task
     public class GmailService : IGmailService
     {
         private readonly IEmailService _emailService;

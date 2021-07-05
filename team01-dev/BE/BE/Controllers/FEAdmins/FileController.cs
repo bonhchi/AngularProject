@@ -2,12 +2,10 @@
 using Common.Http;
 using Common.Pagination;
 using Domain.DTOs.Files;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,15 +28,15 @@ namespace BE.Controllers.FEAdmins
         [HttpGet]
         public async Task<IActionResult> GetFile([FromQuery] SearchPaginationDTO<FileDTO> serachPagination)
         {
-            var result = await _fileService.SearchPagination(serachPagination);
+            var result = await _fileService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 
-        //not need async ?
         [HttpGet(UrlConstants.BaseFileGetType)]
         public async Task<IActionResult> GetFileType()
         {
             var result = DataType.TypeName.ToArray();
+            await Task.CompletedTask;
             return CommonResponse(new ReturnMessage<KeyValuePair<string, string>[]>(false, result, MessageConstants.SearchSuccess));
         }
 

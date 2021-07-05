@@ -10,7 +10,7 @@ namespace Service.Users
 {
     public interface IUserService : ICommonCRUDService<UserDTO, CreateUserDTO, UpdateUserDTO, DeleteUserDTO>
     {
-        ReturnMessage<PaginatedList<UserDTO>> SearchPagination(SearchPaginationDTO<UserDTO> search);
-        Task <ReturnMessage<UserDTO>> GetDetailUser(Guid id);
+        Task<ReturnMessage<PaginatedList<UserDTO>>> SearchPagination(SearchPaginationDTO<UserDTO> search);
+        Task<ReturnMessage<UserDTO>> GetDetailUser(Guid id);
     }
 }

@@ -1,29 +1,26 @@
 ﻿using AutoMapper;
 using Common.Constants;
 using Common.Http;
-using Common.StringEx;
 using Domain.DTOs.PageContent;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
-using Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.UserPageContents
 {
     public class UserPageContentService : IUserPageContentService
     {
-        private readonly IRepository<PageContent> _pageContentRepository;
+        private readonly IRepositoryAsync<PageContent> _pageContentRepository;
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
-        public UserPageContentService(IRepository<PageContent> pageContentRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public UserPageContentService(IRepositoryAsync<PageContent> pageContentRepository, IMapper mapper)
         {
             _pageContentRepository = pageContentRepository;
             _mapper = mapper;
-            _unitOfWork = unitOfWork;
         }
-        public ReturnMessage<List<PageContentDTO>> GetList()
+        public async Task<ReturnMessage<List<PageContentDTO>>> GetList()
         {
             try
             {
@@ -32,6 +29,8 @@ namespace Service.UserPageContents
                                     .ToList();
                 var data = _mapper.Map<List<PageContent>, List<PageContentDTO>>(resultEntity);
                 var result = new ReturnMessage<List<PageContentDTO>>(false, data, MessageConstants.ListSuccess);
+
+                await Task.CompletedTask;
                 return result;
             }
             catch
@@ -40,14 +39,15 @@ namespace Service.UserPageContents
             }
         }
 
-        public ReturnMessage<PageContentDTO> GetById(Guid id)
-
+        public async Task<ReturnMessage<PageContentDTO>> GetById(Guid id)
         {
             try
             {
                 var resultEntity = _pageContentRepository.Queryable().Where(i => i.Id == id && !i.IsDeleted && i.Order >= 0).FirstOrDefault();
                 var data = _mapper.Map<PageContent, PageContentDTO>(resultEntity);
                 var result = new ReturnMessage<PageContentDTO>(false, data, MessageConstants.ListSuccess);
+
+                await Task.CompletedTask;
                 return result;
             }
             catch

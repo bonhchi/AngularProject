@@ -14,7 +14,7 @@ namespace Infrastructure.EntityFramework
 
         Task<TEntity> UpdateAsync(TEntity entity);
 
-        Task<IQueryable<TEntity>> QueryableAsync();
+        //Task<IQueryable<TEntity>> QueryableAsync();
 
         //Task<DbSet<TEntity>> DbSetAsync { get; }
 

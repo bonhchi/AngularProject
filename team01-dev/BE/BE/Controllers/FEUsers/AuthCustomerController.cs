@@ -1,17 +1,11 @@
-﻿using BE.Controllers;
-using Common.Constants;
-using Domain.DTOs.Customer;
+﻿using Common.Constants;
 using Domain.DTOs.CustomerFE;
 using Infrastructure.Mails;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.AuthCustomer;
 using Service.Files;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers
@@ -29,31 +23,31 @@ namespace BE.Controllers.FEUsers
         }
 
         [HttpPost(UrlConstants.BaseLoginCustomer)]
-        public IActionResult Login([FromBody] CustomerLoginDTO data)
+        public async Task<IActionResult> Login([FromBody] CustomerLoginDTO data)
         {
-            var result = _authCustomerService.CheckLogin(data);
+            var result = await _authCustomerService.CheckLogin(data);
             return CommonResponse(result);
         }
 
         [HttpPost(UrlConstants.BaseRegistCustomer)]
-        public IActionResult Register([FromBody] CustomerRegisterDTO data)
+        public async Task<IActionResult> Register([FromBody] CustomerRegisterDTO data)
         {
-            var result = _authCustomerService.CheckRegister(data);
+            var result = await _authCustomerService.CheckRegister(data);
             return CommonResponse(result);
         }
 
-        [HttpGet("forgetpassword")]
-        public IActionResult Forgetpassword ([FromQuery] CustomerEmailDTO model)
+        [HttpGet("forgetpassword")] // const
+        public async Task<IActionResult> Forgetpassword ([FromQuery] CustomerEmailDTO model)
         {
-            var result = _authCustomerService.ForgetPassword(model);
+            var result = await _authCustomerService.ForgetPassword(model);
             return CommonResponse(result);
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult GetInfo()
+        public async Task<IActionResult> GetInfo()
         {
-            var result = _authCustomerService.GetCustomerDataReturnDTO();
+            var result = await _authCustomerService.GetCustomerDataReturnDTO();
             return CommonResponse(result);
         }
     }

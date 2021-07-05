@@ -2,7 +2,6 @@
 using Common.Constants;
 using Common.Http;
 using Domain.DTOs.ProductsFeUser;
-using Domain.DTOs.Users;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
@@ -19,7 +18,7 @@ namespace Service.ServiceFeUser
         private readonly IRepositoryAsync<Product> _productRepository;
         private readonly IRepositoryAsync<Category> _categoryRepository; //not use
         private readonly IMapper _mapper;
-        private UserInformationDTO _userInformationDto;
+        //private UserInformationDTO _userInformationDto;
         private readonly IUserManager _userManager;
 
         public ProductDetailsFeService(IRepositoryAsync<Category> categoryRepository, IRepositoryAsync<Product> productRepository, IMapper mapper, IUserManager userManager)

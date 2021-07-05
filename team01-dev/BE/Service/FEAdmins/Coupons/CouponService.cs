@@ -7,11 +7,8 @@ using Domain.DTOs.Coupons;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
-using Service.Coupons;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Coupons
@@ -107,17 +104,17 @@ namespace Service.Coupons
             }
         }
 
-        public ReturnMessage<PaginatedList<CouponDTO>> SearchPagination(SearchPaginationDTO<CouponDTO> search)
+        public async Task<ReturnMessage<PaginatedList<CouponDTO>>> SearchPaginationAsync(SearchPaginationDTO<CouponDTO> search)
         {
             if (search == null)
             {
                 return new ReturnMessage<PaginatedList<CouponDTO>>(false, null, MessageConstants.GetPaginationFail);
             }
 
-            var resultEntity = _couponRepository.GetPaginatedList(it => search.Search == null ||
+            var resultEntity = await _couponRepository.GetPaginatedListAsync(it => search.Search == null ||
                 (
                     (
-                        (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                        (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Code.Contains(search.Search.Code) ||
                         it.Name.Contains(search.Search.Name)
                     )
@@ -133,7 +130,7 @@ namespace Service.Coupons
         }
 
 
-        public ReturnMessage<CouponDTO> GetByCode(string code)
+        public async Task<ReturnMessage<CouponDTO>> GetByCode(string code)
         {
             var entity = _couponRepository.Queryable().FirstOrDefault(t => t.Code == code);
             if (entity.IsNotNullOrEmpty())
@@ -146,7 +143,7 @@ namespace Service.Coupons
                 var result = _mapper.Map<CouponDTO>(entity);
                 return new ReturnMessage<CouponDTO>(false, result, MessageConstants.GetSuccess);
             }
-
+            await Task.CompletedTask;
             return new ReturnMessage<CouponDTO>(true, null, MessageConstants.Error);
 
         }

@@ -1,7 +1,6 @@
 ﻿using Common.Http;
 using Infrastructure.EntityFramework;
 using System;
-
 using Domain.DTOs.InfomationWeb;
 using Domain.Entities;
 using AutoMapper;

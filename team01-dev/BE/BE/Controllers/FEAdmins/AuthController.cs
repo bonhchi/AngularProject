@@ -9,6 +9,7 @@ using Service.Files;
 using Service.Users;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,17 +29,17 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpPost(UrlConstants.BaseLogin)]
-        public IActionResult Login([FromBody] UserLoginDTO data)
+        public async Task<IActionResult> Login([FromBody] UserLoginDTO data)
         {
-            var result = _authService.CheckLogin(data);
+            var result = await _authService.CheckLogin(data);
             return CommonResponse(result);
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult GetInformation()
+        public async Task<IActionResult> GetInformation()
         {
-            var userDataReturn = _authService.GetInformationUser();
+            var userDataReturn = await _authService.GetInformationUser();
             return CommonResponse(userDataReturn);
 
         }

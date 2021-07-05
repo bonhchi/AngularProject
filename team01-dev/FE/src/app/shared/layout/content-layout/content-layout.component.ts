@@ -34,7 +34,7 @@ export class ContentLayoutComponent implements OnInit {
 
   constructor(
     public navServices: NavService,
-    public activedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute
   ) {}
 
   public getRouterOutletState(outlet) {

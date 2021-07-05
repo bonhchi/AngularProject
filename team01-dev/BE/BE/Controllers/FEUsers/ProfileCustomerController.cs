@@ -1,17 +1,10 @@
-﻿using BE.Controllers;
-using Common.Constants;
-using Domain.DTOs.Customer;
+﻿using Common.Constants;
 using Domain.DTOs.CustomerProfileFeUser;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.CustomerProfileFeUser;
 using Service.Files;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers
@@ -30,8 +23,7 @@ namespace BE.Controllers.FEUsers
         [HttpPut]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateCustomerProfileFeUserDTO model)
         {
-            //async
-            var result = _customerProfileFeUserService.UpdateProfile(model);
+            var result = await _customerProfileFeUserService.UpdateProfile(model);
             if(result.HasError)
             {
                 return CommonResponse(result);
@@ -44,12 +36,12 @@ namespace BE.Controllers.FEUsers
             return CommonResponse(result);
         }
 
-        //async
+        
         [Authorize]
         [HttpPut(UrlConstants.Password)]
-        public IActionResult ChangePassword([FromBody] ChangePasswordCustomerProfileFeUserDTO dto)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCustomerProfileFeUserDTO dto)
         {
-            var result = _customerProfileFeUserService.ChangePassword(dto);
+            var result = await _customerProfileFeUserService.ChangePassword(dto);
             return CommonResponse(result);
         }
     }

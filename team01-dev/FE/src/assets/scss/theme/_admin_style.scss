@@ -283,7 +283,7 @@ ng2-smart-table {
   table {
     border: 1px solid #070101;
     .ng2-smart-titles {
-      background-color: #fdabab;
+      background-color: #29d1ea;
       .ng2-smart-th {
         padding: 0.75rem;
       }
@@ -344,7 +344,7 @@ ng2-smart-table {
       }
       &:nth-child(even) {
         td {
-            background-color: rgba(255, 187, 187, 0.5);
+            background-color: rgba(41,209,234, 0.5); // row
         }
       }
       &:nth-child(odd) {
@@ -943,7 +943,7 @@ ng2-smart-table {
 // product list
 .products-admin {
   .product-box {
-    pdding: 20px;
+    padding: 20px;
     .color-variant {
       padding-top: 15px;
     }
@@ -1922,7 +1922,7 @@ div{
   border: $card-border-width;
   transition: all 0.3s ease;
   letter-spacing: 0.5px;
-  border-radius: $card-border-radious;
+  border-radius: $card-border-radius;
   box-shadow: $card-box-shadow;
   &.card-load {
     .card-loader {
@@ -1962,8 +1962,8 @@ div{
     border-bottom: none;
     padding: $card-padding;
     border-bottom: 1px solid $card-border-color;
-    border-top-left-radius: $card-border-radious;
-    border-top-right-radius: $card-border-radious;
+    border-top-left-radius: $card-border-radius;
+    border-top-right-radius: $card-border-radius;
     .card-header-right{
       border-radius: 0 0 0 7px;
       right: 20px;
@@ -2027,8 +2027,8 @@ div{
     background-color: $card-footer-bg-color;
     border-top: 1px solid $card-border-color;
     padding: $card-padding;
-    border-bottom-left-radius: $card-border-radious;
-    border-bottom-right-radius: $card-border-radious;
+    border-bottom-left-radius: $card-border-radius;
+    border-bottom-right-radius: $card-border-radius;
   }
 }
 .card-header{
@@ -2115,7 +2115,7 @@ code{
   background-color: $code-tag-bg-color;
   padding: $code-tag-padding;
   margin: $code-tag-margin;
-  border-radius: $code-tag-border-radious;
+  border-radius: $code-tag-border-radius;
 }
 blockquote{
   border-left: $blockquote-border;
@@ -2265,7 +2265,7 @@ $header-size: 80px;
           font-size: $page-title-font-size;
           margin-bottom: $page-title-margin-bottom;
           font-weight: $page-title-font-weight;
-          text-transform: $page-title-text-tranform;
+          text-transform: $page-title-text-transform;
           font-family: $font-nunito;
           small {
             display: block;
@@ -2775,8 +2775,8 @@ ul.notification-dropdown.onhover-show-div{
           color: $sidebar-profile-name-txt-color;
           text-transform: $sidebar-profile-name-txt-transfer;
           font-weight: $sidebar-profile-name-txt-weight;
-          letter-spacing: $sidebar-profile-name-letter-specing;
-          margin-bottom: $sidebar-profile-name-marging;
+          letter-spacing: $sidebar-profile-name-letter-spacing;
+          margin-bottom: $sidebar-profile-name-margin;
         }
         p{
           text-transform: $sidebar-profile-name-txt-transfer;
@@ -2794,7 +2794,7 @@ ul.notification-dropdown.onhover-show-div{
         padding: $sidebar-menu-padding;
         .sidebar-header{
           font-size: $sidebar-font-size;
-          letter-spacing: $sidebar-letter-specing;
+          letter-spacing: $sidebar-letter-spacing;
           padding-bottom: $sidebar-padding-bottom;
           padding-top: $sidebar-padding-top;
           text-transform: $sidebar-txt-transform;

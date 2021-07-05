@@ -3,14 +3,10 @@ using Common.Pagination;
 using Domain.DTOs.Promotions;
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
 using Service.Promotions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
@@ -28,10 +24,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpGet]
-        //async
         public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<PromotionDTO> serachPagination)
         {
-            var result = _promotionService.SearchPagination(serachPagination);
+            var result = await _promotionService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 

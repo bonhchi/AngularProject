@@ -1,7 +1,6 @@
 ﻿using Common.Constants;
 using Common.Pagination;
 using Domain.DTOs.Users;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
@@ -26,9 +25,9 @@ namespace BE.Controllers.FEAdmins
 
         [Authorize]
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<UserDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<UserDTO> serachPagination)
         {
-            var result = _userService.SearchPagination(serachPagination);
+            var result = await _userService.SearchPagination(serachPagination);
             return CommonResponse(result);
         }
 

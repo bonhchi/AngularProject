@@ -26,12 +26,13 @@ namespace Service.Contacts
             _mapper = mapper;
         }
 
-        public ReturnMessage<List<ContactDTO>> GetList()
+        public async Task<ReturnMessage<List<ContactDTO>>> GetList()
         {
             try
             {
                 var entities= _repository.Queryable().OrderByDescending(it => it.CreateByDate).ToList();
                 var result = new ReturnMessage<List<ContactDTO>>(false, _mapper.Map<List<Contact>, List<ContactDTO>>(entities), MessageConstants.CreateSuccess);
+                await Task.CompletedTask;
                 return result;
             }
             catch

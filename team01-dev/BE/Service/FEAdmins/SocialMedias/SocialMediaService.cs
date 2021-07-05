@@ -8,8 +8,6 @@ using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.SocialMedias
@@ -96,17 +94,17 @@ namespace Service.SocialMedias
             }
         }
 
-        public ReturnMessage<PaginatedList<SocialMediaDTO>> SearchPagination(SearchPaginationDTO<SocialMediaDTO> search)
+        public async Task<ReturnMessage<PaginatedList<SocialMediaDTO>>> SearchPaginationAsync(SearchPaginationDTO<SocialMediaDTO> search)
         {
             if (search == null)
             {
                 return new ReturnMessage<PaginatedList<SocialMediaDTO>>(false, null, MessageConstants.GetPaginationFail);
             }
 
-            var resultEntity = _socialMediaRepository.GetPaginatedList(it => search.Search == null ||
+            var resultEntity = await _socialMediaRepository.GetPaginatedListAsync(it => search.Search == null ||
                 (
                     (
-                        (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                        (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Title.Contains(search.Search.Title) ||
                         it.Link.Contains(search.Search.Link) ||
                         it.IconUrl.Contains(search.Search.IconUrl)

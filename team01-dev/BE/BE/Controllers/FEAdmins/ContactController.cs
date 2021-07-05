@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Contacts;
 using Service.Files;
-using Service.Home;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BE.FeUserControllers.FEAdmins
@@ -25,9 +23,9 @@ namespace BE.FeUserControllers.FEAdmins
         }
 
         [HttpGet]
-        public IActionResult GetList()
+        public async Task<IActionResult> GetList()
         {
-            var result = _contactService.GetList();
+            var result = await _contactService.GetList();
             return CommonResponse(result);
         }
 

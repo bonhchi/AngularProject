@@ -26,7 +26,6 @@ namespace Service.PageContents
             _unitOfWork = unitOfWork;
         }
 
-
         public async Task<ReturnMessage<PageContentDTO>> CreateAsync(CreatePageContentDTO model)
         {
             try
@@ -44,7 +43,7 @@ namespace Service.PageContents
             }
         }
 
-        public ReturnMessage<List<PageContentDTO>> GetList()
+        public async Task<ReturnMessage<List<PageContentDTO>>> GetList()
         {
             try
             {
@@ -54,6 +53,8 @@ namespace Service.PageContents
                                     .ToList();
                 var data = _mapper.Map<List<PageContent>, List<PageContentDTO>>(resultEntity);
                 var result = new ReturnMessage<List<PageContentDTO>>(false, data, MessageConstants.ListSuccess);
+
+                await Task.CompletedTask;
                 return result;
             }
             catch
@@ -62,12 +63,12 @@ namespace Service.PageContents
             }
         }
 
-        public ReturnMessage<PageContentDTO> GetById(Guid id)
+        public async Task<ReturnMessage<PageContentDTO>> GetById(Guid id)
 
         {
             try
             {
-                var resultEntity = _pageContentRepository.Find(id);
+                var resultEntity = await _pageContentRepository.FindAsync(id);
                 var data = _mapper.Map<PageContent, PageContentDTO>(resultEntity);
                 var result = new ReturnMessage<PageContentDTO>(false, data, MessageConstants.ListSuccess);
                 return result;

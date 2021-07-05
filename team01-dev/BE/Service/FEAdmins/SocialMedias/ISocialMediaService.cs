@@ -3,14 +3,12 @@ using Common.Pagination;
 using Domain.DTOs.SocialMedias;
 using Infrastructure.EntityFramework;
 using Service.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.SocialMedias
 {
     public interface ISocialMediaService: ICommonCRUDService<SocialMediaDTO, CreateSocialMediaDTO, UpdateSocialMediaDTO, DeleteSocialMediaDTO>
     {
-        ReturnMessage<PaginatedList<SocialMediaDTO>> SearchPagination(SearchPaginationDTO<SocialMediaDTO> search);
+        Task<ReturnMessage<PaginatedList<SocialMediaDTO>>> SearchPaginationAsync(SearchPaginationDTO<SocialMediaDTO> search);
     }
 }

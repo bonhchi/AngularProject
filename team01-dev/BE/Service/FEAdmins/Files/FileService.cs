@@ -2,7 +2,6 @@
 using Common.Constants;
 using Common.Http;
 using Common.Pagination;
-using Domain.DTOs.Categories;
 using Domain.DTOs.Files;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
@@ -11,7 +10,6 @@ using Service.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Files
@@ -99,7 +97,7 @@ namespace Service.Files
             }
         }
 
-        public async Task<ReturnMessage<PaginatedList<FileDTO>>> SearchPagination(SearchPaginationDTO<FileDTO> search)
+        public async Task<ReturnMessage<PaginatedList<FileDTO>>> SearchPaginationAsync(SearchPaginationDTO<FileDTO> search)
         {
             if (search == null)
             {
@@ -109,7 +107,7 @@ namespace Service.Files
             var resultEntity = await _fileRepository.GetPaginatedListAsync(it => search.Search == null ||
                 (
                     (
-                        (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                        (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Name.Contains(search.Search.Name)
                     //it.Description.Contains(search.Search.Description)
                     )

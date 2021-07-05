@@ -1,19 +1,11 @@
-﻿using BE.Controllers;
-using Common.Constants;
-using Common.Http;
+﻿using Common.Constants;
 using Common.Pagination;
 using Domain.DTOs.SocialMedias;
-using Domain.Entities;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
 using Service.SocialMedias;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
@@ -29,11 +21,10 @@ namespace BE.Controllers.FEAdmins
         {
             _socialMediaService = socialMediaService;
         }
-        //async
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<SocialMediaDTO> serachPagination)
         {
-            var result = _socialMediaService.SearchPagination(serachPagination);
+            var result = await _socialMediaService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 

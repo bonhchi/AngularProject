@@ -3,10 +3,12 @@ using Common.Pagination;
 using Domain.DTOs.Categories;
 using Infrastructure.EntityFramework;
 using Service.Common;
+using System.Threading.Tasks;
+
 namespace Service.Categories
 {
     public interface ICategoryService : ICommonCRUDService<CategoryDTO, CreateCategoryDTO, UpdateCategoryDTO, DeleteCategoryDTO>
     {
-        ReturnMessage<PaginatedList<CategoryDTO>> SearchPagination(SearchPaginationDTO<CategoryDTO> search);
+        Task<ReturnMessage<PaginatedList<CategoryDTO>>> SearchPaginationAsync(SearchPaginationDTO<CategoryDTO> search);
     }
 }

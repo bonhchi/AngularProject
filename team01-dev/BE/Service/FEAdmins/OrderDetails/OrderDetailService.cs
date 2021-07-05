@@ -2,9 +2,7 @@
 using Common.Constants;
 using Common.Http;
 using Common.Pagination;
-using Common.StringEx;
 using Domain.DTOs.OrderDetails;
-using Domain.DTOs.Orders;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
@@ -31,6 +29,7 @@ namespace Service.OrderDetails
         //not use
         public async Task<ReturnMessage<OrderDetailDTO>> CreateAsync(CreateOrderDetailDTO model)
         {
+            await Task.CompletedTask;
             return new ReturnMessage<OrderDetailDTO>(false, null, null);
         }
 
@@ -56,7 +55,7 @@ namespace Service.OrderDetails
     }
 
 
-    public ReturnMessage<PaginatedList<OrderDetailDTO>> SearchPagination(SearchPaginationDTO<OrderDetailDTO> search)
+    public async Task<ReturnMessage<PaginatedList<OrderDetailDTO>>> SearchPaginationAsync(SearchPaginationDTO<OrderDetailDTO> search)
         {
             if (search == null)
             {
@@ -66,7 +65,7 @@ namespace Service.OrderDetails
             var query = _orderDetailRepository.Queryable().Include(it => it.Product).Where(it => search.Search == null ||
                     (
                         (
-                            (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id)
+                            (search.Search.Id != Guid.Empty && it.Id == search.Search.Id)
                         )
                     )
                 )
@@ -76,6 +75,7 @@ namespace Service.OrderDetails
             var data = _mapper.Map<PaginatedList<OrderDetail>, PaginatedList<OrderDetailDTO>>(resultEntity);
             var result = new ReturnMessage<PaginatedList<OrderDetailDTO>>(false, data, MessageConstants.GetPaginationSuccess);
 
+            await Task.CompletedTask;
             return result;
         }
 
@@ -100,10 +100,11 @@ namespace Service.OrderDetails
             }
         }
 
-        public ReturnMessage<List<OrderDetailDTO>> GetByOrder(Guid Id)
+        public async Task<ReturnMessage<List<OrderDetailDTO>>> GetByOrder(Guid Id)
         {
             var entity = _orderDetailRepository.Queryable().AsNoTracking().Include(t=>t.Product).Where(t => t.OrderId == Id).ToList();
             var result = new ReturnMessage<List<OrderDetailDTO>>(false, _mapper.Map<List<OrderDetail>, List<OrderDetailDTO>>(entity), MessageConstants.ListSuccess);
+            await Task.CompletedTask;
             return result;
 
         }

@@ -1,16 +1,11 @@
-﻿using BE.Controllers;
-using Common.Constants;
+﻿using Common.Constants;
 using Common.Pagination;
 using Domain.DTOs.Comments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Comments;
-using Service.Contacts;
 using Service.Files;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers
@@ -28,17 +23,17 @@ namespace BE.Controllers.FEUsers
 
         [Route(UrlConstants.GetCommentBlog)]
         [HttpGet]
-        public IActionResult GetBlogPagination([FromQuery] SearchPaginationDTO<CommentDTO> serachPagination)
+        public async Task<IActionResult> GetBlogPagination([FromQuery] SearchPaginationDTO<CommentDTO> serachPagination)
         {
-            var result = _commentService.BlogPagination(serachPagination);
+            var result = await _commentService.BlogPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 
         [Route(UrlConstants.GetCommentProduct)]
         [HttpGet]
-        public IActionResult GetProductPagination([FromQuery] SearchPaginationDTO<CommentDTO> serachPagination)
+        public async Task<IActionResult> GetProductPagination([FromQuery] SearchPaginationDTO<CommentDTO> serachPagination)
         {
-            var result = _commentService.ProductPagination(serachPagination);
+            var result = await _commentService.ProductPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 

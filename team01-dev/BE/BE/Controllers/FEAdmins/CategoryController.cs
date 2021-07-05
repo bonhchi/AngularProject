@@ -1,15 +1,11 @@
 ﻿using Common.Constants;
-using Common.Http;
 using Common.Pagination;
 using Domain.DTOs.Categories;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Categories;
 using Service.Files;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
@@ -27,9 +23,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<CategoryDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<CategoryDTO> serachPagination)
         {
-            var result = _categoryService.SearchPagination(serachPagination);
+            var result = await _categoryService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 

@@ -70,7 +70,6 @@ namespace Infrastructure.EntityFramework
         public virtual void Update(TEntity entity, List<Expression<Func<TEntity, object>>> updateProperties = null,
             List<Expression<Func<TEntity, object>>> excludeProperties = null)
         {
-       
             entity.ObjectState = ObjectState.Modified;
             _dbSet.Attach(entity);
             _context.SyncObjectState(entity);
@@ -123,10 +122,10 @@ namespace Infrastructure.EntityFramework
         }
 
         //Async Dbset???
-        public async Task<IQueryable<TEntity>> QueryableAsync()
-        {
-            return _dbSet;
-        }
+        //public async Task<IQueryable<TEntity>> QueryableAsync()
+        //{
+        //    return _dbSet;
+        //}
 
         public IRepository<T> GetRepository<T>() where T : class, IObjectState
         {
@@ -215,6 +214,7 @@ namespace Infrastructure.EntityFramework
             entity.ObjectState = ObjectState.Modified;
             _dbSet.Attach(entity);
             _context.SyncObjectState(entity);
+            await Task.CompletedTask;
             return entity;
         }
 
@@ -321,7 +321,7 @@ namespace Infrastructure.EntityFramework
             return result;
         }
 
-        public async Task<PaginatedList<TEntity>> GetPaginatedListAsync(Expression<Func<TEntity, bool>> predicate = null,
+        public virtual async Task<PaginatedList<TEntity>> GetPaginatedListAsync(Expression<Func<TEntity, bool>> predicate = null,
         int take = 50, int skip = 0,
         Expression<Func<TEntity, object>> orderExpression = null,
         params string[] propertiesIncluded)
@@ -337,6 +337,7 @@ namespace Infrastructure.EntityFramework
                 query = query.OrderByDescending(orderExpression);
             }
             var entities = new PaginatedList<TEntity>(query, skip, take);
+            await Task.CompletedTask;
             return entities;
         }
     }

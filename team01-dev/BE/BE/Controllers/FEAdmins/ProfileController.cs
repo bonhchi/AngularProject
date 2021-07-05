@@ -1,8 +1,5 @@
 ﻿using Common.Constants;
-using Common.Http;
 using Domain.DTOs.Profiles;
-using Domain.DTOs.User;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
@@ -42,9 +39,9 @@ namespace BE.Controllers.FEAdmins
 
         [HttpPut]
         [Route(UrlConstants.Password)]
-        public IActionResult ChangePassword([FromBody] ChangePassworProfileDTO model)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePassworProfileDTO model)
         {
-            var result = _profileService.ChangePassword(model);
+            var result = await _profileService.ChangePassword(model);
             return CommonResponse(result);
         }
 

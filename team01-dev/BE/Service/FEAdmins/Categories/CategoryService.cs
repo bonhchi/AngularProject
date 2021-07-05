@@ -9,8 +9,6 @@ using Infrastructure.Extensions;
 using System;
 using System.Linq;
 using Common.StringEx;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Service.Categories
@@ -29,7 +27,6 @@ namespace Service.Categories
             _mapper = mapper;
             _productRepository = productRepository;
         }
-
 
         public async Task<ReturnMessage<CategoryDTO>> CreateAsync(CreateCategoryDTO model)
         {
@@ -86,7 +83,7 @@ namespace Service.Categories
             }
         }
 
-        public ReturnMessage<PaginatedList<CategoryDTO>> SearchPagination(SearchPaginationDTO <CategoryDTO> search)
+        public async Task<ReturnMessage<PaginatedList<CategoryDTO>>> SearchPaginationAsync(SearchPaginationDTO <CategoryDTO> search)
         {
             if (search == null)
             {
@@ -107,7 +104,7 @@ namespace Service.Categories
             var resultEntity = new PaginatedList<Category>(query, search.PageIndex * search.PageSize, search.PageSize);
             var data = _mapper.Map<PaginatedList<Category>, PaginatedList<CategoryDTO>>(resultEntity);
             var result = new ReturnMessage<PaginatedList<CategoryDTO>>(false, data, MessageConstants.ListSuccess);
-
+            await Task.CompletedTask;
             return result;
         }
     

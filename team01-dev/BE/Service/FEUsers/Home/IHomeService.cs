@@ -2,9 +2,7 @@
 using Domain.DTOs.Banners;
 using Domain.DTOs.Blogs;
 using Domain.DTOs.Products;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Home

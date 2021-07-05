@@ -5,22 +5,17 @@ using Common.Http;
 using Common.MD5;
 using Domain.DTOs.Customer;
 using Domain.DTOs.CustomerFE;
-using Domain.DTOs.Mails;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
-using Infrastructure.Mails;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Service.Auth;
-using Service.Customers;
 using Service.Gmails;
 using Service.InformationWebsiteServices;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.AuthCustomer
 {
@@ -51,7 +46,7 @@ namespace Service.AuthCustomer
             _infomationWebService = infomationWebService;
         }
 
-        public ReturnMessage<CustomerDataReturnDTO> CheckLogin(CustomerLoginDTO data)
+        public async Task<ReturnMessage<CustomerDataReturnDTO>> CheckLogin(CustomerLoginDTO data)
         {
             if (data.Username.IsNullOrEmpty() || data.Password.IsNullOrEmpty())
             {
@@ -73,7 +68,7 @@ namespace Service.AuthCustomer
                 };
 
                 // Generate JWT token
-                var token = _userManager.GenerateToken(claims, DateTime.UtcNow);
+                var token = await _userManager.GenerateToken(claims, DateTime.UtcNow);
                 var result = _mapper.Map<User, CustomerDataReturnDTO>(account);
                 result.Token = token;
                 return new ReturnMessage<CustomerDataReturnDTO>(false, result, MessageConstants.LoginSuccess);
@@ -84,7 +79,7 @@ namespace Service.AuthCustomer
             }
         }
 
-        public ReturnMessage<CustomerDataReturnDTO> CheckRegister(CustomerRegisterDTO data)
+        public async Task<ReturnMessage<CustomerDataReturnDTO>> CheckRegister(CustomerRegisterDTO data)
         {
             try
             {
@@ -115,18 +110,18 @@ namespace Service.AuthCustomer
                 customer.Insert();
 
                 _unitOfWork.BeginTransaction();
-                _userRepository.Insert(user);
+                _userRepository.InsertAsync(user);
 
                 customer.UserId = user.Id;
                 customer.User = user;
-                _customerRepository.Insert(customer);
+                _customerRepository.InsertAsync(customer);
 
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
 
                 user.CustomerId = customer.Id;
                 user.Customer = customer;
-                _userRepository.Update(user);
-                _unitOfWork.SaveChangesAsync();
+                await _userRepository.UpdateAsync(user);
+                await _unitOfWork.SaveChangesAsync();
 
                 var claims = new Claim[]
                     {
@@ -135,7 +130,7 @@ namespace Service.AuthCustomer
                     };
 
                 // Generate JWT token
-                var token = _userManager.GenerateToken(claims, DateTime.UtcNow);
+                var token = await _userManager.GenerateToken(claims, DateTime.UtcNow);
                 var result = _mapper.Map<User, CustomerDataReturnDTO>(user);
                 result.Token = token;
 
@@ -179,7 +174,7 @@ namespace Service.AuthCustomer
             }
         }
 
-        public ReturnMessage<CustomerDataReturnDTO> GetCustomerDataReturnDTO()
+        public async Task<ReturnMessage<CustomerDataReturnDTO>> GetCustomerDataReturnDTO()
         {
             try
             {
@@ -190,6 +185,8 @@ namespace Service.AuthCustomer
                 }
 
                 var result = _mapper.Map<User, CustomerDataReturnDTO>(entity);
+
+                await Task.CompletedTask;
                 return new ReturnMessage<CustomerDataReturnDTO>(false, result, MessageConstants.LoginSuccess);
             }
             catch (Exception ex)
@@ -198,7 +195,9 @@ namespace Service.AuthCustomer
             }
         }        
 
-        public ReturnMessage<string> ForgetPassword(CustomerEmailDTO model)
+
+        //terminated task
+        public async Task<ReturnMessage<string>> ForgetPassword(CustomerEmailDTO model)
         {
             try
             {
@@ -244,6 +243,8 @@ namespace Service.AuthCustomer
                 //}
 
                 //_unitOfWork.Commit();
+
+                await Task.CompletedTask;
                 return new ReturnMessage<string>(false, "Please check your email", MessageConstants.SearchSuccess);
             }
             catch (Exception ex)

@@ -1,11 +1,9 @@
 ﻿using Common.Constants;
-using Common.Http;
-using Common.Pagination;
-using Domain.DTOs.Coupons;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Coupons;
 using Service.Files;
+using System.Threading.Tasks;
 
 namespace BE.Controllers
 {
@@ -22,9 +20,9 @@ namespace BE.Controllers
 
         [HttpGet]
         [Route(UrlConstants.CouponCode)]
-        public IActionResult GetByCode([FromQuery] string code)
+        public async Task<IActionResult> GetByCode([FromQuery] string code)
         {
-            var result = _couponService.GetByCode(code);
+            var result = await _couponService.GetByCode(code);
             return CommonResponse(result);
         }
     }

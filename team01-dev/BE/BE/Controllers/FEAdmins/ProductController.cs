@@ -1,8 +1,6 @@
 ﻿using Common.Constants;
-using Common.Http;
 using Common.Pagination;
 using Domain.DTOs.Products;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
@@ -24,11 +22,9 @@ namespace BE.Controllers.FEAdmins
             _productService = productService;
         }
         [HttpGet]
-        //async
-        public IActionResult Get([FromQuery] SearchPaginationDTO<ProductDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<ProductDTO> serachPagination)
         {
-
-            var result = _productService.SearchPagination(serachPagination);
+            var result = await _productService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 

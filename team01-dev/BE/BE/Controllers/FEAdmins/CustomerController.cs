@@ -1,16 +1,11 @@
 ﻿using Common.Constants;
 using Common.Pagination;
 using Domain.DTOs.Customer;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Customers;
 using Service.Files;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
@@ -27,11 +22,10 @@ namespace BE.Controllers.FEAdmins
             _customerService = customerService;
         }
 
-        //async
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<CustomerDTO> serachPagination)
         {
-            var result = _customerService.SearchPagination(serachPagination);
+            var result = await _customerService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 

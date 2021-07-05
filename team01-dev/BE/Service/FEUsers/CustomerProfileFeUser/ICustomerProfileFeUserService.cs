@@ -1,17 +1,13 @@
 ﻿using Common.Http;
-using Domain.DTOs.Customer;
 using Domain.DTOs.CustomerFE;
 using Domain.DTOs.CustomerProfileFeUser;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.CustomerProfileFeUser
 {
     public interface ICustomerProfileFeUserService
     {
-        ReturnMessage<CustomerDataReturnDTO> UpdateProfile(UpdateCustomerProfileFeUserDTO model);
-        ReturnMessage<CustomerDataReturnDTO> ChangePassword(ChangePasswordCustomerProfileFeUserDTO model);
+        Task<ReturnMessage<CustomerDataReturnDTO>> UpdateProfile(UpdateCustomerProfileFeUserDTO model);
+        Task<ReturnMessage<CustomerDataReturnDTO>> ChangePassword(ChangePasswordCustomerProfileFeUserDTO model);
     }
 }

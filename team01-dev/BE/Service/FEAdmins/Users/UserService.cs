@@ -2,7 +2,6 @@
 using Common.Constants;
 using Common.Http;
 using Common.Pagination;
-using Domain.DTOs.User;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
@@ -12,7 +11,6 @@ using Domain.DTOs.Users;
 using Common.Enums;
 using System.Linq;
 using Common.StringEx;
-using Microsoft.EntityFrameworkCore;
 using Service.Auth;
 using System.Threading.Tasks;
 
@@ -128,8 +126,7 @@ namespace Service.Users
                 return new ReturnMessage<UserDTO>(true, null, ex.Message);
             }
         }
-        // async query ?
-        public ReturnMessage<PaginatedList<UserDTO>> SearchPagination(SearchPaginationDTO<UserDTO> search)
+        public async Task<ReturnMessage<PaginatedList<UserDTO>>> SearchPagination(SearchPaginationDTO<UserDTO> search)
         {
             if (search == null)
             {
@@ -139,7 +136,7 @@ namespace Service.Users
                     (search.Search == null ||
                         (
                             (
-                                (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                                (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                                 it.Username.Contains(search.Search.Username) ||
                                 it.Email.Contains(search.Search.Email) ||
                                 it.FirstName.Contains(search.Search.FirstName) ||
@@ -155,6 +152,7 @@ namespace Service.Users
             var data = _mapper.Map<PaginatedList<User>, PaginatedList<UserDTO>>(resultEntity);
             var result = new ReturnMessage<PaginatedList<UserDTO>>(false, data, MessageConstants.GetPaginationSuccess);
 
+            await Task.CompletedTask;
             return result;
         }
 

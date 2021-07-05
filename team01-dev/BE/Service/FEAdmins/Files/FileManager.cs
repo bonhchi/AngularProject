@@ -2,7 +2,6 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Common.Constants;
-using Common.Http;
 using Domain.DTOs.Files;
 using Infrastructure.Extensions;
 using Infrastructure.Files;
@@ -11,7 +10,6 @@ using Microsoft.AspNetCore.StaticFiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Files
@@ -62,9 +60,8 @@ namespace Service.Files
         private string GetContentType(string path)
         {
             var provider = new FileExtensionContentTypeProvider();
-            string contentType;
 
-            if (!provider.TryGetContentType(path, out contentType))
+            if (!provider.TryGetContentType(path, out string contentType))
             {
                 contentType = "application/octet-stream";
             }
@@ -152,7 +149,7 @@ namespace Service.Files
                 }
             }
 
-
+            await Task.CompletedTask;
             return createFileDTOs;
         }
     }

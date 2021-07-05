@@ -53,8 +53,8 @@ namespace Service.CustomerWishLists
                     var entity = _mapper.Map<CreateOrDeleteCustomerWishListDTO, CustomerWishList>(model);
                     entity.CustomerId = userInfo.CustomerId.GetValueOrDefault();
                     entity.Insert();
-                    _wishListRepository.Insert(entity);
-                    _unitOfWork.SaveChangesAsync();
+                    _wishListRepository.InsertAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
 
                     var result = _mapper.Map<CustomerWishList, CustomerWishListDTO>(entity);
                     return new ReturnMessage<CustomerWishListDTO>(false, result, MessageConstants.CreateSuccess);

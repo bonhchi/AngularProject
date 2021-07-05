@@ -1,21 +1,17 @@
 ﻿using AutoMapper;
-using Common;
 using Common.Constants;
 using Common.Enums;
 using Common.Http;
 using Common.MD5;
-using Data;
-using Domain.DTOs;
 using Domain.DTOs.User;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.Auth
 {
@@ -35,7 +31,7 @@ namespace Service.Auth
             _mapper = mapper;
         }
 
-        public ReturnMessage<UserDataReturnDTO> CheckLogin(UserLoginDTO data)
+        public async Task<ReturnMessage<UserDataReturnDTO>> CheckLogin(UserLoginDTO data)
         {
             if (data.Username.IsNullOrEmpty() || data.Password.IsNullOrEmpty())
             {
@@ -57,7 +53,7 @@ namespace Service.Auth
                 };
 
                 // Generate JWT token
-                var token = _userManager.GenerateToken(claims, DateTime.UtcNow);
+                var token = await _userManager.GenerateToken(claims, DateTime.UtcNow);
                 var result = _mapper.Map<User, UserDataReturnDTO>(account);
                 result.Token = token;
                 return new ReturnMessage<UserDataReturnDTO>(false, result, MessageConstants.LoginSuccess);
@@ -68,7 +64,7 @@ namespace Service.Auth
             }
         }
 
-        public ReturnMessage<UserDataReturnDTO> GetInformationUser()
+        public async Task<ReturnMessage<UserDataReturnDTO>> GetInformationUser()
         {
             try
             {
@@ -80,6 +76,7 @@ namespace Service.Auth
                 }
 
                 var result = _mapper.Map<User, UserDataReturnDTO>(data);
+                await Task.CompletedTask;
                 return new ReturnMessage<UserDataReturnDTO>(false, result, MessageConstants.LoginSuccess);
             }
             catch (Exception ex)

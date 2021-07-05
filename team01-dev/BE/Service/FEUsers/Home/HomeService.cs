@@ -4,16 +4,13 @@ using Common.Http;
 using Domain.DTOs.Banners;
 using Domain.DTOs.Blogs;
 using Domain.DTOs.Products;
-using Domain.DTOs.Users;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Service.Auth;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Home
@@ -25,7 +22,7 @@ namespace Service.Home
         private readonly IRepositoryAsync<Banner> _bannerRepository;
         private readonly IUserManager _userManager;
         private readonly IMapper _mapper;
-        private UserInformationDTO _userInformationDto;
+        //private UserInformationDTO _userInformationDto;
 
         public HomeService(IRepositoryAsync<Product> productRepository, IUserManager userManager, IRepositoryAsync<Blog> blogRepository, IRepositoryAsync<Banner> bannerRepository, IMapper mapper)
         {
@@ -58,7 +55,7 @@ namespace Service.Home
                 var result = new ReturnMessage<List<ProductDTO>>(false, data, MessageConstants.ListSuccess);
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
                 return new ReturnMessage<List<ProductDTO>>(true, null, MessageConstants.Error);
             }
@@ -151,6 +148,7 @@ namespace Service.Home
                 var resultEntity =  _blogRepository.Queryable().Where(i => i.IsDeleted == false).OrderByDescending(it => it.UpdateByDate).Take(12).ToList();
                 var data = _mapper.Map<List<Blog>, List<BlogDTO>>(resultEntity);
                 var result = new ReturnMessage<List<BlogDTO>>(false, data, MessageConstants.ListSuccess);
+                await Task.CompletedTask;
                 return result;
             }
             catch
@@ -166,6 +164,7 @@ namespace Service.Home
                 var resultEntity = _bannerRepository.Queryable().Where(i => i.IsDeleted == false).Take(12).OrderBy(it => it.DisplayOrder).ToList();
                 var data = _mapper.Map<List<Banner>, List<BannerDTO>>(resultEntity);
                 var result = new ReturnMessage<List<BannerDTO>>(false, data, MessageConstants.ListSuccess);
+                await Task.CompletedTask;
                 return result;
             }
             catch

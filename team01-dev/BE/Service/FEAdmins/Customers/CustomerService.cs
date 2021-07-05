@@ -6,16 +6,13 @@ using Common.MD5;
 using Common.Pagination;
 using Common.StringEx;
 using Domain.DTOs.Customer;
-using Domain.DTOs.Users;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Service.Auth;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Customers
@@ -80,8 +77,6 @@ namespace Service.Customers
 
                 _unitOfWork.BeginTransaction();
                 _userRepository.InsertAsync(user);
-                
-                //check error with savechange
 
                 customer.UserId = user.Id;
                 customer.User = user;
@@ -159,10 +154,6 @@ namespace Service.Customers
                 {
                     return new ReturnMessage<CustomerDTO>(true, null, MessageConstants.CreateFail);
                 }
-                //if (model.Username.Trim() == "")
-                //{
-                //    return new ReturnMessage<CustomerDTO>(true, null, MessageConstants.Error);
-                //}
 
                 var user = _userRepository.Queryable().FirstOrDefault(it => it.Id == model.Id && it.Type == UserType.Customer && !it.IsDeleted);
                 if (user.IsNullOrEmpty())
@@ -208,7 +199,7 @@ namespace Service.Customers
             }
         }
 
-        public ReturnMessage<PaginatedList<CustomerDTO>> SearchPagination(SearchPaginationDTO<CustomerDTO> search)
+        public async Task<ReturnMessage<PaginatedList<CustomerDTO>>> SearchPaginationAsync(SearchPaginationDTO<CustomerDTO> search)
         {
             if (search == null)
             {
@@ -219,7 +210,7 @@ namespace Service.Customers
                     (search.Search == null ||
                         (
                             (
-                                (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                                (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                                 it.Username.Contains(search.Search.Username) ||
                                 it.Email.Contains(search.Search.Email) ||
                                 it.FirstName.Contains(search.Search.FirstName) ||
@@ -235,6 +226,7 @@ namespace Service.Customers
             var data = _mapper.Map<PaginatedList<User>, PaginatedList<CustomerDTO>>(resultEntity);
             var result = new ReturnMessage<PaginatedList<CustomerDTO>>(false, data, MessageConstants.GetPaginationSuccess);
 
+            await Task.CompletedTask;
             return result;
         }
     }

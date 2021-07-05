@@ -7,8 +7,6 @@ using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.PromotionDetails
@@ -64,17 +62,17 @@ namespace Service.PromotionDetails
             }
         }
 
-        public ReturnMessage<PaginatedList<PromotionDetailDTO>> SearchPagination(SearchPaginationDTO<PromotionDetailDTO> search)
+        public async Task<ReturnMessage<PaginatedList<PromotionDetailDTO>>> SearchPaginationAsync(SearchPaginationDTO<PromotionDetailDTO> search)
         {
             if (search == null)
             {
                 return new ReturnMessage<PaginatedList<PromotionDetailDTO>>(true, null, MessageConstants.CommonError);
             }
 
-            var resultEntity = _promotionDetailRepository.GetPaginatedList(it => search.Search == null ||
+            var resultEntity = await _promotionDetailRepository.GetPaginatedListAsync(it => search.Search == null ||
                 (
                     (
-                        (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id)
+                        (search.Search.Id != Guid.Empty && it.Id == search.Search.Id)
                     )
                 )
                 , search.PageSize

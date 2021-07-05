@@ -1,16 +1,11 @@
 ﻿using Common.Constants;
-using Common.Http;
 using Common.Pagination;
 using Domain.DTOs.Coupons;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Coupons;
 using Service.Files;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
@@ -27,11 +22,10 @@ namespace BE.Controllers.FEAdmins
             _couponService = couponService;
         }
 
-        // async 
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<CouponDTO> serachPagination)
         {
-            var result = _couponService.SearchPagination(serachPagination);
+            var result = await _couponService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 

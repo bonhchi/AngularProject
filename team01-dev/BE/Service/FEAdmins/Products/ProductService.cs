@@ -83,13 +83,14 @@ namespace Service.Products
             }
         }
 
-        public ReturnMessage<List<ProductDTO>> GetByCategory(Guid id)
+        public async Task<ReturnMessage<List<ProductDTO>>> GetByCategory(Guid id)
         {
             try
             {
                 var listDTO = _productRepository.Queryable().Where(product => product.CategoryId == id).ToList();
                 var list = _mapper.Map<List<ProductDTO>>(listDTO);
                 var result = new ReturnMessage<List<ProductDTO>>(false, list, MessageConstants.ListSuccess);
+                await Task.CompletedTask;
                 return result;
             }
 
@@ -99,7 +100,7 @@ namespace Service.Products
             }
         }
 
-        public ReturnMessage<PaginatedList<ProductDTO>> SearchPagination(SearchPaginationDTO<ProductDTO> search)
+        public async Task<ReturnMessage<PaginatedList<ProductDTO>>> SearchPaginationAsync(SearchPaginationDTO<ProductDTO> search)
         {
             if (search == null)
             {
@@ -108,7 +109,7 @@ namespace Service.Products
             var query = _productRepository.Queryable().Include(it => it.Category).Where(it => (search.Search == null ||
                     (
                         (
-                            (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                            (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                             it.Name.Contains(search.Search.Name) ||
                             it.Description.Contains(search.Search.Description)
 
@@ -121,12 +122,12 @@ namespace Service.Products
             var data = _mapper.Map<PaginatedList<Product>, PaginatedList<ProductDTO>>(resultEntity);
             var result = new ReturnMessage<PaginatedList<ProductDTO>>(false, data, MessageConstants.ListSuccess);
 
+            await Task.CompletedTask;
             return result;
         }
 
         public async Task<ReturnMessage<ProductDTO>> UpdateAsync(UpdateProductDTO model)
         {
-
             model.Name = StringExtension.CleanString(model.Name);
             model.Description = StringExtension.CleanString(model.Description);
             if (model.Name == null ||
@@ -162,7 +163,7 @@ namespace Service.Products
             }
         }
 
-        public ReturnMessage<ProductDTO> GetById(Guid id)
+        public async Task<ReturnMessage<ProductDTO>> GetById(Guid id)
         {
             try
             {
@@ -170,7 +171,7 @@ namespace Service.Products
                 if (search.IsNotNullOrEmpty() && (search.IsDeleted == false))
                 {
 
-                    var category = _categoryRepository.Find(search.CategoryId);
+                    var category = await _categoryRepository.FindAsync(search.CategoryId);
                     if (category == null)
                     {
                         return new ReturnMessage<ProductDTO>(true, null, MessageConstants.Error);
@@ -179,6 +180,8 @@ namespace Service.Products
                     var result = new ReturnMessage<ProductDTO>(false, _mapper.Map<ProductDTO>(search), MessageConstants.ListSuccess);
                     return result;
                 }
+
+                await Task.CompletedTask;
                 return new ReturnMessage<ProductDTO>(true, null, MessageConstants.Error);
 
             }
@@ -189,7 +192,7 @@ namespace Service.Products
             }
         }
 
-        public ReturnMessage<UpdateProductDTO> UpdateCount(UpdateProductDTO product, int quantity)
+        public async Task<ReturnMessage<UpdateProductDTO>> UpdateCount(UpdateProductDTO product, int quantity)
         {
             try
             {
@@ -197,8 +200,8 @@ namespace Service.Products
                 product.SaleCount += quantity;
                 var entity = _mapper.Map<Product>(product);
 
-                _productRepository.Update(entity);
-                _unitOfWork.SaveChangesAsync();
+                await _productRepository.UpdateAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<UpdateProductDTO>(false, product, MessageConstants.UpdateSuccess);
                 return result;
                 

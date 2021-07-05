@@ -8,7 +8,7 @@ namespace Service.Profiles
     public interface IProfileService
     {
         Task<ReturnMessage<UserDataReturnDTO>> UpdateAsync(UpdateProfileDTO model);
-        ReturnMessage<UpdateProfileDTO> ChangePassword(ChangePassworProfileDTO model);
+        Task<ReturnMessage<UpdateProfileDTO>> ChangePassword(ChangePassworProfileDTO model);
 
     }
 }

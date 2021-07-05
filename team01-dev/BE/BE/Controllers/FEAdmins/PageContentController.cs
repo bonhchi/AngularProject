@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
-using Service.Home;
 using Service.PageContents;
-using System;
 using System.Threading.Tasks;
 
 namespace BE.ControllersFeUser.FEAdmins
@@ -25,9 +23,9 @@ namespace BE.ControllersFeUser.FEAdmins
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var result = _pageContentService.GetList();
+            var result = await _pageContentService.GetList();
             return CommonResponse(result);
         }
 

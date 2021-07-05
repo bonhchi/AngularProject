@@ -3,13 +3,11 @@ using Common.Constants;
 using Common.Http;
 using Common.Pagination;
 using Domain.DTOs.Comments;
-using Domain.DTOs.Users;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
 using Service.Auth;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -106,14 +104,14 @@ namespace Service.Comments
             }
         }
 
-        public ReturnMessage<PaginatedList<CommentDTO>> BlogPagination(SearchPaginationDTO<CommentDTO> search)
+        public async Task<ReturnMessage<PaginatedList<CommentDTO>>> BlogPaginationAsync(SearchPaginationDTO<CommentDTO> search)
         {
             if (search == null)
             {
                 return new ReturnMessage<PaginatedList<CommentDTO>>(false, null, MessageConstants.GetPaginationFail);
             }
 
-            var resultEntity = _commentRepository.GetPaginatedList(it => it.EntityType.Contains("Blog") && 
+            var resultEntity = await _commentRepository.GetPaginatedListAsync(it => it.EntityType.Contains("Blog") && 
                 (
                     search.Search == null ||
                     (
@@ -133,14 +131,16 @@ namespace Service.Comments
             return result;
         }
 
-        public ReturnMessage<PaginatedList<CommentDTO>> ProductPagination(SearchPaginationDTO<CommentDTO> search)
+
+        //string replacement
+        public async Task<ReturnMessage<PaginatedList<CommentDTO>>> ProductPaginationAsync(SearchPaginationDTO<CommentDTO> search)
         {
             if (search == null)
             {
                 return new ReturnMessage<PaginatedList<CommentDTO>>(false, null, MessageConstants.GetPaginationFail);
             }
 
-            var resultEntity = _commentRepository.GetPaginatedList(it => it.EntityType.Contains("Product") &&
+            var resultEntity = await _commentRepository.GetPaginatedListAsync(it => it.EntityType.Contains("Product") &&
                 (
                     search.Search == null ||
                     (
