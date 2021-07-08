@@ -10,40 +10,40 @@ using Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.PageContents
 {
     public class PageContentService : IPageContentService
     {
-        private readonly IRepository<PageContent> _pageContentRepository;
+        private readonly IRepositoryAsync<PageContent> _pageContentRepository;
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
-        public PageContentService(IRepository<PageContent> pageContentRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IUnitOfWorkAsync _unitOfWork;
+        public PageContentService(IRepositoryAsync<PageContent> pageContentRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper)
         {
             _pageContentRepository = pageContentRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
-
-        public ReturnMessage<PageContentDTO> Create(CreatePageContentDTO model)
+        public async Task<ReturnMessage<PageContentDTO>> CreateAsync(CreatePageContentDTO model)
         {
             try
             {
                 var entity = _mapper.Map<CreatePageContentDTO, PageContent>(model);
                 entity.Insert();
-                _pageContentRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _pageContentRepository.InsertAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var data = _mapper.Map<PageContent, PageContentDTO>(entity);
                 return new ReturnMessage<PageContentDTO>(false, data, MessageConstants.CreateSuccess);
             }
-            catch (Exception Ex)
+            catch
             {
                 return new ReturnMessage<PageContentDTO>(true, null, MessageConstants.Error);
             }
         }
 
-        public ReturnMessage<List<PageContentDTO>> GetList()
+        public async Task<ReturnMessage<List<PageContentDTO>>> GetList()
         {
             try
             {
@@ -53,6 +53,8 @@ namespace Service.PageContents
                                     .ToList();
                 var data = _mapper.Map<List<PageContent>, List<PageContentDTO>>(resultEntity);
                 var result = new ReturnMessage<List<PageContentDTO>>(false, data, MessageConstants.ListSuccess);
+
+                await Task.CompletedTask;
                 return result;
             }
             catch
@@ -61,12 +63,12 @@ namespace Service.PageContents
             }
         }
 
-        public ReturnMessage<PageContentDTO> GetById(Guid id)
+        public async Task<ReturnMessage<PageContentDTO>> GetById(Guid id)
 
         {
             try
             {
-                var resultEntity = _pageContentRepository.Find(id);
+                var resultEntity = await _pageContentRepository.FindAsync(id);
                 var data = _mapper.Map<PageContent, PageContentDTO>(resultEntity);
                 var result = new ReturnMessage<PageContentDTO>(false, data, MessageConstants.ListSuccess);
                 return result;
@@ -77,7 +79,7 @@ namespace Service.PageContents
             }
         }
 
-        public ReturnMessage<PageContentDTO> Update(UpdatePageContentDTO model)
+        public async Task<ReturnMessage<PageContentDTO>> UpdateAsync(UpdatePageContentDTO model)
         {
             model.Title = StringExtension.CleanString(model.Title);
             model.Description = StringExtension.CleanString(model.Description);
@@ -87,12 +89,12 @@ namespace Service.PageContents
             }
             try
             {
-                var entity = _pageContentRepository.Find(model.Id);
+                var entity = await _pageContentRepository.FindAsync(model.Id);
                 if (!entity.IsNotNullOrEmpty())
                     return new ReturnMessage<PageContentDTO>(true, null, MessageConstants.Error);
                 entity.Update(model);
-                _pageContentRepository.Update(entity);
-                _unitOfWork.SaveChanges();
+                await _pageContentRepository.UpdateAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
 
                 var data = _mapper.Map<PageContent, PageContentDTO>(entity);
                 var result = new ReturnMessage<PageContentDTO>(false, data, MessageConstants.ListSuccess);
@@ -104,7 +106,8 @@ namespace Service.PageContents
             }
         }
 
-        public ReturnMessage<PageContentDTO> Delete(DeletePageContentDTO model)
+        // not use
+        public async Task<ReturnMessage<PageContentDTO>> DeleteAsync(DeletePageContentDTO model)
         {
             try
             {
@@ -117,8 +120,8 @@ namespace Service.PageContents
                 }
                 var entity = _pageContentRepository.Find(model.Id);
                 entity.Delete();
-                _pageContentRepository.Update(entity);
-                _unitOfWork.SaveChanges();
+                await _pageContentRepository.UpdateAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<PageContentDTO>(false, null, MessageConstants.DeleteSuccess);
                 return result;
             }

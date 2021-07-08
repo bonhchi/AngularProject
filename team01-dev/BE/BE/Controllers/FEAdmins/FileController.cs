@@ -2,12 +2,10 @@
 using Common.Http;
 using Common.Pagination;
 using Domain.DTOs.Files;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,16 +26,17 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpGet]
-        public IActionResult GetFile([FromQuery] SearchPaginationDTO<FileDTO> serachPagination)
+        public async Task<IActionResult> GetFile([FromQuery] SearchPaginationDTO<FileDTO> serachPagination)
         {
-            var result = _fileService.SearchPagination(serachPagination);
+            var result = await _fileService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpGet(UrlConstants.BaseFileGetType)]
-        public IActionResult GetFileType()
+        public async Task<IActionResult> GetFileType()
         {
             var result = DataType.TypeName.ToArray();
+            await Task.CompletedTask;
             return CommonResponse(new ReturnMessage<KeyValuePair<string, string>[]>(false, result, MessageConstants.SearchSuccess));
         }
 
@@ -45,15 +44,14 @@ namespace BE.Controllers.FEAdmins
         public async Task<IActionResult> SaveFile([FromForm] SaveFileDTO dto)
         {
             var saveFiles = await _fileManager.SaveFile(dto);
-            var result = _fileService.Create(saveFiles);
+            var result = await _fileService.CreateAsync(saveFiles);
             return CommonResponse(result);
         }
 
         [HttpPut]
-        public IActionResult UpdateFile([FromForm] List<UpdateFileDTO> dto)
+        public async Task<IActionResult> UpdateFile([FromForm] List<UpdateFileDTO> dto)
         {
-
-            var result = _fileService.Update(dto);
+            var result = await _fileService.UpdateAsync(dto);
             return CommonResponse(result);
         }
 

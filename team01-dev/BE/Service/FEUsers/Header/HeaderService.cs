@@ -5,22 +5,22 @@ using Domain.DTOs.Blogs;
 using Domain.DTOs.Categories;
 using Domain.DTOs.FEUsers.Headers;
 using Domain.DTOs.InfomationWeb;
-using Domain.DTOs.SocialMedias;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.Header
 {
     public class HeaderService : IHeaderService
     {
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<Blog> _blogRepository;
-        private readonly IRepository<InformationWebsite> _webInfoRepository;
+        private readonly IRepositoryAsync<Category> _categoryRepository;
+        private readonly IRepositoryAsync<Blog> _blogRepository;
+        private readonly IRepositoryAsync<InformationWebsite> _webInfoRepository;
         private readonly IMapper _mapper;
 
-        public HeaderService(IRepository<InformationWebsite> webInfoRepository, IRepository<SocialMedia> socialMediaRepository, IRepository<Category> categoryRepository, IMapper mapper, IRepository<Blog> blogRepository)
+        public HeaderService(IRepositoryAsync<InformationWebsite> webInfoRepository, IRepositoryAsync<SocialMedia> socialMediaRepository, IRepositoryAsync<Category> categoryRepository, IMapper mapper, IRepositoryAsync<Blog> blogRepository)
         {
             _categoryRepository = categoryRepository;
             _blogRepository = blogRepository;
@@ -28,7 +28,7 @@ namespace Service.Header
             _webInfoRepository = webInfoRepository;
         }
 
-        public ReturnMessage<HeaderDTO> GetHeader()
+        public async Task<ReturnMessage<HeaderDTO>> GetHeader()
         {
             HeaderDTO headerDTO = new HeaderDTO();
             var blogQueries = _blogRepository.Queryable().Where(it => !it.IsDeleted).OrderByDescending(it => it.CreateByDate).ThenBy(it => it.Title).ThenBy(it => it.Title.Length).Take(5);
@@ -45,6 +45,7 @@ namespace Service.Header
 
             var result = new ReturnMessage<HeaderDTO>(false, headerDTO, MessageConstants.ListSuccess);
 
+            await Task.CompletedTask;
             return result;
         }
 

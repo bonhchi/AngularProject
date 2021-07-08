@@ -9,19 +9,18 @@ using Infrastructure.Extensions;
 using System;
 using System.Linq;
 using Common.StringEx;
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Service.Categories
 {
     public class CategoryService : ICategoryService
     {
-        private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<Product> _productRepository;
+        private readonly IRepositoryAsync<Category> _categoryRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CategoryService(IRepository<Category> categoryRepository, IRepository<Product> productRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CategoryService(IRepositoryAsync<Category> categoryRepository, IRepositoryAsync<Product> productRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
@@ -29,8 +28,7 @@ namespace Service.Categories
             _productRepository = productRepository;
         }
 
-
-        public ReturnMessage<CategoryDTO> Create(CreateCategoryDTO model)
+        public async Task<ReturnMessage<CategoryDTO>> CreateAsync(CreateCategoryDTO model)
         {
             model.Name = StringExtension.CleanString(model.Name);
             model.Description = StringExtension.CleanString(model.Description);
@@ -44,8 +42,8 @@ namespace Service.Categories
             {
                 var entity = _mapper.Map<CreateCategoryDTO, Category>(model);
                 entity.Insert();
-                _categoryRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _categoryRepository.InsertAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<CategoryDTO>(false, _mapper.Map<Category, CategoryDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -56,12 +54,11 @@ namespace Service.Categories
         }
 
 
-        public ReturnMessage<CategoryDTO> Delete(DeleteCategoryDTO model)
+        public async Task<ReturnMessage<CategoryDTO>> DeleteAsync(DeleteCategoryDTO model)
         {
             try
             {
-                var entity = _categoryRepository.Find(model.Id);
-
+                var entity = await _categoryRepository.FindAsync(model.Id);
                
                 var products = _productRepository.Queryable().Where(r => r.CategoryId == model.Id);
 
@@ -73,8 +70,8 @@ namespace Service.Categories
                         _productRepository.Update(product);
                     }
                     entity.Delete();
-                    _categoryRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    await _categoryRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<CategoryDTO>(false, _mapper.Map<Category, CategoryDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -86,7 +83,7 @@ namespace Service.Categories
             }
         }
 
-        public ReturnMessage<PaginatedList<CategoryDTO>> SearchPagination(SearchPaginationDTO <CategoryDTO> search)
+        public async Task<ReturnMessage<PaginatedList<CategoryDTO>>> SearchPaginationAsync(SearchPaginationDTO <CategoryDTO> search)
         {
             if (search == null)
             {
@@ -107,12 +104,12 @@ namespace Service.Categories
             var resultEntity = new PaginatedList<Category>(query, search.PageIndex * search.PageSize, search.PageSize);
             var data = _mapper.Map<PaginatedList<Category>, PaginatedList<CategoryDTO>>(resultEntity);
             var result = new ReturnMessage<PaginatedList<CategoryDTO>>(false, data, MessageConstants.ListSuccess);
-
+            await Task.CompletedTask;
             return result;
         }
     
 
-        public ReturnMessage<CategoryDTO> Update(UpdateCategoryDTO model)
+        public async Task<ReturnMessage<CategoryDTO>> UpdateAsync(UpdateCategoryDTO model)
         {
             model.Name = StringExtension.CleanString(model.Name);
             model.Description = StringExtension.CleanString(model.Description);
@@ -130,8 +127,8 @@ namespace Service.Categories
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Update(model);
-                    _categoryRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    await _categoryRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<CategoryDTO>(false, _mapper.Map<Category, CategoryDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }

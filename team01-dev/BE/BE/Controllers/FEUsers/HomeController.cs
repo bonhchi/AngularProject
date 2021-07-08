@@ -5,6 +5,7 @@ using Service.Auth;
 using Service.Files;
 using Service.Home;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers
 {
@@ -20,50 +21,44 @@ namespace BE.Controllers.FEUsers
         }
 
         [HttpGet(UrlConstants.TopCollection)]
-        public IActionResult GetTopCollectionProducts()
+        public async Task<IActionResult> GetTopCollectionProducts()
         {
-
-            var result = _homeService.GetTopCollectionProducts();
+            var result = await _homeService.GetTopCollectionProducts();
             return CommonResponse(result);
         }
 
         [HttpGet(UrlConstants.NewProducts)]
-        public IActionResult GetNewProducts()
+        public async Task<IActionResult> GetNewProducts()
         {
-
-            var result = _homeService.GetNewProducts();
+            var result = await _homeService.GetNewProducts();
             return CommonResponse(result);
         }
 
         [HttpGet(UrlConstants.BestSeller)]
-        public IActionResult GetBestSellerProducts()
+        public async Task<IActionResult> GetBestSellerProducts()
         {
-
-            var result = _homeService.GetBestSellerProducts();
+            var result = await _homeService.GetBestSellerProducts();
             return CommonResponse(result);
         }
 
         [HttpGet(UrlConstants.FeaturedProducts)]
-        public IActionResult GetFeaturedProducts()
+        public async Task<IActionResult> GetFeaturedProducts()
         {
-
-            var result = _homeService.GetFeaturedProducts();
+            var result = await _homeService.GetFeaturedProducts();
             return CommonResponse(result);
         }
 
         [HttpGet(UrlConstants.Blogs)]
-        public IActionResult GetBlogs()
+        public async Task<IActionResult> GetBlogs()
         {
-
-            var result = _homeService.GetBlogs();
+            var result = await _homeService.GetBlogs();
             return CommonResponse(result);
         }
 
         [HttpGet(UrlConstants.Banners)]
-        public IActionResult GetBanners()
+        public async Task<IActionResult> GetBanners()
         {
-
-            var result = _homeService.GetBanners();
+            var result = await _homeService.GetBanners();
             return CommonResponse(result);
         }
     }

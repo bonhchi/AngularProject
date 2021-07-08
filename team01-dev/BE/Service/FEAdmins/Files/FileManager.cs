@@ -2,7 +2,6 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Common.Constants;
-using Common.Http;
 using Domain.DTOs.Files;
 using Infrastructure.Extensions;
 using Infrastructure.Files;
@@ -11,7 +10,6 @@ using Microsoft.AspNetCore.StaticFiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Files
@@ -46,7 +44,7 @@ namespace Service.Files
             }
             var filePath = Path.Combine(UrlConstants.BaseLocalUrlFile, Path.GetFileName(url));
 
-            if (!System.IO.File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
                 return new FileStreamResult(memory, "application/octet-stream");
             }
@@ -62,9 +60,8 @@ namespace Service.Files
         private string GetContentType(string path)
         {
             var provider = new FileExtensionContentTypeProvider();
-            string contentType;
 
-            if (!provider.TryGetContentType(path, out contentType))
+            if (!provider.TryGetContentType(path, out string contentType))
             {
                 contentType = "application/octet-stream";
             }
@@ -131,7 +128,7 @@ namespace Service.Files
 
                         if (!DataType.TypeAccept[DataType.ETypeFile.Image].Contains(ext))
                         {
-                            using (var stream = System.IO.File.Create(filePath))
+                            using (var stream = File.Create(filePath))
                             {
                                 //stream.Write();
                                 formFile.CopyTo(stream);
@@ -152,7 +149,7 @@ namespace Service.Files
                 }
             }
 
-
+            await Task.CompletedTask;
             return createFileDTOs;
         }
     }

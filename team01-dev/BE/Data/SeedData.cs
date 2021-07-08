@@ -126,7 +126,7 @@ namespace Data
                         await context.InitSysData();
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
                     throw;
 

@@ -2,7 +2,6 @@
 using Common.Constants;
 using Common.Http;
 using Common.Pagination;
-using Domain.DTOs.User;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
@@ -12,19 +11,19 @@ using Domain.DTOs.Users;
 using Common.Enums;
 using System.Linq;
 using Common.StringEx;
-using Microsoft.EntityFrameworkCore;
 using Service.Auth;
+using System.Threading.Tasks;
 
 namespace Service.Users
 {
     public class UserService : IUserService
     {
-        private readonly IRepository<User> _userRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<User> _userRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserManager _userManager;
 
-        public UserService(IRepository<User> userRepository, IUnitOfWork unitOfWork, IMapper mapper, IUserManager userManager)
+        public UserService(IRepositoryAsync<User> userRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IUserManager userManager)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
@@ -32,7 +31,7 @@ namespace Service.Users
             _userManager = userManager;
         }
 
-        public ReturnMessage<UserDTO> Create(CreateUserDTO model)
+        public async Task<ReturnMessage<UserDTO>> CreateAsync(CreateUserDTO model)
         {
             //if (model.Username.Trim() == "" || model.Password.Trim() == "")
             //    return new ReturnMessage<UserDTO>(true, null, MessageConstants.Error);
@@ -59,8 +58,8 @@ namespace Service.Users
                 entity.Password = MD5Helper.ToMD5Hash(model.Password);
                 entity.Insert();
                 entity.Type = UserType.Admin;
-                _userRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _userRepository.InsertAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<UserDTO>(false, _mapper.Map<User, UserDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -70,7 +69,7 @@ namespace Service.Users
             }
         }
 
-        public ReturnMessage<UserDTO> Delete(DeleteUserDTO model)
+        public async Task <ReturnMessage<UserDTO>> DeleteAsync(DeleteUserDTO model)
         {
             try
             {
@@ -78,12 +77,12 @@ namespace Service.Users
                 {
                     return new ReturnMessage<UserDTO>(true, null, MessageConstants.Error);
                 }
-                var entity = _userRepository.Find(model.Id);
+                var entity = await _userRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Delete();
                     _userRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<UserDTO>(false, _mapper.Map<User, UserDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -95,7 +94,7 @@ namespace Service.Users
             }
         }
 
-        public ReturnMessage<UserDTO> Update(UpdateUserDTO model)
+        public async Task <ReturnMessage<UserDTO>> UpdateAsync(UpdateUserDTO model)
         {
             if (model.Id != _userManager.AuthorizedUserId && model.Id == CommonConstantsUser.UserAdminId)
             {
@@ -115,8 +114,8 @@ namespace Service.Users
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Update(model);
-                    _userRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    await _userRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<UserDTO>(false, _mapper.Map<User, UserDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }
@@ -127,8 +126,7 @@ namespace Service.Users
                 return new ReturnMessage<UserDTO>(true, null, ex.Message);
             }
         }
-
-        public ReturnMessage<PaginatedList<UserDTO>> SearchPagination(SearchPaginationDTO<UserDTO> search)
+        public async Task<ReturnMessage<PaginatedList<UserDTO>>> SearchPagination(SearchPaginationDTO<UserDTO> search)
         {
             if (search == null)
             {
@@ -138,7 +136,7 @@ namespace Service.Users
                     (search.Search == null ||
                         (
                             (
-                                (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                                (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                                 it.Username.Contains(search.Search.Username) ||
                                 it.Email.Contains(search.Search.Email) ||
                                 it.FirstName.Contains(search.Search.FirstName) ||
@@ -154,14 +152,15 @@ namespace Service.Users
             var data = _mapper.Map<PaginatedList<User>, PaginatedList<UserDTO>>(resultEntity);
             var result = new ReturnMessage<PaginatedList<UserDTO>>(false, data, MessageConstants.GetPaginationSuccess);
 
+            await Task.CompletedTask;
             return result;
         }
 
-        public ReturnMessage<UserDTO> GetDetailUser(Guid id)
+        public async Task<ReturnMessage<UserDTO>> GetDetailUser(Guid id)
         {
             try
             {
-                var entity = _userRepository.Find(id);
+                var entity = await _userRepository.FindAsync(id);
                 return new ReturnMessage<UserDTO>(false, _mapper.Map<User, UserDTO>(entity), MessageConstants.DeleteSuccess);
             }
             catch (Exception ex)

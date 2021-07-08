@@ -8,25 +8,24 @@ using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.SocialMedias
 {
     public class SocialMediaService : ISocialMediaService
     {
-        private readonly IRepository<SocialMedia> _socialMediaRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<SocialMedia> _socialMediaRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
 
-        public SocialMediaService(IRepository<SocialMedia> socialmediaRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public SocialMediaService(IRepositoryAsync<SocialMedia> socialmediaRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper)
         {
             _socialMediaRepository = socialmediaRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public ReturnMessage<SocialMediaDTO> Create(CreateSocialMediaDTO model)
+        public async Task<ReturnMessage<SocialMediaDTO>> CreateAsync(CreateSocialMediaDTO model)
         {
             model.Title = StringExtension.CleanString(model.Title);
             if(model.Title == null)
@@ -37,8 +36,8 @@ namespace Service.SocialMedias
             {
                 var entity = _mapper.Map<CreateSocialMediaDTO, SocialMedia>(model);
                 entity.Insert();
-                _socialMediaRepository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _socialMediaRepository.InsertAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<SocialMediaDTO>(false, _mapper.Map<SocialMedia, SocialMediaDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -48,16 +47,16 @@ namespace Service.SocialMedias
             }
         }
 
-        public ReturnMessage<SocialMediaDTO> Delete(DeleteSocialMediaDTO model)
+        public async Task<ReturnMessage<SocialMediaDTO>> DeleteAsync(DeleteSocialMediaDTO model)
         {
             try
             {
-                var entity = _socialMediaRepository.Find(model.Id);
+                var entity = await _socialMediaRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Delete();
-                    _socialMediaRepository.Delete(entity);
-                    _unitOfWork.SaveChanges();
+                    await _socialMediaRepository.DeleteAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<SocialMediaDTO>(false, _mapper.Map<SocialMedia, SocialMediaDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -69,7 +68,7 @@ namespace Service.SocialMedias
             }
         }
 
-        public ReturnMessage<SocialMediaDTO> Update(UpdateSocialMediaDTO model)
+        public async Task<ReturnMessage<SocialMediaDTO>> UpdateAsync(UpdateSocialMediaDTO model)
         {
             model.Title = StringExtension.CleanString(model.Title);
             if (model.Title == null)
@@ -78,12 +77,12 @@ namespace Service.SocialMedias
             }
             try
             {
-                var entity = _socialMediaRepository.Find(model.Id);
+                var entity = await _socialMediaRepository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Update(model);
-                    _socialMediaRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    await _socialMediaRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<SocialMediaDTO>(false, _mapper.Map<SocialMedia, SocialMediaDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }
@@ -95,17 +94,17 @@ namespace Service.SocialMedias
             }
         }
 
-        public ReturnMessage<PaginatedList<SocialMediaDTO>> SearchPagination(SearchPaginationDTO<SocialMediaDTO> search)
+        public async Task<ReturnMessage<PaginatedList<SocialMediaDTO>>> SearchPaginationAsync(SearchPaginationDTO<SocialMediaDTO> search)
         {
             if (search == null)
             {
                 return new ReturnMessage<PaginatedList<SocialMediaDTO>>(false, null, MessageConstants.GetPaginationFail);
             }
 
-            var resultEntity = _socialMediaRepository.GetPaginatedList(it => search.Search == null ||
+            var resultEntity = await _socialMediaRepository.GetPaginatedListAsync(it => search.Search == null ||
                 (
                     (
-                        (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                        (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Title.Contains(search.Search.Title) ||
                         it.Link.Contains(search.Search.Link) ||
                         it.IconUrl.Contains(search.Search.IconUrl)

@@ -1,15 +1,12 @@
-﻿using BE.Controllers;
-using Common.Constants;
+﻿using Common.Constants;
 using Common.Pagination;
 using Domain.DTOs.Blogs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
 using Service.UserBlogs;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers
@@ -25,30 +22,29 @@ namespace BE.Controllers.FEUsers
         }
 
         [HttpGet(UrlConstants.GetUserBlog)]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<BlogDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<BlogDTO> serachPagination)
         {
-            var result = _userBlogService.SearchPagination(serachPagination);
+            var result = await _userBlogService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpGet(UrlConstants.TopBlog)]
-        public IActionResult TopBlog([FromQuery] List<BlogDTO> model)
+        public async Task<IActionResult> TopBlog([FromQuery] List<BlogDTO> model)
         {
-            var result = _userBlogService.TopBlog(model);
+            var result = await _userBlogService.TopBlog(model);
             return CommonResponse(result);
         }
 
         [HttpGet(UrlConstants.RecentBlog)]
-        public IActionResult RecentBlog([FromQuery] List<BlogDTO> model)
+        public async Task<IActionResult> RecentBlog([FromQuery] List<BlogDTO> model)
         {
-            var result = _userBlogService.RecentBlog(model);
-            return CommonResponse(result);
-        }
+            var result = await _userBlogService.RecentBlog(model);
+            return CommonResponse(result);        }
 
         [HttpGet(UrlConstants.GetBlog)]
-        public IActionResult GetBlog(Guid id)
+        public async Task<IActionResult> GetBlog(Guid id)
         {
-            var result = _userBlogService.GetBlog(id);
+            var result = await _userBlogService.GetBlog(id);
             return CommonResponse(result);
         }
 

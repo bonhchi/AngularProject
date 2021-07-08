@@ -1,16 +1,11 @@
 ﻿using Common.Constants;
-using Common.Http;
 using Common.Pagination;
 using Domain.DTOs.Coupons;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Coupons;
 using Service.Files;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
@@ -26,31 +21,32 @@ namespace BE.Controllers.FEAdmins
         {
             _couponService = couponService;
         }
+
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<CouponDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<CouponDTO> serachPagination)
         {
-            var result = _couponService.SearchPagination(serachPagination);
+            var result = await _couponService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateCouponDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateCouponDTO model)
         {
-            var result = _couponService.Create(model);
+            var result = await _couponService.CreateAsync(model);
             return CommonResponse(result);
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateCouponDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateCouponDTO model)
         {
-            var result = _couponService.Update(model);
+            var result = await _couponService.UpdateAsync(model);
             return CommonResponse(result);
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteCouponDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteCouponDTO model)
         {
-            var result = _couponService.Delete(model);
+            var result = await _couponService.DeleteAsync(model);
             return CommonResponse(result);
         }
 

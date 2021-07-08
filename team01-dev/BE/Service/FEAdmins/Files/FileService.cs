@@ -2,28 +2,28 @@
 using Common.Constants;
 using Common.Http;
 using Common.Pagination;
-using Domain.DTOs.Categories;
 using Domain.DTOs.Files;
+using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
 using Service.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.Files
 {
     public class FileService : IFileService
     {
-        private readonly IRepository<Domain.Entities.File> _fileRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<File> _fileRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserManager _userManager;
 
         public FileService(IMapper mapper,
-            IUnitOfWork unitOfWork,
-            IRepository<Domain.Entities.File> fileRepository,
+            IUnitOfWorkAsync unitOfWork,
+            IRepositoryAsync<File> fileRepository,
             IUserManager userManager)
         {
             _mapper = mapper;
@@ -32,7 +32,7 @@ namespace Service.Files
             _userManager = userManager;
         }
 
-        public ReturnMessage<List<FileDTO>> Create(List<CreateFileDTO> model)
+        public async Task<ReturnMessage<List<FileDTO>>> CreateAsync(List<CreateFileDTO> model)
         {
             if (model.IsNullOrEmpty())
             {
@@ -41,7 +41,7 @@ namespace Service.Files
 
             try
             {
-                var userInfo = _userManager.GetInformationUser();
+                var userInfo = await _userManager.GetInformationUser();
                 if (userInfo.IsNullOrEmpty())
                 {
                     return new ReturnMessage<List<FileDTO>>(true, null, MessageConstants.CreateFail);
@@ -50,8 +50,7 @@ namespace Service.Files
                 entities.ForEach(it => it.Insert(userInfo));
                 _unitOfWork.BeginTransaction();
                 _fileRepository.InsertRange(entities);
-
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
                 var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<Domain.Entities.File>, List<FileDTO>>(entities), MessageConstants.CreateSuccess + " " + model.Count + " files");
                 return result;
@@ -63,7 +62,7 @@ namespace Service.Files
 
         }
 
-        public ReturnMessage<List<FileDTO>> Delete(List<DeleteFileDTO> model)
+        public async Task<ReturnMessage<List<FileDTO>>> DeleteAsync(List<DeleteFileDTO> model)
         {
             if (model.IsNullOrEmpty())
             {
@@ -72,12 +71,12 @@ namespace Service.Files
 
             try
             {
-                var userInfo = _userManager.GetInformationUser();
+                var userInfo = await _userManager.GetInformationUser();
                 if (userInfo.IsNullOrEmpty())
                 {
                     return new ReturnMessage<List<FileDTO>>(true, null, MessageConstants.CreateFail);
                 }
-                var entities = _fileRepository.Queryable().Where(it => model.IndexOf(_mapper.Map<Domain.Entities.File, DeleteFileDTO>(it)) > -1);
+                var entities = _fileRepository.Queryable().Where(it => model.IndexOf(_mapper.Map<File, DeleteFileDTO>(it)) > -1);
                 entities.ToList().ForEach(it =>
                 {
                     it.Delete(userInfo);
@@ -85,10 +84,10 @@ namespace Service.Files
                 });
                 _unitOfWork.BeginTransaction();
                 _fileRepository.UpdateRange(entities);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
 
-                var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<Domain.Entities.File>, List<FileDTO>>(entities.ToList()), MessageConstants.DeleteSuccess);
+                var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<File>, List<FileDTO>>(entities.ToList()), MessageConstants.DeleteSuccess);
                 return result;
             }
             catch (Exception ex)
@@ -98,17 +97,17 @@ namespace Service.Files
             }
         }
 
-        public ReturnMessage<PaginatedList<FileDTO>> SearchPagination(SearchPaginationDTO<FileDTO> search)
+        public async Task<ReturnMessage<PaginatedList<FileDTO>>> SearchPaginationAsync(SearchPaginationDTO<FileDTO> search)
         {
             if (search == null)
             {
                 return new ReturnMessage<PaginatedList<FileDTO>>(false, null, MessageConstants.Error);
             }
 
-            var resultEntity = _fileRepository.GetPaginatedList(it => search.Search == null ||
+            var resultEntity = await _fileRepository.GetPaginatedListAsync(it => search.Search == null ||
                 (
                     (
-                        (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                        (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Name.Contains(search.Search.Name)
                     //it.Description.Contains(search.Search.Description)
                     )
@@ -117,13 +116,12 @@ namespace Service.Files
                 , search.PageIndex * search.PageSize
                 , t => t.Name
             );
-            var data = _mapper.Map<PaginatedList<Domain.Entities.File>, PaginatedList<FileDTO>>(resultEntity);
+            var data = _mapper.Map<PaginatedList<File>, PaginatedList<FileDTO>>(resultEntity);
             var result = new ReturnMessage<PaginatedList<FileDTO>>(false, data, MessageConstants.SearchSuccess);
-
             return result;
         }
 
-        public ReturnMessage<List<FileDTO>> Update(List<UpdateFileDTO> model)
+        public async Task<ReturnMessage<List<FileDTO>>> UpdateAsync(List<UpdateFileDTO> model)
         {
             if (model.IsNullOrEmpty())
             {
@@ -132,7 +130,7 @@ namespace Service.Files
 
             try
             {
-                var userInfo = _userManager.GetInformationUser();
+                var userInfo = await _userManager.GetInformationUser();
                 if (userInfo.IsNullOrEmpty())
                 {
                     return new ReturnMessage<List<FileDTO>>(true, null, MessageConstants.CreateFail);
@@ -140,11 +138,10 @@ namespace Service.Files
                 var entities = _mapper.Map<List<UpdateFileDTO>, List<Domain.Entities.File>>(model);
                 entities.ForEach(it => it.Update(userInfo));
                 _unitOfWork.BeginTransaction();
-                _fileRepository.UpdateRange(entities);
-                _unitOfWork.SaveChanges();
+                await _fileRepository.UpdateRangeAsync(entities);
+                await _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
-
-                var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<Domain.Entities.File>, List<FileDTO>>(entities.ToList()), MessageConstants.UpdateSuccess);
+                var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<File>, List<FileDTO>>(entities.ToList()), MessageConstants.UpdateSuccess);
                 return result;
             }
             catch (Exception ex)
@@ -154,25 +151,25 @@ namespace Service.Files
             }
         }
 
-        public ReturnMessage<List<FileDTO>> UpdateIdFile(List<FileDTO> fileIds, Guid? entityId)
+        public async Task<ReturnMessage<List<FileDTO>>> UpdateIdFile(List<FileDTO> fileIds, Guid? entityId)
         {
             if (fileIds.IsNullOrEmpty() || entityId.IsNullOrEmpty() || entityId == Guid.Empty)
             {
                 return new ReturnMessage<List<FileDTO>>(false, null, MessageConstants.UpdateSuccess);
             }
 
-            var files = new List<Domain.Entities.File>();
+            var files = new List<File>();
 
             try
             {
-                var userInfo = _userManager.GetInformationUser();
+                var userInfo = await _userManager.GetInformationUser();
                 if (userInfo.IsNullOrEmpty())
                 {
                     return new ReturnMessage<List<FileDTO>>(true, null, MessageConstants.CreateFail);
                 }
                 foreach (var fileId in fileIds)
                 {
-                    var item = _fileRepository.Find(fileId.Id);
+                    var item = await _fileRepository.FindAsync(fileId.Id);
                     if (item.IsNotNullOrEmpty())
                     {
                         item.EntityId = entityId.ToString();
@@ -181,8 +178,8 @@ namespace Service.Files
                     }
                 }
                 _unitOfWork.BeginTransaction();
-                _fileRepository.UpdateRange(files);
-                _unitOfWork.SaveChanges();
+                await _fileRepository.UpdateRangeAsync(files);
+                await _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
 
                 var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<Domain.Entities.File>, List<FileDTO>>(files), MessageConstants.UpdateSuccess);

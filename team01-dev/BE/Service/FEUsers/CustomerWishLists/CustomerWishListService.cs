@@ -10,18 +10,19 @@ using Service.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.CustomerWishLists
 {
     public class CustomerWishListService : ICustomerWishListService
     {
-        private readonly IRepository<CustomerWishList> _wishListRepository;
-        private readonly IRepository<Product> _productRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<CustomerWishList> _wishListRepository;
+        private readonly IRepositoryAsync<Product> _productRepository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserManager _userManager;
 
-        public CustomerWishListService(IRepository<CustomerWishList> wishListRepository, IRepository<Product> productRepository, IUnitOfWork unitOfWork, IMapper mapper, IUserManager userManager)
+        public CustomerWishListService(IRepositoryAsync<CustomerWishList> wishListRepository, IRepositoryAsync<Product> productRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IUserManager userManager)
         {
             _wishListRepository = wishListRepository;
             _productRepository = productRepository;
@@ -30,11 +31,11 @@ namespace Service.CustomerWishLists
             _userManager = userManager;
         }
 
-        public ReturnMessage<CustomerWishListDTO> CreateOrDelete(CreateOrDeleteCustomerWishListDTO model)
+        public async Task<ReturnMessage<CustomerWishListDTO>> CreateOrDelete(CreateOrDeleteCustomerWishListDTO model)
         {
             try
             {
-                var userInfo = _userManager.GetInformationUser();
+                var userInfo = await _userManager.GetInformationUser();
                 if (userInfo.CustomerId.IsValid())
                 {
                     var checkExistEntity = _wishListRepository.Queryable()
@@ -44,7 +45,7 @@ namespace Service.CustomerWishLists
                     {
                         checkExistEntity.Delete();
                         _wishListRepository.Delete(checkExistEntity);
-                        _unitOfWork.SaveChanges();
+                        await _unitOfWork.SaveChangesAsync();
                         var _result = _mapper.Map<CustomerWishList, CustomerWishListDTO>(checkExistEntity);
                         return new ReturnMessage<CustomerWishListDTO>(false, _result, MessageConstants.DeleteSuccess);
                     }
@@ -52,8 +53,8 @@ namespace Service.CustomerWishLists
                     var entity = _mapper.Map<CreateOrDeleteCustomerWishListDTO, CustomerWishList>(model);
                     entity.CustomerId = userInfo.CustomerId.GetValueOrDefault();
                     entity.Insert();
-                    _wishListRepository.Insert(entity);
-                    _unitOfWork.SaveChanges();
+                    _wishListRepository.InsertAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
 
                     var result = _mapper.Map<CustomerWishList, CustomerWishListDTO>(entity);
                     return new ReturnMessage<CustomerWishListDTO>(false, result, MessageConstants.CreateSuccess);
@@ -66,13 +67,13 @@ namespace Service.CustomerWishLists
             }
         }
 
-        public ReturnMessage<List<ProductDTO>> GetByCustomer()
+        public async Task<ReturnMessage<List<ProductDTO>>> GetByCustomer()
         {
             try
             {
-                var customer = _userManager.GetInformationUser();
+                var customer = await _userManager.GetInformationUser();
 
-                var listProductId = _wishListRepository.Queryable()
+                var listProductId =  _wishListRepository.Queryable()
                                     .Where(i => i.CustomerId == customer.CustomerId)
                                     .Select(i => i.ProductId)
                                     .ToList();

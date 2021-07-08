@@ -1,13 +1,11 @@
 ﻿using Common.Constants;
-using Common.Http;
 using Domain.DTOs.Profiles;
-using Domain.DTOs.User;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
 using Service.Profiles;
+using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
 {
@@ -24,14 +22,14 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateProfileDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateProfileDTO model)
         {
-            var result = _profileService.Update(model);
+            var result = await _profileService.UpdateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -41,9 +39,9 @@ namespace BE.Controllers.FEAdmins
 
         [HttpPut]
         [Route(UrlConstants.Password)]
-        public IActionResult ChangePassword([FromBody] ChangePassworProfileDTO model)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePassworProfileDTO model)
         {
-            var result = _profileService.ChangePassword(model);
+            var result = await _profileService.ChangePassword(model);
             return CommonResponse(result);
         }
 

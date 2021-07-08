@@ -3,14 +3,10 @@ using Common.Pagination;
 using Domain.DTOs.Promotions;
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
 using Service.Promotions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
@@ -28,22 +24,21 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<PromotionDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<PromotionDTO> serachPagination)
         {
-
-            var result = _promotionService.SearchPagination(serachPagination);
+            var result = await _promotionService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreatePromotionDTO model)
+        public async Task<IActionResult> Create([FromBody] CreatePromotionDTO model)
         {
-            var result = _promotionService.Create(model);
+            var result = await _promotionService.CreateAsync(model);
             if (model.Files.IsNullOrEmpty() || result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -52,14 +47,14 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdatePromotionDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdatePromotionDTO model)
         {
-            var result = _promotionService.Update(model);
+            var result = await _promotionService.UpdateAsync(model);
             if (model.Files.IsNullOrEmpty() || result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -68,9 +63,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeletePromotionDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeletePromotionDTO model)
         {
-            var result = _promotionService.Delete(model);
+            var result = await _promotionService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

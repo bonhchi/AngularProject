@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Banners;
 using Service.Files;
+using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
 {
@@ -17,29 +18,27 @@ namespace BE.Controllers.FEAdmins
     public class BannerController : BaseController
     {
         private readonly IBannerService _bannerService;
-
-
         public BannerController(IBannerService bannerService, IAuthService authService, IUserManager userManager, IFileService fileService) : base(authService, userManager, fileService)
         {
             _bannerService = bannerService;
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<BannerDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<BannerDTO> serachPagination)
         {
-            var result = _bannerService.SearchPagination(serachPagination);
+            var result = await _bannerService.SearchPagination(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateBannerDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateBannerDTO model)
         {
-            var result = _bannerService.Create(model);
+            var result = await _bannerService.CreateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -48,14 +47,14 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateBannerDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateBannerDTO model)
         {
-            var result = _bannerService.Update(model);
+            var result = await _bannerService.UpdateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -64,9 +63,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteBannerDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteBannerDTO model)
         {
-            var result = _bannerService.Delete(model);
+            var result = await _bannerService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

@@ -1,14 +1,9 @@
 ﻿using Common.Constants;
-using Domain.DTOs.PageContent;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
-using Service.PageContents;
 using Service.UserPageContents;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers
@@ -25,17 +20,17 @@ namespace BE.Controllers.FEUsers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var result = _pageContentService.GetList();
+            var result = await _pageContentService.GetList();
             return CommonResponse(result);
         }
 
         [Route(UrlConstants.GetPageContentUser)]
         [HttpGet]
-        public IActionResult GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
-            var result = _pageContentService.GetById(id);
+            var result = await _pageContentService.GetById(id);
             return CommonResponse(result);
         }
     }

@@ -2,19 +2,16 @@
 using Common.Pagination;
 using Domain.DTOs.Comments;
 using Infrastructure.EntityFramework;
-using Service.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
+using System.Threading.Tasks;
 
 namespace Service.Comments
 {
     public interface ICommentService
     {
-        public ReturnMessage<PaginatedList<CommentDTO>> BlogPagination(SearchPaginationDTO<CommentDTO> search);
-        public ReturnMessage<PaginatedList<CommentDTO>> ProductPagination(SearchPaginationDTO<CommentDTO> search);
-        public ReturnMessage<CommentDTO> Create(CreateCommentDTO model);
-        public ReturnMessage<CommentDTO> Delete(DeleteCommentDTO model);
-
+        Task<ReturnMessage<PaginatedList<CommentDTO>>> BlogPaginationAsync(SearchPaginationDTO<CommentDTO> search);
+        Task<ReturnMessage<PaginatedList<CommentDTO>>> ProductPaginationAsync(SearchPaginationDTO<CommentDTO> search);
+        Task<ReturnMessage<CommentDTO>> CreateAsync(CreateCommentDTO model);
+        Task<ReturnMessage<CommentDTO>> DeleteAsync(DeleteCommentDTO model);
     }
 }

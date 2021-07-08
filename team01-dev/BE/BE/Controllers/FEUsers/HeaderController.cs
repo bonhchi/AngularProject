@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
 using Service.Header;
-
+using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers
 {
@@ -44,9 +44,9 @@ namespace BE.Controllers.FEUsers
         //}
 
         [HttpGet]
-        public IActionResult GetHeader()
+        public async Task<IActionResult> GetHeader()
         {
-            var result = _headerService.GetHeader();
+            var result = await _headerService.GetHeader();
             return CommonResponse(result);
         }
     }

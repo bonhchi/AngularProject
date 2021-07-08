@@ -23,10 +23,9 @@ namespace BE.Controllers.FEUsers
             _contactService = contactService;
         }
         [HttpPost]
-        public IActionResult Post([FromBody] CreateContactDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateContactDTO model)
         {
-
-            var result = _contactService.Create(model);
+            var result = await _contactService.CreateAsync(model);
             return CommonResponse(result);
         }
     }

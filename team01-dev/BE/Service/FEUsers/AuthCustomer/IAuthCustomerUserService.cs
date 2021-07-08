@@ -1,18 +1,14 @@
 ﻿using Common.Http;
-using Domain.DTOs.Customer;
 using Domain.DTOs.CustomerFE;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.AuthCustomer
 {
     public interface IAuthCustomerUserService
     {
-        ReturnMessage<CustomerDataReturnDTO> CheckLogin(CustomerLoginDTO data);
-        ReturnMessage<CustomerDataReturnDTO> CheckRegister(CustomerRegisterDTO data);
-        ReturnMessage<CustomerDataReturnDTO> GetCustomerDataReturnDTO();
-        ReturnMessage<String> ForgetPassword(CustomerEmailDTO model);
+        Task<ReturnMessage<CustomerDataReturnDTO>> CheckLogin(CustomerLoginDTO data);
+        Task<ReturnMessage<CustomerDataReturnDTO>> CheckRegister(CustomerRegisterDTO data);
+        Task<ReturnMessage<CustomerDataReturnDTO>> GetCustomerDataReturnDTO();
+        Task<ReturnMessage<string>> ForgetPassword(CustomerEmailDTO model);
     }
 }

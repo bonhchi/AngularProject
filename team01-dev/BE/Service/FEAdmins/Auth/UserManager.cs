@@ -14,18 +14,19 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.Auth
 {
     public class UserManager : IUserManager
     {
-        private IRepository<User> _userRepository;
-        private IMapper _mapper;
+        private readonly IRepositoryAsync<User> _userRepository;
+        private readonly IMapper _mapper;
         private readonly JwtTokenConfig _jwtTokenConfig;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly byte[] _secret;
 
-        public UserManager(JwtTokenConfig jwtTokenConfig, IMapper mapper, IRepository<Domain.Entities.User> repository, IHttpContextAccessor httpContextAccessor)
+        public UserManager(JwtTokenConfig jwtTokenConfig, IMapper mapper, IRepositoryAsync<User> repository, IHttpContextAccessor httpContextAccessor)
         {
             _jwtTokenConfig = jwtTokenConfig;
             _secret = Encoding.ASCII.GetBytes(jwtTokenConfig.Secret); // Secret key
@@ -34,7 +35,7 @@ namespace Service.Auth
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string GenerateToken(IEnumerable<Claim> claims, DateTime now)
+        public async Task<string> GenerateToken(IEnumerable<Claim> claims, DateTime now)
         {
             // Setup JWT generate parameters
             var jwtToken = new JwtSecurityToken(
@@ -44,6 +45,8 @@ namespace Service.Auth
                 notBefore: now,
                 signingCredentials: new SigningCredentials(new SymmetricSecurityKey(_secret), SecurityAlgorithms.HmacSha256Signature));
             var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+
+            await Task.CompletedTask;
             return accessToken;
         }
 
@@ -68,16 +71,16 @@ namespace Service.Auth
             try
             {
                 var data = _userRepository.Find(userId);
-                var result = _mapper.Map<Domain.Entities.User, UserDataReturnDTO>(data);
+                var result = _mapper.Map<User, UserDataReturnDTO>(data);
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
                 return new UserDataReturnDTO();
             }
         }
 
-        public UserInformationDTO GetInformationUser()
+        public async Task<UserInformationDTO> GetInformationUser()
         {
             try
             {
@@ -86,7 +89,8 @@ namespace Service.Auth
                 {
                     return new UserInformationDTO();
                 }
-                var result = _mapper.Map<User, UserInformationDTO>(user);
+                var result =  _mapper.Map<User, UserInformationDTO>(user);
+                await Task.CompletedTask;
                 return result;
             }
             catch

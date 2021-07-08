@@ -8,30 +8,30 @@ using Infrastructure.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.UserBlogs
 {
     public class UserBlogService : IUserBlogService
     {
-        private readonly IRepository<Blog> _blogRepository;
+        private readonly IRepositoryAsync<Blog> _blogRepository;
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWorkAsync _unitOfWork;
 
-        public UserBlogService(IRepository<Blog> blogRepository, IMapper mapper, IUnitOfWork unitOfWork)
+        public UserBlogService(IRepositoryAsync<Blog> blogRepository, IMapper mapper, IUnitOfWorkAsync unitOfWork)
         {
             _blogRepository = blogRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
-        public ReturnMessage<BlogDTO> GetBlog(Guid id)
+        public async Task<ReturnMessage<BlogDTO>> GetBlog(Guid id)
         {
             try
             {
-                var entity = _blogRepository.Find(id);
+                var entity = await _blogRepository.FindAsync(id);
                 entity.Update();
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
                 return new ReturnMessage<BlogDTO>(false, _mapper.Map<Blog, BlogDTO>(entity), MessageConstants.GetSuccess);
             }
             catch (Exception ex)
@@ -40,7 +40,7 @@ namespace Service.UserBlogs
             }
         }
 
-        public ReturnMessage<List<BlogDTO>> RecentBlog(List<BlogDTO> model)
+        public async Task<ReturnMessage<List<BlogDTO>>> RecentBlog(List<BlogDTO> model)
         {
             if (model == null)
             {
@@ -49,30 +49,33 @@ namespace Service.UserBlogs
             var resultRecent = _blogRepository.Queryable().OrderByDescending(p => p.UpdateByDate).Take(5).ToList();
             var data = _mapper.Map<List<Blog>, List<BlogDTO>>(resultRecent);
             var result = new ReturnMessage<List<BlogDTO>>(false, data, MessageConstants.SearchSuccess);
+
+            await Task.CompletedTask;
             return result;
         }
 
        
 
-        public ReturnMessage<List<BlogDTO>> TopBlog(List<BlogDTO> model)
+        public async Task<ReturnMessage<List<BlogDTO>>>TopBlog(List<BlogDTO> model)
         {
             if (model == null)
             {
                 return new ReturnMessage<List<BlogDTO>>(false, null, MessageConstants.DeleteSuccess);
             }
+            await Task.CompletedTask;
             return TakeBlog(3);
         }
 
 
         
-        public ReturnMessage<PaginatedList<BlogDTO>> SearchPagination(SearchPaginationDTO<BlogDTO> search)
+        public async Task<ReturnMessage<PaginatedList<BlogDTO>>> SearchPaginationAsync(SearchPaginationDTO<BlogDTO> search)
         {
             if (search == null)
             {
                 return new ReturnMessage<PaginatedList<BlogDTO>>(false, null, MessageConstants.GetPaginationFail);
             }
 
-            var resultEntity = _blogRepository.GetPaginatedList(it => search.Search == null ||
+            var resultEntity = await _blogRepository.GetPaginatedListAsync(it => search.Search == null ||
                 (
                     (
                         (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
@@ -90,6 +93,7 @@ namespace Service.UserBlogs
             var result = new ReturnMessage<PaginatedList<BlogDTO>>(false, data, MessageConstants.GetPaginationSuccess);
             return result;
         }
+
         private ReturnMessage<List<BlogDTO>> TakeBlog(int number)
         {
             var resultTop = _blogRepository.Queryable().

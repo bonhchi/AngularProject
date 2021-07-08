@@ -3,7 +3,6 @@ using Common.Constants;
 using Common.Enums;
 using Common.Http;
 using Common.MD5;
-using Domain.DTOs.Customer;
 using Domain.DTOs.CustomerFE;
 using Domain.DTOs.CustomerProfileFeUser;
 using Domain.DTOs.Users;
@@ -12,25 +11,22 @@ using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
 using Service.Auth;
 using Service.AuthCustomer;
-using Service.Customers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Service.CustomerProfileFeUser
 {
     public class CustomerProfileFeUserService : ICustomerProfileFeUserService
     {
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Customer> _customerRepository;
-        private readonly IAuthCustomerUserService _authCustomerUserService;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<User> _userRepository;
+        private readonly IRepositoryAsync<Customer> _customerRepository;
+        private readonly IAuthCustomerUserService _authCustomerUserService;//not use
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserManager _userManager;
 
-        public CustomerProfileFeUserService(IRepository<User> userRepository, IRepository<Customer> customerRepository, IAuthCustomerUserService authCustomerUserService, IUnitOfWork unitOfWork, IMapper mapper, IAuthService authService, IUserManager userManager)
+        public CustomerProfileFeUserService(IRepositoryAsync<User> userRepository, IRepositoryAsync<Customer> customerRepository, IAuthCustomerUserService authCustomerUserService, IUnitOfWorkAsync unitOfWork, IMapper mapper, IAuthService authService, IUserManager userManager)
         {
             _userRepository = userRepository;
             _customerRepository = customerRepository;
@@ -40,7 +36,7 @@ namespace Service.CustomerProfileFeUser
             _userManager = userManager;
         }
 
-        public ReturnMessage<CustomerDataReturnDTO> ChangePassword(ChangePasswordCustomerProfileFeUserDTO model)
+        public async Task<ReturnMessage<CustomerDataReturnDTO>> ChangePassword(ChangePasswordCustomerProfileFeUserDTO model)
         {
             try
             {
@@ -59,8 +55,8 @@ namespace Service.CustomerProfileFeUser
                 }
                 var userInfo = _mapper.Map<User, UserInformationDTO>(user);
                 user.ChangePassword(userInfo, model);
-                _userRepository.Update(user);
-                _unitOfWork.SaveChanges();
+                await _userRepository.UpdateAsync(user);
+                await _unitOfWork.SaveChangesAsync();
 
                 return new ReturnMessage<CustomerDataReturnDTO>(false, null, MessageConstants.UpdateSuccess);
             }
@@ -70,7 +66,7 @@ namespace Service.CustomerProfileFeUser
             }
         }
 
-        public ReturnMessage<CustomerDataReturnDTO> UpdateProfile(UpdateCustomerProfileFeUserDTO model)
+        public async Task<ReturnMessage<CustomerDataReturnDTO>> UpdateProfile(UpdateCustomerProfileFeUserDTO model)
         {
             try
             {
@@ -103,9 +99,9 @@ namespace Service.CustomerProfileFeUser
                 customer.UpdateProfile(userInfo, model);
 
                 _unitOfWork.BeginTransaction();
-                _userRepository.Update(user);
-                _customerRepository.Update(customer);
-                _unitOfWork.SaveChanges();
+                await _userRepository.UpdateAsync(user);
+                await _customerRepository.UpdateAsync(customer);
+                await _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
 
                 return new ReturnMessage<CustomerDataReturnDTO>(false, _mapper.Map<User, CustomerDataReturnDTO>(user), MessageConstants.UpdateSuccess);

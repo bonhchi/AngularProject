@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using Infrastructure.EntityFramework;
+﻿using Infrastructure.EntityFramework;
 using Infrastructure.EntityFramework.Factories;
 using Microsoft.Extensions.DependencyInjection;
 using Service.SocialMedias;
@@ -28,8 +27,6 @@ using Service.OrderDetails;
 using Service.Contacts;
 using Service.Comments;
 using Service.CustomerWishLists;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Service.UserBlogs;
 using Service.Gmails;
 using Service.UserPageContents;

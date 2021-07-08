@@ -9,28 +9,30 @@ using Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.Contacts
 {
     public class ContactService : IContactService
     {
-        private readonly IRepository<Contact> _repository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepositoryAsync<Contact> _repository;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ContactService(IRepository<Contact> repository, IUnitOfWork unitOfWork, IMapper mapper)
+        public ContactService(IRepositoryAsync<Contact> repository, IUnitOfWorkAsync unitOfWork, IMapper mapper)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public ReturnMessage<List<ContactDTO>> GetList()
+        public async Task<ReturnMessage<List<ContactDTO>>> GetList()
         {
             try
             {
                 var entities= _repository.Queryable().OrderByDescending(it => it.CreateByDate).ToList();
                 var result = new ReturnMessage<List<ContactDTO>>(false, _mapper.Map<List<Contact>, List<ContactDTO>>(entities), MessageConstants.CreateSuccess);
+                await Task.CompletedTask;
                 return result;
             }
             catch
@@ -39,7 +41,7 @@ namespace Service.Contacts
             }
         }
 
-        public ReturnMessage<ContactDTO> Update(UpdateContactDTO model)
+        public async Task<ReturnMessage<ContactDTO>> UpdateAsync(UpdateContactDTO model)
         {
             try
             {
@@ -47,8 +49,8 @@ namespace Service.Contacts
                 if (entity.IsNotNullOrEmpty() && entity.Status != StatusContact.Done )
                 {
                     entity.Update(model);
-                    _repository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    await _repository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<ContactDTO>(false, _mapper.Map<Contact, ContactDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }   
@@ -60,7 +62,7 @@ namespace Service.Contacts
             }
         }
 
-        public ReturnMessage<ContactDTO> Create(CreateContactDTO model)
+        public async Task<ReturnMessage<ContactDTO>> CreateAsync(CreateContactDTO model)
         {
             try
             {
@@ -76,8 +78,8 @@ namespace Service.Contacts
 
                 var entity = _mapper.Map<CreateContactDTO, Contact>(model);
                 entity.Insert();
-                _repository.Insert(entity);
-                _unitOfWork.SaveChanges();
+                _repository.InsertAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
                 var result = new ReturnMessage<ContactDTO>(false, _mapper.Map<Contact, ContactDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
@@ -87,16 +89,16 @@ namespace Service.Contacts
             }
         }
 
-        public ReturnMessage<ContactDTO> Delete(DeleteContactDTO model)
+        public async Task<ReturnMessage<ContactDTO>> DeleteAsync(DeleteContactDTO model)
         {
             try
             {
-                var entity = _repository.Find(model.Id);
+                var entity = await _repository.FindAsync(model.Id);
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Delete();
-                    _repository.Delete(entity);
-                    _unitOfWork.SaveChanges();
+                    await _repository.DeleteAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<ContactDTO>(false, _mapper.Map<Contact, ContactDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }

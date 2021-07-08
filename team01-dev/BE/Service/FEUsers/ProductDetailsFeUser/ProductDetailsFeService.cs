@@ -2,7 +2,6 @@
 using Common.Constants;
 using Common.Http;
 using Domain.DTOs.ProductsFeUser;
-using Domain.DTOs.Users;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
@@ -10,32 +9,33 @@ using Microsoft.EntityFrameworkCore;
 using Service.Auth;
 using Service.ProductDetailsFeUser;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.ServiceFeUser
 {
     public class ProductDetailsFeService : IProductDetailsFeService
     {
-        private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepositoryAsync<Product> _productRepository;
+        private readonly IRepositoryAsync<Category> _categoryRepository; //not use
         private readonly IMapper _mapper;
-        private UserInformationDTO _userInformationDto;
+        //private UserInformationDTO _userInformationDto;
         private readonly IUserManager _userManager;
 
-        public ProductDetailsFeService(IRepository<Category> categoryRepository, IRepository<Product> productRepository, IMapper mapper, IUserManager userManager)
+        public ProductDetailsFeService(IRepositoryAsync<Category> categoryRepository, IRepositoryAsync<Product> productRepository, IMapper mapper, IUserManager userManager)
         {
             _productRepository = productRepository;
             _mapper = mapper;
             _categoryRepository = categoryRepository;
             _userManager = userManager;
-            _userInformationDto = _userManager.GetInformationUser();
+            
         }
-        public ReturnMessage<ProductDTOFeUser> GetDetails(ProductDTOFeUser model)
+        public async Task<ReturnMessage<ProductDTOFeUser>> GetDetails(ProductDTOFeUser model)
         {
             if (model == null)
             {
                 return new ReturnMessage<ProductDTOFeUser>(false, null, MessageConstants.Error);
             }
-
+            var _userInformationDto = await _userManager.GetInformationUser();
             var resultEntity = _productRepository
                 .Queryable()
                 .Include(t => t.Category).Include(t => t.CustomerWishLists)

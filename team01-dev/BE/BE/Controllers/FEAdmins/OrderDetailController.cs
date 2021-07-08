@@ -1,13 +1,12 @@
 ﻿using Common.Constants;
-using Common.Http;
 using Common.Pagination;
 using Domain.DTOs.OrderDetails;
-using Domain.DTOs.Orders;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
 using Service.OrderDetails;
 using System;
+using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
 {
@@ -23,25 +22,27 @@ namespace BE.Controllers.FEAdmins
             _orderDetailService = orderDetailService;
         }
 
+        //async
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<OrderDetailDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<OrderDetailDTO> serachPagination)
         {
-            var result = _orderDetailService.SearchPagination(serachPagination);
+            var result = await _orderDetailService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 
+        //async
         [HttpGet]
-        [Route("order")]
-        public IActionResult GetByOrder([FromQuery]Guid id)
+        [Route("order")]//const
+        public async Task<IActionResult> GetByOrder([FromQuery]Guid id)
         {
-            var result = _orderDetailService.GetByOrder(id);
+            var result = await _orderDetailService.GetByOrder(id);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateOrderDetailDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateOrderDetailDTO model)
         {
-            var result = _orderDetailService.Create(model);
+            var result = await _orderDetailService.CreateAsync(model);
             //if (model.Files.IsNullOrEmpty() || result.HasError)
             //{
             //    return CommonResponse(result);
@@ -55,9 +56,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateOrderDetailDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateOrderDetailDTO model)
         {
-            var result = _orderDetailService.Update(model);
+            var result =  await _orderDetailService.UpdateAsync(model);
             //if (model.Files.IsNullOrEmpty() || result.HasError)
             //{
             //    return CommonResponse(result);
@@ -71,9 +72,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteOrderDetailDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteOrderDetailDTO model)
         {
-            var result = _orderDetailService.Delete(model);
+            var result = await _orderDetailService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

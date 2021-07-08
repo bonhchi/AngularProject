@@ -1,13 +1,8 @@
-﻿using BE.Controllers;
-using Common.Constants;
+﻿using Common.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
 using Service.Footer;
-using Service.Header;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers
@@ -25,9 +20,9 @@ namespace BE.Controllers.FEUsers
         }
 
         [HttpGet]
-        public IActionResult GetFooter()
+        public async Task<IActionResult> GetFooter()
         {
-            var result = _footerService.GetFooter();
+            var result = await _footerService.GetFooter();
             return CommonResponse(result);
         }
     }

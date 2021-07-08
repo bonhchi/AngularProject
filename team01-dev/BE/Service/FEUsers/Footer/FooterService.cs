@@ -11,18 +11,19 @@ using Infrastructure.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.Footer
 {
     public class FooterService : IFooterService
     {
-        private readonly IRepository<SocialMedia> _socialMediaRepository;
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<PageContent> _pageRepository;
-        private readonly IRepository<InformationWebsite> _informationRepository;
+        private readonly IRepositoryAsync<SocialMedia> _socialMediaRepository;
+        private readonly IRepositoryAsync<Category> _categoryRepository;
+        private readonly IRepositoryAsync<PageContent> _pageRepository;
+        private readonly IRepositoryAsync<InformationWebsite> _informationRepository;
         private readonly IMapper _mapper;
 
-        public FooterService(IRepository<SocialMedia> socialMediaRepository, IRepository<Category> categoryRepository, IMapper mapper, IRepository<PageContent> pageRepository, IRepository<InformationWebsite> informationRepository)
+        public FooterService(IRepositoryAsync<SocialMedia> socialMediaRepository, IRepositoryAsync<Category> categoryRepository, IMapper mapper, IRepositoryAsync<PageContent> pageRepository, IRepositoryAsync<InformationWebsite> informationRepository)
         {
             _socialMediaRepository = socialMediaRepository;
             _categoryRepository = categoryRepository;
@@ -31,7 +32,7 @@ namespace Service.Footer
             _informationRepository = informationRepository;
         }
 
-        public ReturnMessage<FooterDTO> GetFooter()
+        public async Task<ReturnMessage<FooterDTO>> GetFooter()
         {
             try
             {
@@ -45,13 +46,14 @@ namespace Service.Footer
                 var queryPageContent = _pageRepository.Queryable().Where(it => !it.IsDeleted && it.Order >= -1).ToList();
                 var pagecontents = _mapper.Map<List<PageContentDTO>>(queryPageContent);
 
-                var queryInformationWeb = _informationRepository.Find(CommonConstants.WebSiteInformationId);
+                var queryInformationWeb = await _informationRepository.FindAsync(CommonConstants.WebSiteInformationId);
                 var informationWeb = _mapper.Map<InformationWebsite, InformationWebDTO>(queryInformationWeb);
 
                 footerDTO.categories = categories;
                 footerDTO.socialMedias = socialmedias;
                 footerDTO.pageContents = pagecontents;
                 footerDTO.informationWeb = informationWeb;
+
                 return new ReturnMessage<FooterDTO>(false, footerDTO, MessageConstants.ListSuccess);
             }
             catch(Exception ex)

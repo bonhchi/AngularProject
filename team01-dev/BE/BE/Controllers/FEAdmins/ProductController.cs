@@ -1,14 +1,12 @@
 ﻿using Common.Constants;
-using Common.Http;
 using Common.Pagination;
 using Domain.DTOs.Products;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
 using Service.Products;
-
+using System.Threading.Tasks;
 
 namespace BE.Controllers.FEAdmins
 {
@@ -24,22 +22,21 @@ namespace BE.Controllers.FEAdmins
             _productService = productService;
         }
         [HttpGet]
-        public IActionResult Get([FromQuery] SearchPaginationDTO<ProductDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<ProductDTO> serachPagination)
         {
-
-            var result = _productService.SearchPagination(serachPagination);
+            var result = await _productService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateProductDTO model)
+        public async Task<IActionResult> Create([FromBody] CreateProductDTO model)
         {
-            var result = _productService.Create(model);
+            var result = await _productService.CreateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -48,14 +45,14 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateProductDTO model)
+        public async Task<IActionResult> Update([FromBody] UpdateProductDTO model)
         {
-            var result = _productService.Update(model);
+            var result = await _productService.UpdateAsync(model);
             if (result.HasError)
             {
                 return CommonResponse(result);
             }
-            var uploadImage = _fileService.UpdateIdFile(model.Files, result.Data.Id);
+            var uploadImage = await _fileService.UpdateIdFile(model.Files, result.Data.Id);
             if (uploadImage.HasError)
             {
                 return CommonResponse(uploadImage);
@@ -64,9 +61,9 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery] DeleteProductDTO model)
+        public async Task<IActionResult> Delete([FromQuery] DeleteProductDTO model)
         {
-            var result = _productService.Delete(model);
+            var result = await _productService.DeleteAsync(model);
             return CommonResponse(result);
         }
     }

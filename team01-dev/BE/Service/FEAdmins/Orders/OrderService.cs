@@ -2,7 +2,6 @@
 using Common.Constants;
 using Common.Http;
 using Common.Pagination;
-using Common.StringEx;
 using Domain.DTOs.Orders;
 using Domain.DTOs.Products;
 using Domain.Entities;
@@ -14,24 +13,21 @@ using Service.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Service.Orders
 {
     public class OrderService : IOrderService
     {
-        private readonly IRepository<Order> _orderRepository;
-        private readonly IRepository<Coupon> _couponRepository;
-        private readonly IRepository<Product> _productRepository;
-
+        private readonly IRepositoryAsync<Order> _orderRepository;
+        private readonly IRepositoryAsync<Coupon> _couponRepository;
+        private readonly IRepositoryAsync<Product> _productRepository;
         private readonly ICouponService _couponService;
         private readonly IProductService _productService;
-
-
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
-        public OrderService(IRepository<Product> productRepository, IProductService productService, ICouponService couponService, IRepository<Order> orderRepository, IUnitOfWork unitOfWork, IMapper mapper, IRepository<Coupon> couponRepository)
+        public OrderService(IRepositoryAsync<Product> productRepository, IProductService productService, ICouponService couponService, IRepositoryAsync<Order> orderRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IRepositoryAsync<Coupon> couponRepository)
         {
-
             _orderRepository = orderRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -41,9 +37,8 @@ namespace Service.Orders
             _productRepository = productRepository;
         }
 
-        public ReturnMessage<OrderDTO> Create(CreateOrderDTO model)
+        public async Task<ReturnMessage<OrderDTO>> CreateAsync(CreateOrderDTO model)
         {
-
             try
             {
                 if(model.OrderDetails.IsNullOrEmpty())
@@ -51,12 +46,13 @@ namespace Service.Orders
                     return new ReturnMessage<OrderDTO>(true, null, MessageConstants.Error);
                 }
                 var coupon = _couponRepository.Queryable().FirstOrDefault(t => t.Id == model.CouponId);
-                if ((coupon.IsNotNullOrEmpty() && _couponService.GetByCode(coupon.Code).HasError == false) || model.CouponCode == null)
+                var getByCode = await _couponService.GetByCode(coupon.Code);
+                if ((coupon.IsNotNullOrEmpty() && getByCode.HasError == false) || model.CouponCode == null)
                 {
                     var invalidProducts = false;
-                    model.OrderDetails.ForEach(detail =>
+                    model.OrderDetails.ForEach(async detail =>
                     {
-                        var check = _productService.GetById(detail.ProductId);
+                        var check = await _productService.GetById(detail.ProductId);
                         if (check.HasError)
                         {
                             invalidProducts = true;
@@ -73,12 +69,12 @@ namespace Service.Orders
                     _unitOfWork.BeginTransaction();
                     entity.Insert(coupon);
 
-                    _orderRepository.Insert(entity);
+                    _orderRepository.InsertAsync(entity);
 
-                    _unitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChangesAsync();
                     _unitOfWork.Commit();
 
-                    var result = GetById(entity.Id);
+                    var result = await GetById(entity.Id);
                     return result;
 
                 }
@@ -91,9 +87,7 @@ namespace Service.Orders
                 return new ReturnMessage<OrderDTO>(true, null, ex.Message);
             }
         }
-
-
-        public ReturnMessage<OrderDTO> GetById(Guid id)
+        public async Task<ReturnMessage<OrderDTO>> GetById(Guid id)
         {
             var order = _orderRepository.Queryable()
                 .AsNoTracking()
@@ -101,10 +95,11 @@ namespace Service.Orders
                 .ThenInclude(t => t.Product)
                 .FirstOrDefault(t => t.Id == id);
             var result = new ReturnMessage<OrderDTO>(false, _mapper.Map<Order, OrderDTO>(order), MessageConstants.GetPaginationSuccess);
+            await Task.CompletedTask;
             return result;
 
         }
-        public ReturnMessage<OrderDTO> Delete(DeleteOrderDTO model)
+        public async Task<ReturnMessage<OrderDTO>> DeleteAsync(DeleteOrderDTO model)
         {
             try
             {
@@ -112,8 +107,8 @@ namespace Service.Orders
                 if (entity.IsNotNullOrEmpty())
                 {
                     entity.Delete();
-                    _orderRepository.Delete(entity);
-                    _unitOfWork.SaveChanges();
+                    await _orderRepository.DeleteAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<OrderDTO>(false, _mapper.Map<Order, OrderDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
@@ -125,8 +120,8 @@ namespace Service.Orders
             }
         }
 
-
-        public ReturnMessage<PaginatedList<OrderDTO>> SearchPagination(SearchPaginationDTO<OrderDTO> search)
+        // missing async
+        public async Task<ReturnMessage<PaginatedList<OrderDTO>>> SearchPaginationAsync(SearchPaginationDTO<OrderDTO> search)
         {
             if (search == null)
             {
@@ -136,7 +131,7 @@ namespace Service.Orders
             var resultEntity = _orderRepository.GetPaginatedList(it => search.Search == null ||
                 (
                     (
-                        (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                        (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.FullName.Contains(search.Search.FullName) ||
                         it.Code.Contains(search.Search.Code)
                     )
@@ -148,10 +143,11 @@ namespace Service.Orders
             var data = _mapper.Map<PaginatedList<Order>, PaginatedList<OrderDTO>>(resultEntity);
             var result = new ReturnMessage<PaginatedList<OrderDTO>>(false, data, MessageConstants.GetPaginationSuccess);
 
+            await Task.CompletedTask;
             return result;
         }
 
-        public ReturnMessage<OrderDTO> Update(UpdateOrderDTO model)
+        public async Task<ReturnMessage<OrderDTO>> UpdateAsync(UpdateOrderDTO model)
         {
             try
             {
@@ -166,9 +162,9 @@ namespace Service.Orders
                     {
                         entity.Status = model.Status;
                         model = _mapper.Map<UpdateOrderDTO>(entity);
-                        model.OrderDetails.ForEach(detail =>
+                        model.OrderDetails.ForEach(async detail =>
                         {
-                            var check = _productService.GetById(detail.ProductId);
+                            var check = await _productService.GetById(detail.ProductId);
                             if (!check.HasError)
                             {
                                 var data = check.Data;
@@ -178,8 +174,8 @@ namespace Service.Orders
                         });
                     }
                     entity.Update(model);
-                    _orderRepository.Update(entity);
-                    _unitOfWork.SaveChanges();
+                    await _orderRepository.UpdateAsync(entity);
+                    await _unitOfWork.SaveChangesAsync();
                     var result = new ReturnMessage<OrderDTO>(false, _mapper.Map<Order, OrderDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }
@@ -191,7 +187,7 @@ namespace Service.Orders
             }
         }
 
-        public ReturnMessage<List<OrderDTO>> GetByStatus(string status)
+        public async Task<ReturnMessage<List<OrderDTO>>> GetByStatus(string status)
         {
             try
             {
@@ -201,6 +197,7 @@ namespace Service.Orders
                     var result = _mapper.Map<List<OrderDTO>>(list);
                     return new ReturnMessage<List<OrderDTO>>(false, result, MessageConstants.ListSuccess);
                 }
+                await Task.CompletedTask;
                 return new ReturnMessage<List<OrderDTO>>(false, null, MessageConstants.Error);
             }
             catch(Exception ex)

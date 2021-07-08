@@ -13,51 +13,52 @@ using Service.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using static Common.Constants.DataType;
 
 namespace Service.UserProductList
 {
     public class UserProductListService : IUserProductListService
     {
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<Product> _productRepository;
+        private readonly IRepositoryAsync<Category> _categoryRepository;
+        private readonly IRepositoryAsync<Product> _productRepository;
         private readonly IMapper _mapper;
         private UserInformationDTO _userInformationDto;
         private readonly IUserManager _userManager;
 
-        public UserProductListService(IRepository<Category> categoryRepository, IRepository<Product> productRepository, IMapper mapper, IUserManager userManager)
+        public UserProductListService(IRepositoryAsync<Category> categoryRepository, IRepositoryAsync<Product> productRepository, IMapper mapper, IUserManager userManager)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
             _mapper = mapper;
             _userManager = userManager;
-            _userInformationDto = _userManager.GetInformationUser();
+
         }
 
-        public ReturnMessage<List<ProductDTO>> GetByCategory(Guid id)
+        public async Task<ReturnMessage<List<ProductDTO>>> GetByCategory(Guid id)
         {
             try
             {
                 var listDTO = _productRepository.Queryable().Where(product => !product.IsDeleted && product.CategoryId == id).ToList();
                 var list = _mapper.Map<List<ProductDTO>>(listDTO);
                 var result = new ReturnMessage<List<ProductDTO>>(false, list, MessageConstants.ListSuccess);
+                await Task.CompletedTask;
                 return result;
             }
-
             catch (Exception ex)
             {
                 return new ReturnMessage<List<ProductDTO>>(true, null, ex.Message);
             }
         }
 
-        public ReturnMessage<IEnumerable<CategoryDTO>> GetCategory()
+        public async Task<ReturnMessage<IEnumerable<CategoryDTO>>> GetCategory()
         {
             try
             {
                 var entity = _categoryRepository.Queryable().Where(it => !it.IsDeleted).OrderBy(it => it.Name).ThenBy(it => it.Name.Length).ToList();
                 var data = _mapper.Map<IEnumerable<Category>, IEnumerable<CategoryDTO>>(entity);
                 var result = new ReturnMessage<IEnumerable<CategoryDTO>>(false, data, MessageConstants.ListSuccess);
+                await Task.CompletedTask;
                 return result;
             }
             catch (Exception ex)
@@ -66,10 +67,11 @@ namespace Service.UserProductList
             }
         }
 
-        public ReturnMessage<PaginatedList<ProductDTO>> SearchPagination(SearchPaginationUserFEDTO<ProductDTO> search)
+        public async Task<ReturnMessage<PaginatedList<ProductDTO>>> SearchPaginationAsync(SearchPaginationUserFEDTO<ProductDTO> search)
         {
             try
             {
+                _userInformationDto = await _userManager.GetInformationUser();
                 if (search == null)
                 {
                     return new ReturnMessage<PaginatedList<ProductDTO>>(false, null, MessageConstants.Error);
@@ -137,13 +139,15 @@ namespace Service.UserProductList
             }
         }
 
-        public ReturnMessage<List<ProductDTO>> RelevantProduct(string name)
+        public async Task<ReturnMessage<List<ProductDTO>>> RelevantProduct(string name)
         {
             var resultRevelant = _productRepository.Queryable()
                 .Where(p => p.Name.Contains(name) && p.IsDeleted == false)
                 .OrderBy(p => p.CreateByDate).Take(5).ToList();
             var data = _mapper.Map<List<Product>, List<ProductDTO>>(resultRevelant);
             var result = new ReturnMessage<List<ProductDTO>>(false, data, MessageConstants.SearchSuccess);
+
+            await Task.CompletedTask;
             return result;
         }
     }

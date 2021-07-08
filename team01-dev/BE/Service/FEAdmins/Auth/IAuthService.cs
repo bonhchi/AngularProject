@@ -1,14 +1,12 @@
 ﻿using Common.Http;
 using Domain.DTOs.User;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Service.Auth
 {
     public interface IAuthService
     {
-        ReturnMessage<UserDataReturnDTO> CheckLogin(UserLoginDTO data);
-        ReturnMessage<UserDataReturnDTO> GetInformationUser();
+        Task<ReturnMessage<UserDataReturnDTO>> CheckLogin(UserLoginDTO data);
+        Task<ReturnMessage<UserDataReturnDTO>> GetInformationUser();
     }
 }

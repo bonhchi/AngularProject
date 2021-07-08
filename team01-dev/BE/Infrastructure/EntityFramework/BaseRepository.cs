@@ -70,7 +70,6 @@ namespace Infrastructure.EntityFramework
         public virtual void Update(TEntity entity, List<Expression<Func<TEntity, object>>> updateProperties = null,
             List<Expression<Func<TEntity, object>>> excludeProperties = null)
         {
-       
             entity.ObjectState = ObjectState.Modified;
             _dbSet.Attach(entity);
             _context.SyncObjectState(entity);
@@ -83,6 +82,7 @@ namespace Infrastructure.EntityFramework
                 Update(entity);
             }
         }
+
         public virtual void Delete(object id)
         {
             var entity = _dbSet.Find(id);
@@ -120,6 +120,12 @@ namespace Infrastructure.EntityFramework
         {
             return _dbSet;
         }
+
+        //Async Dbset???
+        //public async Task<IQueryable<TEntity>> QueryableAsync()
+        //{
+        //    return _dbSet;
+        //}
 
         public IRepository<T> GetRepository<T>() where T : class, IObjectState
         {
@@ -208,7 +214,17 @@ namespace Infrastructure.EntityFramework
             entity.ObjectState = ObjectState.Modified;
             _dbSet.Attach(entity);
             _context.SyncObjectState(entity);
+            await Task.CompletedTask;
             return entity;
+        }
+
+        public async Task<IEnumerable<TEntity>> UpdateRangeAsync(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                await UpdateAsync(entity);
+            }
+            return entities;
         }
 
         public async Task<IEnumerable<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate = null,
@@ -303,6 +319,26 @@ namespace Infrastructure.EntityFramework
 
             var result = new PaginatedList<TEntity>(query, skip, take);
             return result;
+        }
+
+        public virtual async Task<PaginatedList<TEntity>> GetPaginatedListAsync(Expression<Func<TEntity, bool>> predicate = null,
+        int take = 50, int skip = 0,
+        Expression<Func<TEntity, object>> orderExpression = null,
+        params string[] propertiesIncluded)
+        {
+            var query = DbSet.DynamicIncludeProperty(propertiesIncluded).AsQueryable();
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            if (orderExpression != null)
+            {
+                query = query.OrderByDescending(orderExpression);
+            }
+            var entities = new PaginatedList<TEntity>(query, skip, take);
+            await Task.CompletedTask;
+            return entities;
         }
     }
 }

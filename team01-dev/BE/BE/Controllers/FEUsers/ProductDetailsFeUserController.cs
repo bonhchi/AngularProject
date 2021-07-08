@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
 using Service.ProductDetailsFeUser;
+using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers
 {
@@ -19,9 +20,9 @@ namespace BE.Controllers.FEUsers
             _productDetailsFeService = productDetailsFeService;
         }
         [HttpGet]
-        public IActionResult Get([FromQuery] ProductDTOFeUser search)
+        public async Task<IActionResult> Get([FromQuery] ProductDTOFeUser search)
         {
-            var result = _productDetailsFeService.GetDetails(search);
+            var result = await _productDetailsFeService.GetDetails(search);
             return CommonResponse(result);
         }
     }
