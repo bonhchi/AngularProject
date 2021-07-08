@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Data
@@ -31,7 +30,7 @@ namespace Data
                         CreateByDate = DateTime.Now,
                         CreatedByName = CommonConstantsUser.UsernameAdmin,
                         IsActive = true,
-                        ObjectState = Infrastructure.EntityFramework.ObjectState.Added
+                        ObjectState = ObjectState.Added
                     });
                     ctx.SaveChanges();
                 }
@@ -59,7 +58,7 @@ namespace Data
                         Title = CommonConstants.Title,
                         Description = CommonConstants.Description,
                         IsActive = true,
-                        ObjectState = Infrastructure.EntityFramework.ObjectState.Added
+                        ObjectState = ObjectState.Added
                     });
                     ctx.SaveChanges();
                 }
@@ -74,7 +73,7 @@ namespace Data
                             ImageUrl = CommonConstantsCategory.ImageUrl,
                             CreateByDate = DateTime.Now,
                             IsActive = true,
-                            ObjectState = Infrastructure.EntityFramework.ObjectState.Added
+                            ObjectState = ObjectState.Added
                         });
                         ctx.SaveChanges();
                     }
@@ -109,7 +108,7 @@ namespace Data
             }
             catch (Exception ex)
             {
-                var error = ex.Message;
+                _ = ex.Message;
             }
         }
 

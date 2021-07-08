@@ -63,7 +63,7 @@ namespace Service.Files
 
             if (!provider.TryGetContentType(path, out string contentType))
             {
-                contentType = "application/octet-stream";
+                contentType = "application/octet-stream"; //need constraint
             }
 
             return contentType;
@@ -96,7 +96,7 @@ namespace Service.Files
                         {
                             continue;
                         }
-                        var fileName = Guid.NewGuid().ToString() + ext;
+                        var fileName = formFile.FileName.ToString();
                         var filePath = Path.Combine(filePaths, fileName);
 
                         var item = _mapper.Map<SaveFileDTO, CreateFileDTO>(saveFile);
@@ -105,19 +105,41 @@ namespace Service.Files
                             continue;
                         }
 
+                        //file name : base file name + guid + extension
                         if (DataType.TypeAccept[DataType.ETypeFile.Image].Contains(ext) && saveFile.TypeUpload == 1)
                         {
                             var uploadParams = new ImageUploadParams();
 
+                            // convert to new file stream avoid different file name
+                            //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                            //{
+                            //    formFile.CopyTo(fileStream);
+                            //    ImageUploadParams imageUploadParams = new ImageUploadParams()
+                            //    {
+                            //        File = new FileDescription(filePath),
+                            //    };
+                            //    var uploadParams = imageUploadParams;
+                            //    var result = _cloudinary.Upload(uploadParams);
+                            //    item.Url = result.SecureUrl.ToString();
+                            //    item.Name = formFile.FileName;
+                            //    item.FileExt = ext;
+                            //    item.TypeUpload = 1;
+                            //}
+
+
+                            //upload file with base64 stream
                             using (var memory = new MemoryStream())
                             {
+                                //check for filestream may be effect file name upload in Cloudinary
                                 using var fileStream = formFile.OpenReadStream();
                                 byte[] bytes = new byte[formFile.Length];
                                 fileStream.Read(bytes, 0, (int)formFile.Length);
                                 fileStream.Position = 0;
+                                //using file path
                                 uploadParams.File = new FileDescription(fileName, fileStream);
                                 var result = _cloudinary.Upload(uploadParams);
 
+                                //random string 
                                 item.Url = result.SecureUrl.ToString();
                                 item.Name = formFile.FileName;
                                 item.FileExt = ext;

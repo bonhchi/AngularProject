@@ -45,7 +45,7 @@ export class UploadFileComponent implements OnInit {
       this.files = [];
       this.fileURL.forEach((res) => {
         if (res) {
-          this.converUrltoFile(FileService.getLinkFile(res.toString())).then(
+          this.convertUrlToFile(FileService.getLinkFile(res.toString())).then(
             (res) => {
               this.files.push(res);
             }
@@ -122,7 +122,7 @@ export class UploadFileComponent implements OnInit {
       .saveFile(formData)
       .then((res: ReturnMessage<FileDtoModel[]>) => {
         this.messageService.notification(
-          'Upload Success',
+          'Tải thành công',
           TypeSweetAlertIcon.SUCCESS
         );
         this.data.listFile = [...this.data.listFile, ...res.data];
@@ -133,7 +133,7 @@ export class UploadFileComponent implements OnInit {
       })
       .catch((er) =>
         this.messageService.alert(
-          'Upload Fail',
+          'Tải thất bại',
           TypeSweetAlertIcon.ERROR,
           er.error.message ?? er.error
         )
@@ -184,7 +184,7 @@ export class UploadFileComponent implements OnInit {
     this.actionChange(null, event.name);
   }
 
-  converUrltoFile(url: string) {
+  convertUrlToFile(url: string) {
     return fetch(url)
       .then((e) => {
         return e.blob();

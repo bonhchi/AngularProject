@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Constants
 {
@@ -11,7 +10,7 @@ namespace Domain.Constants
         public static Guid ContactUs = new Guid("00000000-0000-0000-0000-000000000002");
         public static Guid AboutUs = new Guid("00000000-0000-0000-0000-000000000003");
 
-        private static string ContentShipping = "< h2 > Order with Prime FREE Same-Day Delivery</h2>" +
+        private static readonly string ContentShipping = "< h2 > Order with Prime FREE Same-Day Delivery</h2>" +
             "<p>Amazon Prime members shipping to select metro areas across the US can choose to receive FREE Same-Day Delivery on a broad selection of items.</p>" +
             "<p>&nbsp;</p><p>To qualify for Prime FREE Same-Day Delivery Prime members can:</p>" +
             "<ul><li>Place orders before the Same-Day Delivery order cutoff time" +
@@ -28,7 +27,7 @@ namespace Domain.Constants
             "For more information, go to <a href = \"://www.amazon.com/gp/help/customer/display.html?nodeId=GTFUTRQF459U3H3Y\" > Same - Day Delivery Rates</a>.</li><li>In some cases, if you choose a higher quantity for an item, " +
             "it will be ineligible for Same-Day Delivery because multiple units aren't available locally. In this case, we'll only show the normal Prime shipping options.</li></ul>";
 
-        private static string ContentAboutUs= "<h2><strong>Our team is all over the world.</strong></h2>" +
+        private static readonly string ContentAboutUs= "<h2><strong>Our team is all over the world.</strong></h2>" +
             "<p>Educating and empowering the SEO community by providing the freshest news and latest best " +
             "practices via the industry’s smartest practitioners.</p><p>Launched in 2003, SEJ is unique in its " +
             "community-based approach to search marketing content. Virtually all of our contributed articles come " +
@@ -45,16 +44,16 @@ namespace Domain.Constants
                                             Title = "Shipping",
                                             Description = ContentShipping,
                                             ShortDes  = "Free Shipping World Wide",
-                                            ImageUrl = "https://res.cloudinary.com/tungimage/image/upload/v1621094793/zqwbag7jhcifigugzcmy.png"} }, // Thay image
+                                            ImageUrl = "https://res.cloudinary.com/ngocphu/image/upload/v1622707701/or7d3gm6724qy0hygwwf.png"} }, // Thay image
             { ContactUs, new PageContent(){ Order = 2,
                                             Title = "Contact Us",
                                             ShortDes = "Online Service For New Customer",
-                                            ImageUrl = "https://res.cloudinary.com/tungimage/image/upload/v1621095055/ib5vgmob5h8s0je8wg6m.png"}} , // Thay image
+                                            ImageUrl = "https://res.cloudinary.com/ngocphu/image/upload/v1622693651/xrznhttvznbi8jjfm6jt.png"}} , // Thay image
             { AboutUs, new PageContent() {  Order = 3 ,
                                             Title = "About Us",
                                             Description = ContentAboutUs,
                                             ShortDes = "New Online Special Festival Offer",
-                                            ImageUrl = "https://res.cloudinary.com/tungimage/image/upload/v1621095105/q0tohul7grgmkemfljza.png"}} // Thay image
+                                            ImageUrl = "https://res.cloudinary.com/ngocphu/image/upload/v1625751856/oii3fqgrr23yd6cvrvdc.png"}} // Thay image
         };
     }
 }
