@@ -1,12 +1,10 @@
 ﻿using Common.Http;
 using Common.Pagination;
-using Domain.DTOs.Categories;
 using Domain.DTOs.Files;
 using Infrastructure.EntityFramework;
 using Service.Common;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Files

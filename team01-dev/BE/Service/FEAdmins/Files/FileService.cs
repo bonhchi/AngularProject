@@ -46,13 +46,13 @@ namespace Service.Files
                 {
                     return new ReturnMessage<List<FileDTO>>(true, null, MessageConstants.CreateFail);
                 }
-                var entities = _mapper.Map<List<CreateFileDTO>, List<Domain.Entities.File>>(model);
+                var entities = _mapper.Map<List<CreateFileDTO>, List<File>>(model);
                 entities.ForEach(it => it.Insert(userInfo));
                 _unitOfWork.BeginTransaction();
                 _fileRepository.InsertRange(entities);
                 await _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
-                var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<Domain.Entities.File>, List<FileDTO>>(entities), MessageConstants.CreateSuccess + " " + model.Count + " files");
+                var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<File>, List<FileDTO>>(entities), MessageConstants.CreateSuccess + " " + model.Count + " files");
                 return result;
             }
             catch (Exception ex)
@@ -135,7 +135,7 @@ namespace Service.Files
                 {
                     return new ReturnMessage<List<FileDTO>>(true, null, MessageConstants.CreateFail);
                 }
-                var entities = _mapper.Map<List<UpdateFileDTO>, List<Domain.Entities.File>>(model);
+                var entities = _mapper.Map<List<UpdateFileDTO>, List<File>>(model);
                 entities.ForEach(it => it.Update(userInfo));
                 _unitOfWork.BeginTransaction();
                 await _fileRepository.UpdateRangeAsync(entities);
@@ -182,7 +182,7 @@ namespace Service.Files
                 await _unitOfWork.SaveChangesAsync();
                 _unitOfWork.Commit();
 
-                var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<Domain.Entities.File>, List<FileDTO>>(files), MessageConstants.UpdateSuccess);
+                var result = new ReturnMessage<List<FileDTO>>(false, _mapper.Map<List<File>, List<FileDTO>>(files), MessageConstants.UpdateSuccess);
                 return result;
 
             }
