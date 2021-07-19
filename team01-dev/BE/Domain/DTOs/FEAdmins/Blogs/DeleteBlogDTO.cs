@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Domain.DTOs.BaseDTOs;
+using System;
 
 namespace Domain.DTOs.Blogs
 {
-    public class DeleteBlogDTO
+    public class DeleteBlogDTO: BaseDeleteDTO
     {
         public Guid Id { get; set; }
         
-        public DateTime DeleteByDate { get; set; }
     }
 }

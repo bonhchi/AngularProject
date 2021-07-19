@@ -35,14 +35,14 @@ namespace Domain.Entities
             DeleteByDate = new DateTime();
             CreatedByName = "admin";
             UpdatedByName = "admin";
-            ObjectState = Infrastructure.EntityFramework.ObjectState.Added;
+            ObjectState = ObjectState.Added;
         }
         public virtual void Delete()
         {
             IsDeleted = true;
             DeleteByDate = DateTime.Now;
             DeletedByName = "admin";
-            ObjectState = Infrastructure.EntityFramework.ObjectState.Deleted;
+            ObjectState = ObjectState.Deleted;
         }
 
         public virtual void Update()
@@ -50,9 +50,10 @@ namespace Domain.Entities
             UpdateByDate = DateTime.Now;
             IsActive = true;
             UpdatedByName = "admin";
-            ObjectState = Infrastructure.EntityFramework.ObjectState.Modified;
+            ObjectState = ObjectState.Modified;
         }
-
+        
+        //fork information
         public virtual void Insert(UserInformationDTO dto)
         {
             Id = Guid.NewGuid();
@@ -65,7 +66,7 @@ namespace Domain.Entities
             CreatedByName = dto.Username;
             UpdatedBy = dto.UserId;
             UpdatedByName = dto.Username;
-            ObjectState = Infrastructure.EntityFramework.ObjectState.Added;
+            ObjectState = ObjectState.Added;
         }
 
         public virtual void Update(UserInformationDTO dto)
@@ -74,7 +75,7 @@ namespace Domain.Entities
             IsActive = true;
             UpdatedBy = dto.UserId;
             UpdatedByName = dto.Username;
-            ObjectState = Infrastructure.EntityFramework.ObjectState.Modified;
+            ObjectState = ObjectState.Modified;
         }
 
         public virtual void Delete(UserInformationDTO dto)
@@ -83,7 +84,7 @@ namespace Domain.Entities
             IsActive = true;
             DeletedBy = dto.UserId;
             DeletedByName = dto.Username;
-            ObjectState = Infrastructure.EntityFramework.ObjectState.Modified;
+            ObjectState = ObjectState.Modified;
         }
     }
 }

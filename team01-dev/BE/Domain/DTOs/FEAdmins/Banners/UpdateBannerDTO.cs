@@ -1,10 +1,11 @@
-﻿using Domain.DTOs.Files;
+﻿using Domain.DTOs.BaseDTOs;
+using Domain.DTOs.Files;
 using System;
 using System.Collections.Generic;
 
 namespace Domain.DTOs.Banners
 {
-    public class UpdateBannerDTO
+    public class UpdateBannerDTO: BaseUpdateDTO
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

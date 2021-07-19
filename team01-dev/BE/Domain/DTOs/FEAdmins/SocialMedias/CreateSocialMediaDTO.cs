@@ -1,11 +1,10 @@
-﻿using Domain.DTOs.Files;
-using System;
+﻿using Domain.DTOs.BaseDTOs;
+using Domain.DTOs.Files;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.DTOs.SocialMedias
 {
-    public class CreateSocialMediaDTO
+    public class CreateSocialMediaDTO : BaseCreateDTO
     {
         public string Title { get; set; }
 

@@ -11,8 +11,6 @@ using Domain.DTOs.Profiles;
 using Domain.DTOs.Users;
 using Domain.DTOs.Products;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
 using Domain.DTOs.Blogs;
 using Domain.DTOs.Orders;
 using Domain.DTOs.ProductsFeUser;

@@ -1,9 +1,5 @@
-﻿using Common.Enums;
-using Domain.DTOs.BaseDTOs;
+﻿using Domain.DTOs.BaseDTOs;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Domain.DTOs.Users
 {

@@ -1,13 +1,12 @@
-﻿using Common.Enums;
+﻿using Domain.DTOs.BaseDTOs;
 using Domain.DTOs.Files;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Domain.DTOs.Customer
 {
-    public class UpdateCustomerDTO
+    public class UpdateCustomerDTO : BaseUpdateDTO
     {
         public Guid Id { get; set; }
         [Required]

@@ -1,5 +1,4 @@
-﻿
-using Domain.DTOs.Products;
+﻿using Domain.DTOs.Products;
 using System;
 using System.Collections.Generic;
 
@@ -27,6 +26,7 @@ namespace Domain.Entities
         public decimal RatingScore { get; set; }
         public virtual Category Category { get; set; }
         public ICollection<CustomerWishList> CustomerWishLists { get; set; }
+        public ICollection<Subcategory> Subcategories { get; set; }
 
         public override void Insert()
         {

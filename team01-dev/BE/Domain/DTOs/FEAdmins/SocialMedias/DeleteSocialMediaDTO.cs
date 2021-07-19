@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Domain.DTOs.BaseDTOs;
+using System;
 
 namespace Domain.DTOs.SocialMedias
 {
-    public class DeleteSocialMediaDTO
+    public class DeleteSocialMediaDTO: BaseDeleteDTO
     {
         public Guid Id { get; set; }
     }

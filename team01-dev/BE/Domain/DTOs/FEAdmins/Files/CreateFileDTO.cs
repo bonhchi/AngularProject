@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Domain.DTOs.BaseDTOs;
 
 namespace Domain.DTOs.Files
 {
-    public class CreateFileDTO
+    public class CreateFileDTO: BaseCreateDTO
     {
-        public String Name { get; set; }
-        public String Url { get; set; }
-        public String FileExt { get; set; }
-        public String EntityType { get; set; }
-        public String EntityId { get; set; }
+        public string Name { get; set; }
+        public string Url { get; set; }
+        public string FileExt { get; set; }
+        public string EntityType { get; set; }
+        public string EntityId { get; set; }
         public int TypeUpload { get; set; }
     }
 }

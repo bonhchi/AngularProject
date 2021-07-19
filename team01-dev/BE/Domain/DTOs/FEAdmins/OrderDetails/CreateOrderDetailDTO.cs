@@ -1,11 +1,9 @@
-﻿using Domain.DTOs.Files;
+﻿using Domain.DTOs.BaseDTOs;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.DTOs.OrderDetails
 {
-    public class CreateOrderDetailDTO
+    public class CreateOrderDetailDTO : BaseCreateDTO
     {
         public Guid ProductId { get; set; }
         public decimal Price { get; set; }
