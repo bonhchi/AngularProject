@@ -30,6 +30,7 @@ using Service.CustomerWishLists;
 using Service.UserBlogs;
 using Service.Gmails;
 using Service.UserPageContents;
+using Service.FEAdmins.Subcategories;
 
 namespace Service
 {
@@ -111,6 +112,8 @@ namespace Service
 
             // User page content
             services.AddScoped<IUserPageContentService, UserPageContentService>();
+
+            services.AddScoped<ISubcategoryService, SubcategoryService>();
         }
     }
 }

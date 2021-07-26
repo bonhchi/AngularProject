@@ -12,8 +12,8 @@ namespace Service.UserProductList
     public interface IUserProductListService
     {
         Task<ReturnMessage<IEnumerable<CategoryDTO>>> GetCategory();
-        Task<ReturnMessage<List<ProductDTO>>> GetByCategory(Guid id);
-        Task<ReturnMessage<PaginatedList<ProductDTO>>> SearchPaginationAsync(SearchPaginationUserFEDTO<ProductDTO> search);
-        Task<ReturnMessage<List<ProductDTO>>> RelevantProduct(string name);
+        Task<ReturnMessage<List<SubcategoryDTO>>> GetByCategory(Guid id);
+        Task<ReturnMessage<PaginatedList<SubcategoryDTO>>> SearchPaginationAsync(SearchPaginationUserFEDTO<SubcategoryDTO> search);
+        Task<ReturnMessage<List<SubcategoryDTO>>> RelevantProduct(string name);
     }
 }

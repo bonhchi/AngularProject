@@ -35,7 +35,7 @@ namespace Service.Home
             /*_userInformationDto = _userManager.GetInformationUser();*/ // not use
         }
 
-        public async Task<ReturnMessage<List<ProductDTO>>> GetTopCollectionProducts()
+        public async Task<ReturnMessage<List<SubcategoryDTO>>> GetTopCollectionProducts()
         {
             try
             {
@@ -48,20 +48,20 @@ namespace Service.Home
                                     .ThenByDescending(i => i.UpdateByDate)
                                     .Take(12)
                                     .ToList();
-                var data = _mapper.Map<List<Product>, List<ProductDTO>>(resultEntity);
+                var data = _mapper.Map<List<Product>, List<SubcategoryDTO>>(resultEntity);
 
                 data.ForEach(t => t.IsInWishList = t.CustomerWishLists.IsNotNullOrEmpty() && t.CustomerWishLists.Any(k => k.CustomerId == _userInformationDto.CustomerId));
 
-                var result = new ReturnMessage<List<ProductDTO>>(false, data, MessageConstants.ListSuccess);
+                var result = new ReturnMessage<List<SubcategoryDTO>>(false, data, MessageConstants.ListSuccess);
                 return result;
             }
             catch
             {
-                return new ReturnMessage<List<ProductDTO>>(true, null, MessageConstants.Error);
+                return new ReturnMessage<List<SubcategoryDTO>>(true, null, MessageConstants.Error);
             }
         }
 
-        public async Task<ReturnMessage<List<ProductDTO>>> GetNewProducts()
+        public async Task<ReturnMessage<List<SubcategoryDTO>>> GetNewProducts()
         {
             try
             {
@@ -74,20 +74,20 @@ namespace Service.Home
                                     .ThenByDescending(i => i.CreateByDate)
                                     .Take(12)
                                     .ToList();
-                var data = _mapper.Map<List<Product>, List<ProductDTO>>(resultEntity);
+                var data = _mapper.Map<List<Product>, List<SubcategoryDTO>>(resultEntity);
 
                 data.ForEach(t => t.IsInWishList = t.CustomerWishLists.IsNotNullOrEmpty() && t.CustomerWishLists.Any(k => k.CustomerId == _userInformationDto.CustomerId));
 
-                var result = new ReturnMessage<List<ProductDTO>>(false, data, MessageConstants.ListSuccess);
+                var result = new ReturnMessage<List<SubcategoryDTO>>(false, data, MessageConstants.ListSuccess);
                 return result;
             }
             catch
             {
-                return new ReturnMessage<List<ProductDTO>>(true, null, MessageConstants.Error);
+                return new ReturnMessage<List<SubcategoryDTO>>(true, null, MessageConstants.Error);
             }
         }
 
-        public async Task<ReturnMessage<List<ProductDTO>>> GetBestSellerProducts()
+        public async Task<ReturnMessage<List<SubcategoryDTO>>> GetBestSellerProducts()
         {
             var _userInformationDto = await _userManager.GetInformationUser();
             try
@@ -100,20 +100,20 @@ namespace Service.Home
                                     .ThenByDescending(i => i.UpdateByDate)
                                     .Take(12)
                                     .ToList();
-                var data = _mapper.Map<List<Product>, List<ProductDTO>>(resultEntity);
+                var data = _mapper.Map<List<Product>, List<SubcategoryDTO>>(resultEntity);
 
                 data.ForEach(t => t.IsInWishList = t.CustomerWishLists.IsNotNullOrEmpty() && t.CustomerWishLists.Any(k => k.CustomerId == _userInformationDto.CustomerId));
 
-                var result = new ReturnMessage<List<ProductDTO>>(false, data, MessageConstants.ListSuccess);
+                var result = new ReturnMessage<List<SubcategoryDTO>>(false, data, MessageConstants.ListSuccess);
                 return result;
             }
             catch
             {
-                return new ReturnMessage<List<ProductDTO>>(true, null, MessageConstants.Error);
+                return new ReturnMessage<List<SubcategoryDTO>>(true, null, MessageConstants.Error);
             }
         }
 
-        public async Task<ReturnMessage<List<ProductDTO>>> GetFeaturedProducts()
+        public async Task<ReturnMessage<List<SubcategoryDTO>>> GetFeaturedProducts()
         {
             try
             {
@@ -128,15 +128,15 @@ namespace Service.Home
                                     .ThenByDescending(i => i.UpdateByDate)
                                     .Take(12)
                                     .ToList();
-                var data = _mapper.Map<List<Product>, List<ProductDTO>>(resultEntity);
+                var data = _mapper.Map<List<Product>, List<SubcategoryDTO>>(resultEntity);
                 data.ForEach(t => t.IsInWishList = t.CustomerWishLists.IsNotNullOrEmpty() && t.CustomerWishLists.Any(k => k.CustomerId == _userInformationDto.CustomerId));
 
-                var result = new ReturnMessage<List<ProductDTO>>(false, data, MessageConstants.ListSuccess);
+                var result = new ReturnMessage<List<SubcategoryDTO>>(false, data, MessageConstants.ListSuccess);
                 return result;
             }
             catch
             {
-                return new ReturnMessage<List<ProductDTO>>(true, null, MessageConstants.Error);
+                return new ReturnMessage<List<SubcategoryDTO>>(true, null, MessageConstants.Error);
             }
         }
 

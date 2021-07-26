@@ -10,7 +10,7 @@ namespace Service.CustomerWishLists
 {
     public interface ICustomerWishListService
     {
-        Task<ReturnMessage<List<ProductDTO>>> GetByCustomer();
+        Task<ReturnMessage<List<SubcategoryDTO>>> GetByCustomer();
         Task<ReturnMessage<CustomerWishListDTO>> CreateOrDelete(CreateOrDeleteCustomerWishListDTO model);
     }
 }

@@ -32,7 +32,7 @@ namespace BE.Controllers.FEUsers
 
         [HttpGet]
         [Route(UrlConstants.Product)]
-        public async Task<IActionResult> GetProduct([FromQuery] SearchPaginationUserFEDTO<ProductDTO> dto)
+        public async Task<IActionResult> GetProduct([FromQuery] SearchPaginationUserFEDTO<SubcategoryDTO> dto)
         {
             var result = await _userProductListService.SearchPaginationAsync(dto);
             return CommonResponse(result);

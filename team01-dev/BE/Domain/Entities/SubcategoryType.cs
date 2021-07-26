@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Entities
+﻿namespace Domain.Entities
 {
     public class SubcategoryType : BaseEntity
     {
-        public int Name { get; set; }
+        public string Name { get; set; }
+        public string EnglishName { get; set; }
     }
 }

@@ -26,6 +26,8 @@ namespace Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<CustomerWishList> CustomerWishLists { get; set; }
         public DbSet<InformationWebsite> InformationWebsites { get; set; }
+        public DbSet<Subcategory> Subcategories { get; set; }
+        public DbSet<SubcategoryType> SubcategoryTypes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()

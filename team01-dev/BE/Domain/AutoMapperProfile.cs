@@ -27,7 +27,8 @@ using Domain.DTOs.CustomerWishList;
 using Domain.DTOs.Mails;
 using Infrastructure.Mails;
 using Domain.DTOs.CustomerFE;
-
+using Domain.DTOs.FEAdmins.Subcategory;
+using Domain.DTOs.FEAdmins.SubcategoryType;
 
 namespace Domain
 {
@@ -86,14 +87,14 @@ namespace Domain
 
 
             //product
-            CreateMap<PaginatedList<Product>, PaginatedList<ProductDTO>>().ReverseMap();
-            CreateMap<Product, ProductDTO>()
+            CreateMap<PaginatedList<Product>, PaginatedList<DTOs.Products.SubcategoryDTO>>().ReverseMap();
+            CreateMap<Product, DTOs.Products.SubcategoryDTO>()
                  .ForMember(t => t.CategoryName, k => k.MapFrom(h => h.Category.Name)).ReverseMap();
 
             CreateMap<CreateProductDTO, Product>().ReverseMap();
             CreateMap<UpdateProductDTO, Product>().ReverseMap();
-            CreateMap<UpdateProductDTO, ProductDTO>().ReverseMap();
-            CreateMap<IQueryable<ProductDTO>, PaginatedList<Product>>().ReverseMap();
+            CreateMap<UpdateProductDTO, DTOs.Products.SubcategoryDTO>().ReverseMap();
+            CreateMap<IQueryable<DTOs.Products.SubcategoryDTO>, PaginatedList<Product>>().ReverseMap();
             CreateMap<Product, ProductDTOFeUser>().ReverseMap();
 
 
@@ -191,6 +192,16 @@ namespace Domain
             //Gmail
             CreateMap<SendMailDTO, EmailMessage>().ReverseMap();
             CreateMap<ReplyEmailDTO, EmailMessage>().ReverseMap();
+
+
+            //Subcategory
+            CreateMap<Subcategory, DTOs.FEAdmins.Subcategory.SubcategoryDTO>().
+                ForMember(t => t.CategoryName, k => k.MapFrom(h => h.Category.Name)).
+                ForMember(t => t.SubcategoryTypeName, k => k.MapFrom(h => h.SubcategoryType.Name)).ReverseMap();
+            CreateMap<Subcategory, CreateSubcategoryDTO>().ReverseMap();
+            CreateMap<Subcategory, UpdateSubcategoryDTO>().ReverseMap();
+            CreateMap<Subcategory, DeleteSubcategoryDTO>().ReverseMap();
+            CreateMap<SubcategoryType, SubcategoryTypeDTO>().ReverseMap();
         }
     }
 }

@@ -10,5 +10,9 @@ namespace Domain.DTOs.FEAdmins.Subcategory
         public Guid SubcategoryTypeId { get; set; }
 
         public Guid CategoryId { get; set; }
+
+        public string SubcategoryTypeName { get; set; }
+
+        public string CategoryName { get; set; }
     }
 }

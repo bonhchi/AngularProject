@@ -39,7 +39,7 @@ namespace Domain.Constants
             "accepting new contributors. But you are welcome to fill out the form. Trying to “sneak” in your application " +
             "via the wrong category will only result in deletion.</p>";
 
-        public static readonly Dictionary<Guid, PageContent> ListPageContents = new Dictionary<Guid, PageContent>() {
+        public static readonly Dictionary<Guid, PageContent> ListPageContents = new() {
             { Shipping, new PageContent(){  Order = 1,
                                             Title = "Shipping",
                                             Description = ContentShipping,

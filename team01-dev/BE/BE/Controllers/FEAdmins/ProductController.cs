@@ -22,7 +22,7 @@ namespace BE.Controllers.FEAdmins
             _productService = productService;
         }
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<ProductDTO> serachPagination)
+        public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<SubcategoryDTO> serachPagination)
         {
             var result = await _productService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);

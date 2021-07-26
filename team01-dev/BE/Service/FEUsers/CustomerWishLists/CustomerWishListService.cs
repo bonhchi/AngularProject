@@ -67,7 +67,7 @@ namespace Service.CustomerWishLists
             }
         }
 
-        public async Task<ReturnMessage<List<ProductDTO>>> GetByCustomer()
+        public async Task<ReturnMessage<List<SubcategoryDTO>>> GetByCustomer()
         {
             try
             {
@@ -83,14 +83,14 @@ namespace Service.CustomerWishLists
                                     .OrderByDescending(i => i.CreateByDate)
                                     .ToList();
 
-                var data = _mapper.Map<List<Product>, List<ProductDTO>>(listProduct);
+                var data = _mapper.Map<List<Product>, List<SubcategoryDTO>>(listProduct);
 
-                var result = new ReturnMessage<List<ProductDTO>>(false, data, MessageConstants.ListSuccess);
+                var result = new ReturnMessage<List<SubcategoryDTO>>(false, data, MessageConstants.ListSuccess);
                 return result;
             }
             catch
             {
-                return new ReturnMessage<List<ProductDTO>>(true, null, MessageConstants.Error);
+                return new ReturnMessage<List<SubcategoryDTO>>(true, null, MessageConstants.Error);
             }
         }
     }
