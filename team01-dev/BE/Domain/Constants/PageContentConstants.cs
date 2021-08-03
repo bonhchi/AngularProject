@@ -6,9 +6,9 @@ namespace Domain.Constants
 {
     public struct PageContentConstants
     {
-        public static Guid Shipping = new Guid("00000000-0000-0000-0000-000000000001");
-        public static Guid ContactUs = new Guid("00000000-0000-0000-0000-000000000002");
-        public static Guid AboutUs = new Guid("00000000-0000-0000-0000-000000000003");
+        public static readonly Guid Shipping = new("00000000-0000-0000-0000-000000000001");
+        public static readonly Guid ContactUs = new("00000000-0000-0000-0000-000000000002");
+        public static readonly Guid AboutUs = new("00000000-0000-0000-0000-000000000003");
 
         private static readonly string ContentShipping = "< h2 > Order with Prime FREE Same-Day Delivery</h2>" +
             "<p>Amazon Prime members shipping to select metro areas across the US can choose to receive FREE Same-Day Delivery on a broad selection of items.</p>" +

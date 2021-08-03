@@ -113,6 +113,7 @@ namespace Service
             // User page content
             services.AddScoped<IUserPageContentService, UserPageContentService>();
 
+            //subcategory
             services.AddScoped<ISubcategoryService, SubcategoryService>();
         }
     }

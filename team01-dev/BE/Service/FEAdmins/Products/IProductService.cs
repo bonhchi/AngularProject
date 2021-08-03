@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Service.Products
 {
-    public interface IProductService : ICommonCRUDService<SubcategoryDTO, CreateProductDTO, UpdateProductDTO, DeleteProductDTO>
+    public interface IProductService : ICommonCRUDService<ProductDTO, CreateProductDTO, UpdateProductDTO, DeleteProductDTO>
     {
-        Task<ReturnMessage<PaginatedList<SubcategoryDTO>>> SearchPaginationAsync(SearchPaginationDTO<SubcategoryDTO> search);
-        Task<ReturnMessage<List<SubcategoryDTO>>> GetByCategory(Guid id);
-        Task<ReturnMessage<SubcategoryDTO>> GetById(Guid id);
+        Task<ReturnMessage<PaginatedList<ProductDTO>>> SearchPaginationAsync(SearchPaginationDTO<ProductDTO> search);
+        Task<ReturnMessage<List<ProductDTO>>> GetByCategory(Guid id);
+        Task<ReturnMessage<ProductDTO>> GetById(Guid id);
         Task<ReturnMessage<UpdateProductDTO>> UpdateCount(UpdateProductDTO product ,int quantity);
 
     }

@@ -35,19 +35,19 @@ namespace Service.UserProductList
 
         }
 
-        public async Task<ReturnMessage<List<SubcategoryDTO>>> GetByCategory(Guid id)
+        public async Task<ReturnMessage<List<ProductDTO>>> GetByCategory(Guid id)
         {
             try
             {
                 var listDTO = _productRepository.Queryable().Where(product => !product.IsDeleted && product.CategoryId == id).ToList();
-                var list = _mapper.Map<List<SubcategoryDTO>>(listDTO);
-                var result = new ReturnMessage<List<SubcategoryDTO>>(false, list, MessageConstants.ListSuccess);
+                var list = _mapper.Map<List<ProductDTO>>(listDTO);
+                var result = new ReturnMessage<List<ProductDTO>>(false, list, MessageConstants.ListSuccess);
                 await Task.CompletedTask;
                 return result;
             }
             catch (Exception ex)
             {
-                return new ReturnMessage<List<SubcategoryDTO>>(true, null, ex.Message);
+                return new ReturnMessage<List<ProductDTO>>(true, null, ex.Message);
             }
         }
 
@@ -67,19 +67,19 @@ namespace Service.UserProductList
             }
         }
 
-        public async Task<ReturnMessage<PaginatedList<SubcategoryDTO>>> SearchPaginationAsync(SearchPaginationUserFEDTO<SubcategoryDTO> search)
+        public async Task<ReturnMessage<PaginatedList<ProductDTO>>> SearchPaginationAsync(SearchPaginationUserFEDTO<ProductDTO> search)
         {
             try
             {
                 _userInformationDto = await _userManager.GetInformationUser();
                 if (search == null)
                 {
-                    return new ReturnMessage<PaginatedList<SubcategoryDTO>>(false, null, MessageConstants.Error);
+                    return new ReturnMessage<PaginatedList<ProductDTO>>(false, null, MessageConstants.Error);
                 }
 
                 if (Pagination.CheckMinMax(search.MinPrice, search.MaxPrice))
                 {
-                    return new ReturnMessage<PaginatedList<SubcategoryDTO>>(false, null, MessageConstants.Error);
+                    return new ReturnMessage<PaginatedList<ProductDTO>>(false, null, MessageConstants.Error);
                 }
 
                 var query = _productRepository
@@ -126,26 +126,26 @@ namespace Service.UserProductList
                 }
 
                 var entityPage = new PaginatedList<Product>(query, search.PageSize * search.PageIndex, search.PageSize);
-                var data = _mapper.Map<PaginatedList<Product>, PaginatedList<SubcategoryDTO>>(entityPage);
+                var data = _mapper.Map<PaginatedList<Product>, PaginatedList<ProductDTO>>(entityPage);
 
                 data.Results.ForEach(t => t.IsInWishList = t.CustomerWishLists.IsNotNullOrEmpty() && t.CustomerWishLists.Any(k => k.CustomerId == _userInformationDto.CustomerId));
-                var result = new ReturnMessage<PaginatedList<SubcategoryDTO>>(false, data, MessageConstants.ListSuccess);
+                var result = new ReturnMessage<PaginatedList<ProductDTO>>(false, data, MessageConstants.ListSuccess);
 
                 return result;
             }
             catch (Exception ex)
             {
-                return new ReturnMessage<PaginatedList<SubcategoryDTO>>(true, null, ex.Message);
+                return new ReturnMessage<PaginatedList<ProductDTO>>(true, null, ex.Message);
             }
         }
 
-        public async Task<ReturnMessage<List<SubcategoryDTO>>> RelevantProduct(string name)
+        public async Task<ReturnMessage<List<ProductDTO>>> RelevantProduct(string name)
         {
             var resultRevelant = _productRepository.Queryable()
                 .Where(p => p.Name.Contains(name) && p.IsDeleted == false)
                 .OrderBy(p => p.CreateByDate).Take(5).ToList();
-            var data = _mapper.Map<List<Product>, List<SubcategoryDTO>>(resultRevelant);
-            var result = new ReturnMessage<List<SubcategoryDTO>>(false, data, MessageConstants.SearchSuccess);
+            var data = _mapper.Map<List<Product>, List<ProductDTO>>(resultRevelant);
+            var result = new ReturnMessage<List<ProductDTO>>(false, data, MessageConstants.SearchSuccess);
 
             await Task.CompletedTask;
             return result;

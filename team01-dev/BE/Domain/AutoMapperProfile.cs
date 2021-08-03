@@ -87,14 +87,14 @@ namespace Domain
 
 
             //product
-            CreateMap<PaginatedList<Product>, PaginatedList<DTOs.Products.SubcategoryDTO>>().ReverseMap();
-            CreateMap<Product, DTOs.Products.SubcategoryDTO>()
+            CreateMap<PaginatedList<Product>, PaginatedList<ProductDTO>>().ReverseMap();
+            CreateMap<Product, ProductDTO>()
                  .ForMember(t => t.CategoryName, k => k.MapFrom(h => h.Category.Name)).ReverseMap();
 
             CreateMap<CreateProductDTO, Product>().ReverseMap();
             CreateMap<UpdateProductDTO, Product>().ReverseMap();
-            CreateMap<UpdateProductDTO, DTOs.Products.SubcategoryDTO>().ReverseMap();
-            CreateMap<IQueryable<DTOs.Products.SubcategoryDTO>, PaginatedList<Product>>().ReverseMap();
+            CreateMap<UpdateProductDTO, ProductDTO>().ReverseMap();
+            CreateMap<IQueryable<ProductDTO>, PaginatedList<Product>>().ReverseMap();
             CreateMap<Product, ProductDTOFeUser>().ReverseMap();
 
 

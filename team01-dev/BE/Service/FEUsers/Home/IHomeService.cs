@@ -9,10 +9,10 @@ namespace Service.Home
 {
     public interface IHomeService
     {
-        public Task<ReturnMessage<List<SubcategoryDTO>>> GetTopCollectionProducts();
-        public Task<ReturnMessage<List<SubcategoryDTO>>> GetNewProducts();
-        public Task<ReturnMessage<List<SubcategoryDTO>>> GetBestSellerProducts();
-        public Task<ReturnMessage<List<SubcategoryDTO>>> GetFeaturedProducts();
+        public Task<ReturnMessage<List<ProductDTO>>> GetTopCollectionProducts();
+        public Task<ReturnMessage<List<ProductDTO>>> GetNewProducts();
+        public Task<ReturnMessage<List<ProductDTO>>> GetBestSellerProducts();
+        public Task<ReturnMessage<List<ProductDTO>>> GetFeaturedProducts();
         public Task<ReturnMessage<List<BlogDTO>>> GetBlogs();
         public Task<ReturnMessage<List<BannerDTO>>> GetBanners();
     }

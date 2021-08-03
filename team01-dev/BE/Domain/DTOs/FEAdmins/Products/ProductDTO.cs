@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Domain.DTOs.Products
 {
-    public class SubcategoryDTO : BaseDTO
+    public class ProductDTO : BaseDTO
     {
         public string Name { get; set; }
 

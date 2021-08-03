@@ -123,13 +123,9 @@ namespace Service.FEAdmins.Subcategories
                 return new ReturnMessage<PaginatedList<SubcategoryDTO>>(false, null, MessageConstants.Error);
             }
             var query = _subcategoryRepository.Queryable().Include(it => it.Category).Where(it => (search.Search == null ||
-                    (
-                        (
                             (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                             it.Name.Contains(search.Search.Name)
-
-                        )
-                    )) && !it.IsDeleted
+                    ) && !it.IsDeleted
                 )
                 .OrderBy(it => it.Name)
                 .ThenBy(it => it.Name.Length);

@@ -119,8 +119,10 @@ namespace Common.Constants
 
         public const string BasePromotionDetail = BaseApi + "/promotion-detail";
 
+        //Subcategory
+        public const string BaseSubcategory = BaseApi + "/subcategory";
         
-
+       
 
     }
 }

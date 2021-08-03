@@ -32,7 +32,7 @@ namespace BE.Controllers.FEUsers
 
         [HttpGet]
         [Route(UrlConstants.Product)]
-        public async Task<IActionResult> GetProduct([FromQuery] SearchPaginationUserFEDTO<SubcategoryDTO> dto)
+        public async Task<IActionResult> GetProduct([FromQuery] SearchPaginationUserFEDTO<ProductDTO> dto)
         {
             var result = await _userProductListService.SearchPaginationAsync(dto);
             return CommonResponse(result);
@@ -44,7 +44,7 @@ namespace BE.Controllers.FEUsers
             var result = await _userProductListService.GetByCategory(id);
             return CommonResponse(result);
         }
-
+        
         [HttpGet(UrlConstants.RevelantProduct)]
         public async Task<IActionResult> RelevantProduct([FromQuery] string name)
         {

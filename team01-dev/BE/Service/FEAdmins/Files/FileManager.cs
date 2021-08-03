@@ -57,7 +57,7 @@ namespace Service.Files
             return new FileStreamResult(memory, GetContentType(filePath));
         }
 
-        private string GetContentType(string path)
+        private static string GetContentType(string path)
         {
             var provider = new FileExtensionContentTypeProvider();
 

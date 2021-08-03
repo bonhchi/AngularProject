@@ -29,7 +29,7 @@ namespace Service.Products
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<ReturnMessage<SubcategoryDTO>> CreateAsync(CreateProductDTO model)
+        public async Task<ReturnMessage<ProductDTO>> CreateAsync(CreateProductDTO model)
         {
             model.Name = StringExtension.CleanString(model.Name);
             model.Description = StringExtension.CleanString(model.Description);
@@ -37,7 +37,7 @@ namespace Service.Products
                model.Description == null)
             {
                 var entity = _mapper.Map<CreateProductDTO, Product>(model);
-                return new ReturnMessage<SubcategoryDTO>(true, _mapper.Map<Product, SubcategoryDTO>(entity), MessageConstants.InvalidString);
+                return new ReturnMessage<ProductDTO>(true, _mapper.Map<Product, ProductDTO>(entity), MessageConstants.InvalidString);
             }
 
             try
@@ -46,23 +46,23 @@ namespace Service.Products
                 var category = await _categoryRepository.FindAsync(model.CategoryId);
                 if (category == null)
                 {
-                    return new ReturnMessage<SubcategoryDTO>(true, null, MessageConstants.Error);
+                    return new ReturnMessage<ProductDTO>(true, null, MessageConstants.Error);
                 }
                 entity.CategoryId = category.Id;
                 entity.Category = category; //checking error
                 entity.Insert();
                 _productRepository.InsertAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
-                var result = new ReturnMessage<SubcategoryDTO>(false, _mapper.Map<Product, SubcategoryDTO>(entity), MessageConstants.CreateSuccess);
+                var result = new ReturnMessage<ProductDTO>(false, _mapper.Map<Product, ProductDTO>(entity), MessageConstants.CreateSuccess);
                 return result;
             }
             catch (Exception ex)
             {
-                return new ReturnMessage<SubcategoryDTO>(true, null, ex.Message);
+                return new ReturnMessage<ProductDTO>(true, null, ex.Message);
             }
         }
 
-        public async Task<ReturnMessage<SubcategoryDTO>> DeleteAsync(DeleteProductDTO model)
+        public async Task<ReturnMessage<ProductDTO>> DeleteAsync(DeleteProductDTO model)
         {
             try
             {
@@ -72,39 +72,39 @@ namespace Service.Products
                     entity.Delete();
                     await _productRepository.UpdateAsync(entity);
                     await _unitOfWork.SaveChangesAsync();
-                    var result = new ReturnMessage<SubcategoryDTO>(false, _mapper.Map<Product, SubcategoryDTO>(entity), MessageConstants.DeleteSuccess);
+                    var result = new ReturnMessage<ProductDTO>(false, _mapper.Map<Product, ProductDTO>(entity), MessageConstants.DeleteSuccess);
                     return result;
                 }
-                return new ReturnMessage<SubcategoryDTO>(true, null, MessageConstants.Error);
+                return new ReturnMessage<ProductDTO>(true, null, MessageConstants.Error);
             }
             catch (Exception ex)
             {
-                return new ReturnMessage<SubcategoryDTO>(true, null, ex.Message);
+                return new ReturnMessage<ProductDTO>(true, null, ex.Message);
             }
         }
 
-        public async Task<ReturnMessage<List<SubcategoryDTO>>> GetByCategory(Guid id)
+        public async Task<ReturnMessage<List<ProductDTO>>> GetByCategory(Guid id)
         {
             try
             {
                 var listDTO = _productRepository.Queryable().Where(product => product.CategoryId == id).ToList();
-                var list = _mapper.Map<List<SubcategoryDTO>>(listDTO);
-                var result = new ReturnMessage<List<SubcategoryDTO>>(false, list, MessageConstants.ListSuccess);
+                var list = _mapper.Map<List<ProductDTO>>(listDTO);
+                var result = new ReturnMessage<List<ProductDTO>>(false, list, MessageConstants.ListSuccess);
                 await Task.CompletedTask;
                 return result;
             }
 
             catch (Exception ex)
             {
-                return new ReturnMessage<List<SubcategoryDTO>>(true, null, ex.Message);
+                return new ReturnMessage<List<ProductDTO>>(true, null, ex.Message);
             }
         }
 
-        public async Task<ReturnMessage<PaginatedList<SubcategoryDTO>>> SearchPaginationAsync(SearchPaginationDTO<SubcategoryDTO> search)
+        public async Task<ReturnMessage<PaginatedList<ProductDTO>>> SearchPaginationAsync(SearchPaginationDTO<ProductDTO> search)
         {
             if (search == null)
             {
-                return new ReturnMessage<PaginatedList<SubcategoryDTO>>(false, null, MessageConstants.Error);
+                return new ReturnMessage<PaginatedList<ProductDTO>>(false, null, MessageConstants.Error);
             }
             var query = _productRepository.Queryable().Include(it => it.Category).Where(it => (search.Search == null ||
                     (
@@ -119,14 +119,14 @@ namespace Service.Products
                 .OrderBy(it => it.Name)
                 .ThenBy(it => it.Name.Length);
             var resultEntity = new PaginatedList<Product>(query, search.PageIndex * search.PageSize, search.PageSize);
-            var data = _mapper.Map<PaginatedList<Product>, PaginatedList<SubcategoryDTO>>(resultEntity);
-            var result = new ReturnMessage<PaginatedList<SubcategoryDTO>>(false, data, MessageConstants.ListSuccess);
+            var data = _mapper.Map<PaginatedList<Product>, PaginatedList<ProductDTO>>(resultEntity);
+            var result = new ReturnMessage<PaginatedList<ProductDTO>>(false, data, MessageConstants.ListSuccess);
 
             await Task.CompletedTask;
             return result;
         }
 
-        public async Task<ReturnMessage<SubcategoryDTO>> UpdateAsync(UpdateProductDTO model)
+        public async Task<ReturnMessage<ProductDTO>> UpdateAsync(UpdateProductDTO model)
         {
             model.Name = StringExtension.CleanString(model.Name);
             model.Description = StringExtension.CleanString(model.Description);
@@ -134,7 +134,7 @@ namespace Service.Products
                model.Description == null)
             {
                 var entity = _mapper.Map<UpdateProductDTO, Product>(model);
-                return new ReturnMessage<SubcategoryDTO>(true, _mapper.Map<Product, SubcategoryDTO>(entity), MessageConstants.InvalidString);
+                return new ReturnMessage<ProductDTO>(true, _mapper.Map<Product, ProductDTO>(entity), MessageConstants.InvalidString);
             }
             try
             {
@@ -142,7 +142,7 @@ namespace Service.Products
                 var category = await _categoryRepository.FindAsync(model.CategoryId);
                 if (category == null)
                 {
-                    return new ReturnMessage<SubcategoryDTO>(true, null, MessageConstants.Error);
+                    return new ReturnMessage<ProductDTO>(true, null, MessageConstants.Error);
                 }
                 entity.Category = category;
                 entity.CategoryId = category.Id;
@@ -152,18 +152,18 @@ namespace Service.Products
                     entity.Update(model);
                     await _productRepository.UpdateAsync(entity);
                     await _unitOfWork.SaveChangesAsync();
-                    var result = new ReturnMessage<SubcategoryDTO>(false, _mapper.Map<Product, SubcategoryDTO>(entity), MessageConstants.UpdateSuccess);
+                    var result = new ReturnMessage<ProductDTO>(false, _mapper.Map<Product, ProductDTO>(entity), MessageConstants.UpdateSuccess);
                     return result;
                 }
-                return new ReturnMessage<SubcategoryDTO>(true, null, MessageConstants.Error);
+                return new ReturnMessage<ProductDTO>(true, null, MessageConstants.Error);
             }
             catch (Exception ex)
             {
-                return new ReturnMessage<SubcategoryDTO>(true, null, ex.Message);
+                return new ReturnMessage<ProductDTO>(true, null, ex.Message);
             }
         }
 
-        public async Task<ReturnMessage<SubcategoryDTO>> GetById(Guid id)
+        public async Task<ReturnMessage<ProductDTO>> GetById(Guid id)
         {
             try
             {
@@ -174,21 +174,21 @@ namespace Service.Products
                     var category = await _categoryRepository.FindAsync(search.CategoryId);
                     if (category == null)
                     {
-                        return new ReturnMessage<SubcategoryDTO>(true, null, MessageConstants.Error);
+                        return new ReturnMessage<ProductDTO>(true, null, MessageConstants.Error);
                     }
 
-                    var result = new ReturnMessage<SubcategoryDTO>(false, _mapper.Map<SubcategoryDTO>(search), MessageConstants.ListSuccess);
+                    var result = new ReturnMessage<ProductDTO>(false, _mapper.Map<ProductDTO>(search), MessageConstants.ListSuccess);
                     return result;
                 }
 
                 await Task.CompletedTask;
-                return new ReturnMessage<SubcategoryDTO>(true, null, MessageConstants.Error);
+                return new ReturnMessage<ProductDTO>(true, null, MessageConstants.Error);
 
             }
 
             catch (Exception ex)
             {
-                return new ReturnMessage<SubcategoryDTO>(true, null, ex.Message);
+                return new ReturnMessage<ProductDTO>(true, null, ex.Message);
             }
         }
 
