@@ -195,7 +195,7 @@ namespace Domain
 
 
             //Subcategory
-            CreateMap<Subcategory, DTOs.FEAdmins.Subcategory.SubcategoryDTO>().
+            CreateMap<Subcategory, SubcategoryDTO>().
                 ForMember(t => t.CategoryName, k => k.MapFrom(h => h.Category.Name)).
                 ForMember(t => t.SubcategoryTypeName, k => k.MapFrom(h => h.SubcategoryType.Name)).ReverseMap();
             CreateMap<Subcategory, CreateSubcategoryDTO>().ReverseMap();

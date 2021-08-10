@@ -31,6 +31,7 @@ using Service.UserBlogs;
 using Service.Gmails;
 using Service.UserPageContents;
 using Service.FEAdmins.Subcategories;
+using Service.FEAdmins.SubcategoryTypes;
 
 namespace Service
 {
@@ -115,6 +116,8 @@ namespace Service
 
             //subcategory
             services.AddScoped<ISubcategoryService, SubcategoryService>();
+            services.AddScoped<ISubcategoryTypeService, SubcategoryTypeService>();
+            
         }
     }
 }

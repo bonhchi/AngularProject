@@ -85,12 +85,9 @@ export class ProductDetailsComponent implements OnInit {
         this.messageService.alert(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            'Server Disconnected',
+            'Mất kết nối với máy chủ',
           TypeSweetAlertIcon.ERROR
         );
-        // if (er.error.hasError) {
-        //   console.log(er.error.message);
-        // }
       });
   }
   save() {
