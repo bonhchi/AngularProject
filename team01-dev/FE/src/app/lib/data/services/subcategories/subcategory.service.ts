@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { SubcategoryModel } from 'src/app/lib/data/models/subcategories/subcategories.model';
 import { HttpClientService } from 'src/app/lib/http/http-client';
-import { ProductModel } from '../../models/products/product.model';
 
 @Injectable()
-export class ProductService {
-  private url = '/api/product';
+export class SubcategoryService {
+  private url = '/api/subcategory';
 
   constructor(private httpClient: HttpClientService) {}
 
@@ -12,20 +12,20 @@ export class ProductService {
     return this.httpClient.getObservable(this.url, request).toPromise();
   }
 
-  create(model: ProductModel) {
+  create(model: SubcategoryModel) {
     return this.httpClient.postObservable(this.url, model).toPromise();
   }
 
-  update(model: ProductModel) {
+  update(model: SubcategoryModel) {
     return this.httpClient.putObservable(this.url, model).toPromise();
   }
 
-  delete(model: ProductModel) {
+  delete(model: SubcategoryModel) {
     const url = `${this.url}?id=${model?.id}`;
     return this.httpClient.deleteObservable(url).toPromise();
   }
 
-  save(model: ProductModel) {
+  save(model: SubcategoryModel) {
     if (model.id) {
       return this.update(model);
     }
