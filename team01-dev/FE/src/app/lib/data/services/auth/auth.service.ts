@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/app/lib/environments/environment';
 import { HttpClientService } from 'src/app/lib/http/http-client';
-import {
-  AuthLoginModel,
-  ReturnMessage,
-  UserDataReturnDTOModel,
-} from '../../models';
+import { AuthLoginModel, UserDataReturnDTOModel } from '../../models';
 
 @Injectable({
   providedIn: 'root',

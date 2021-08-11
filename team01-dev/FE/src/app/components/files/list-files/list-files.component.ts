@@ -1,4 +1,3 @@
-import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   ModalDismissReasons,
@@ -9,7 +8,6 @@ import {
   FileDtoModel,
   PageModel,
   ReturnMessage,
-  SearchPaganationDTO,
 } from 'src/app/lib/data/models';
 import { FileService } from 'src/app/lib/data/services';
 import { CreateImageComponent } from '../create-image/create-image.component';
@@ -59,9 +57,15 @@ export class ListFilesComponent implements OnInit {
             fileExt == 'jpeg' ||
             fileExt == 'icon'
           ) {
-            return `<a href="${FileService.getLinkFile(file)}"><img appUiImageLoader width="75px" height="75px" src="${FileService.getLinkFile(file)}"/></a>`;
+            return `<a href="${FileService.getLinkFile(
+              file
+            )}"><img appUiImageLoader width="75px" height="75px" src="${FileService.getLinkFile(
+              file
+            )}"/></a>`;
           }
-          return `<a href="${FileService.getLinkFile(file)}">${FileService.getLinkFile(file)}</a>`;
+          return `<a href="${FileService.getLinkFile(
+            file
+          )}">${FileService.getLinkFile(file)}</a>`;
         },
       },
       fileExt: {
@@ -85,20 +89,15 @@ export class ListFilesComponent implements OnInit {
         (res: ReturnMessage<PageModel<FileDtoModel>>) =>
           (this.media = res.data.results)
       );
-    // .catch((er) =>
-    // console.log(er.error)
-    // );
   }
 
   async getType() {
     await this.fileService.getType().then((res: ReturnMessage<any>) => {
-      // console.log(res.data);
       this.type = res.data;
     });
   }
 
   open(item: FileDtoModel | null, typeMulti: number) {
-    // console.log(item);
     var modalRef: NgbModalRef = this.modalService.open(CreateImageComponent, {
       ariaLabelledBy: 'modal-basic-title',
     });
@@ -110,7 +109,7 @@ export class ListFilesComponent implements OnInit {
         this.getFiles();
       },
       (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        this.closeResult = `Từ chối ${this.getDismissReason(reason)}`;
       }
     );
   }

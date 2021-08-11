@@ -4,7 +4,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TypeSweetAlertIcon } from 'src/app/lib/data/models';
 import { BlogModel } from 'src/app/lib/data/models/blogs/blog.model';
 import { PageModel, ReturnMessage } from 'src/app/lib/data/models/common';
-import { FileService } from 'src/app/lib/data/services';
 import { BlogService } from 'src/app/lib/data/services/blogs/blog.service';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 import { CustomViewCellStringComponent } from 'src/app/shared/components/custom-view-cell-string/custom-view-cell-string.component';

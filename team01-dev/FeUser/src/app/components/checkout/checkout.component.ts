@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Route, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import {
   OrderDetailModel,
@@ -7,7 +7,6 @@ import {
   ProductModel,
 } from "src/app/lib/data/models";
 import { CartModel } from "src/app/lib/data/models/cart/cart.model";
-import { UserDataReturnDTOModel } from "src/app/lib/data/models/users/user.model";
 import { AuthService } from "src/app/lib/data/services";
 import { CartService } from "src/app/lib/data/services/cart/cart.service";
 import { CouponService } from "src/app/lib/data/services/coupons/coupon.service";
@@ -41,8 +40,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     public orderService: OrdersService,
     public couponService: CouponService,
     public routerService: Router,
-    public authService: AuthService,
-  ) { }
+    public authService: AuthService
+  ) {}
   ngOnDestroy(): void {
     this.subDataUser.unsubscribe();
     this.subDataUser = null;
@@ -68,8 +67,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if(this.products.length == 0)
-    {
+    if (this.products.length == 0) {
       return;
     }
     this.loadModel();
@@ -144,7 +142,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.couponInvalid = true;
         this.removeCoupon();
         this.couponInvalid = true;
-
       });
   }
   removeCoupon() {
@@ -161,6 +158,5 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.couponDisplay = false;
     this.couponInvalid = false;
-
   }
 }

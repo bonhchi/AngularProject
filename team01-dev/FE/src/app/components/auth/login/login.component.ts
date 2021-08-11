@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Data, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   AuthLoginModel,
   ReturnMessage,
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     private activedRoute: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private messageService: MessageService,
+    private messageService: MessageService
   ) {
     this.createLoginForm();
     this.createRegisterForm();
@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit {
   owlcarousel = [
     {
       title: 'Welcome to Clothing Store',
-
     },
     {
       title: 'This is the management page',
@@ -67,7 +66,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   async onLogin() {
     this.submitted = true;
@@ -87,7 +86,9 @@ export class LoginComponent implements OnInit {
         this.messageService.alert(
           'Login Fail',
           TypeSweetAlertIcon.ERROR,
-          er.error.message ?? JSON.stringify(er.error.error) ?? "Server Disconnected",
+          er.error.message ??
+            JSON.stringify(er.error.error) ??
+            'Server Disconnected'
         );
       });
   }

@@ -5,6 +5,7 @@ import { HttpClientService } from 'src/app/lib/http/http-client';
 @Injectable()
 export class SubcategoryService {
   private url = '/api/subcategory';
+  private urlSubType = '/api/subcategory-type';
 
   constructor(private httpClient: HttpClientService) {}
 
@@ -30,5 +31,9 @@ export class SubcategoryService {
       return this.update(model);
     }
     return this.create(model);
+  }
+
+  getSubcategoryType(request: any) {
+    return this.httpClient.getObservable(this.urlSubType, request).toPromise();
   }
 }

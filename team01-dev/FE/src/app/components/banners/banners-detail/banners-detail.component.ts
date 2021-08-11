@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FileDtoModel, TypeSweetAlertIcon } from 'src/app/lib/data/models';
+import { TypeSweetAlertIcon } from 'src/app/lib/data/models';
 import { BannerModel } from 'src/app/lib/data/models/banners/banner.model';
-import { FileService } from 'src/app/lib/data/services';
 import { BannersService } from 'src/app/lib/data/services/banners/banners.service';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 import {

@@ -1,22 +1,12 @@
 import { DatePipe } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { CheckboxControlValueAccessor } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   PageModel,
   ReturnMessage,
   TypeSweetAlertIcon,
 } from 'src/app/lib/data/models';
-import {
-  OrderDetailModel,
-  OrderModel,
-} from 'src/app/lib/data/models/orders/order.model';
+import { OrderModel } from 'src/app/lib/data/models/orders/order.model';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 import { OrdersService } from 'src/app/lib/data/services/orders/orders.service';
 import { CustomViewCellNumberComponent } from 'src/app/shared/components/custom-view-cell-number/custom-view-cell-number.component';
@@ -44,7 +34,6 @@ export class ListOrdersComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.params.pageIndex = 0;
-    // this.getOrders();
   }
   ngOnInit() {
     this.actionFilter('Mới');
@@ -187,7 +176,6 @@ export class ListOrdersComponent implements OnInit {
           TypeSweetAlertIcon.ERROR
         );
         // if (er.error.hasError) {
-        //   console.log(er.error.message)
         // }
       });
   }

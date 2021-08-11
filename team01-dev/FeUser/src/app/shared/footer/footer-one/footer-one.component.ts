@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { ReturnMessage } from "src/app/lib/data/models";
 import { FooterModel } from "src/app/lib/data/models/footer/footer.model";
-import { PageContentModel } from "src/app/lib/data/models/pageContent/pageContent.model";
 import { FileService } from "src/app/lib/data/services/files/file.service";
 import { FooterService } from "src/app/lib/data/services/footer/footer.service";
 import { TypeDisplayImage } from "../../data";
@@ -18,17 +17,17 @@ export class FooterOneComponent implements OnInit {
   typeDisplayImage = TypeDisplayImage;
   public footerModel: FooterModel;
 
-  constructor(
-    public footerService: FooterService,
-  ) {}
+  constructor(public footerService: FooterService) {}
 
   ngOnInit(): void {
     this.loadFooterModel();
   }
 
   async loadFooterModel() {
-    await this.footerService.getFooters().then((res: ReturnMessage<FooterModel>) => {
-      this.footerModel = res.data;
-    })
+    await this.footerService
+      .getFooters()
+      .then((res: ReturnMessage<FooterModel>) => {
+        this.footerModel = res.data;
+      });
   }
 }

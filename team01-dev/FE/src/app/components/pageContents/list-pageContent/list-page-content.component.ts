@@ -1,19 +1,11 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  PageModel,
-  ReturnMessage,
-  TypeSweetAlertIcon,
-} from 'src/app/lib/data/models';
-import { CategoryModel } from 'src/app/lib/data/models/categories/category.model';
+import { ReturnMessage, TypeSweetAlertIcon } from 'src/app/lib/data/models';
 import { PageContentModel } from 'src/app/lib/data/models/pageContent/pageContent.model';
-import { UserModel } from 'src/app/lib/data/models/users/user.model';
-import { FileService } from 'src/app/lib/data/services';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 import { PageContentService } from 'src/app/lib/data/services/pageContents/pageContent.service';
 import { CustomViewCellStringComponent } from 'src/app/shared/components/custom-view-cell-string/custom-view-cell-string.component';
 import { CustomViewCellComponent } from 'src/app/shared/components/customViewCell/customViewCell.component';
-import { UserService } from '../../../lib/data/services/users/user.service';
 import { PageContentDetailComponent } from '../pageContent-details/page-content-details.component';
 
 @Component({

@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  PageModel,
-  ReturnMessage,
-  TypeSweetAlertIcon,
-} from 'src/app/lib/data/models';
+import { ReturnMessage, TypeSweetAlertIcon } from 'src/app/lib/data/models';
 import { InformationWebModel } from 'src/app/lib/data/models/information-website/info-web.model';
-import { FileService } from 'src/app/lib/data/services';
 import { InformationWebsiteService } from 'src/app/lib/data/services/information-website/infoWeb.service';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 import {
@@ -64,24 +58,21 @@ export class ListInformationWebsiteComponent implements OnInit {
         this.messageService.alert(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            'Server Disconnected',
+            'Mất kết nối với máy chủ',
           TypeSweetAlertIcon.ERROR
         );
-        // if (er.error.hasError) {
-        // }
       });
   }
   updateSwitch() {
     this.modalFile.listFile = [];
     this.update = this.update == true ? false : true;
     if (this.update) {
-      this.loadForminfoWeb();
+      this.loadFormInfoWeb();
     }
     this.fetch();
   }
 
-  //Address , Phone, Email, Fax, Logo
-  loadForminfoWeb() {
+  loadFormInfoWeb() {
     if (this.infoWeb) {
       this.fileURL = [];
       this.fileURL.push(this.infoWeb.logo);
@@ -149,9 +140,6 @@ export class ListInformationWebsiteComponent implements OnInit {
             'Mất kết nối với máy chủ',
           TypeSweetAlertIcon.ERROR
         );
-        // if (er.error.hasError) {
-        //   // console.log(er.error.message);
-        // }
       });
   }
   onChangeData(event: { add: string[]; remove: string; removeAll: boolean }) {

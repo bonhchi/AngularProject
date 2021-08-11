@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageContentModel } from 'src/app/lib/data/models/pageContent/pageContent.model';
 import { PageContentService } from 'src/app/lib/data/services/pageContents/pageContent.service';
-// import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import {
   EntityType,
   ModalFile,
@@ -14,7 +13,6 @@ import {
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 import { TypeSweetAlertIcon } from 'src/app/lib/data/models';
 import * as ClassicEditor from 'src/app/lib/customCkeditor/ckeditor5-build-classic';
-// import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Base64UploaderPlugin from 'src/app/lib/@ckeditor/Base64Upload';
 
 @Component({
@@ -126,7 +124,7 @@ export class PageContentDetailComponent implements OnInit {
         this.messageService.alert(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            'Server Disconnected',
+            'Mất kết nối với máy chủ',
           TypeSweetAlertIcon.ERROR
         );
       });

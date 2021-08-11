@@ -8,9 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { SharedModule } from '../../shared/shared.module';
-import { AuthService } from 'src/app/lib/data/services';
 import { HttpClientService } from 'src/app/lib/http/http-client';
-
 
 @NgModule({
   declarations: [LoginComponent],
@@ -22,6 +20,6 @@ import { HttpClientService } from 'src/app/lib/http/http-client';
     CarouselModule,
     SharedModule,
   ],
-  providers: [HttpClientService]
+  providers: [HttpClientService],
 })
-export class AuthModule { }
+export class AuthModule {}

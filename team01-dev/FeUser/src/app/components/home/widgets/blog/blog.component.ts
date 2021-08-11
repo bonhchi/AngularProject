@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { BlogModel } from "src/app/lib/data/models/blogs/blog.model";
-import { ImageModel } from "src/app/lib/data/models/common/image.model";
 import { FileService } from "src/app/lib/data/services";
 import { TypeDisplayImage } from "src/app/shared/data/common/common.model";
 import { BlogSlider } from "src/app/shared/data/slider";

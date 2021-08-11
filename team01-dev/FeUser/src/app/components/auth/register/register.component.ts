@@ -1,10 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import {
@@ -14,7 +9,6 @@ import {
 } from "src/app/lib/data/models";
 import { UserDataReturnDTOModel } from "src/app/lib/data/models/users/user.model";
 import { AuthService, MessageService } from "src/app/lib/data/services";
-import Swal from "sweetalert2";
 
 @Component({
   selector: "app-register",
@@ -115,7 +109,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   backUrl() {
-    var returnUrl = this.activatedRoute.snapshot.queryParams["returnUrl"] || "/";
+    var returnUrl =
+      this.activatedRoute.snapshot.queryParams["returnUrl"] || "/";
     this.callUrl(returnUrl);
   }
 

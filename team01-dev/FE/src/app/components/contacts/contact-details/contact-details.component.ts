@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as ClassicEditor from 'src/app/lib/customCkeditor/ckeditor5-build-classic';
 import Base64UploaderPlugin from 'src/app/lib/@ckeditor/Base64Upload';
@@ -121,14 +121,12 @@ export class ContactDetailComponent implements OnInit {
       })
       .catch((er) => {
         if (er.error.hasError) {
-          // console.log(er.error.message);
         }
       });
   }
 
   progress() {
     if (this.pageContentForm.invalid) {
-      // console.log(this.pageContentForm);
       return;
     }
 
@@ -139,7 +137,6 @@ export class ContactDetailComponent implements OnInit {
 
   complete() {
     if (this.pageContentForm.invalid) {
-      // console.log(this.pageContentForm);
       return;
     }
 
