@@ -9,11 +9,13 @@ import { MessageService } from 'src/app/lib/data/services/messages/message.servi
 import { SubcategoryService } from 'src/app/lib/data/services/subcategories/subcategory.service';
 import { CustomViewCellStringComponent } from 'src/app/shared/components/custom-view-cell-string/custom-view-cell-string.component';
 import { SubcategoryModel } from '../../../lib/data/models/subcategories/subcategories.model';
+import { SubcategoriesDetailComponent } from '../subcategories-detail/subcategories-detail.component';
 
 @Component({
   selector: 'app-list-subcategories',
   templateUrl: './list-subcategories.component.html',
   styleUrls: ['./list-subcategories.component.scss'],
+  providers: [SubcategoryService],
 })
 export class ListSubcategoriesComponent implements OnInit {
   public subcategories: SubcategoryModel[];
@@ -29,6 +31,7 @@ export class ListSubcategoriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.params.pageIndex = 0;
+    this.getSubcategories();
   }
 
   public settings = {
@@ -102,20 +105,20 @@ export class ListSubcategoriesComponent implements OnInit {
       });
   }
 
-  // openPopup(item: any) {
-  //   var modalRef = this.modalService.open(ProductDetailsComponent, {
-  //     size: 'lg',
-  //   });
-  //   modalRef.componentInstance.item = item?.data;
-  //   return modalRef.result.then(
-  //     () => {
-  //       this.fetch();
-  //     },
-  //     (reason) => {
-  //       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-  //     }
-  //   );
-  // }
+  openPopup(item: any) {
+    var modalRef = this.modalService.open(SubcategoriesDetailComponent, {
+      size: 'lg',
+    });
+    modalRef.componentInstance.item = item?.data;
+    return modalRef.result.then(
+      () => {
+        this.getSubcategories();
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+  }
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

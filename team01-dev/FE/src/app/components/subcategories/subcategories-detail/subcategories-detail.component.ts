@@ -21,6 +21,7 @@ import {
   selector: 'app-subcategories-detail',
   templateUrl: './subcategories-detail.component.html',
   styleUrls: ['./subcategories-detail.component.scss'],
+  providers: [SubcategoryService, CategoryService],
 })
 export class SubcategoriesDetailComponent implements OnInit {
   public subcategoryForm: FormGroup;
@@ -38,6 +39,10 @@ export class SubcategoriesDetailComponent implements OnInit {
     private categoryService: CategoryService,
     private messageService: MessageService
   ) {}
+
+  get subcategoryFormControl() {
+    return this.subcategoryForm.controls;
+  }
 
   getCategory() {
     this.categoryService

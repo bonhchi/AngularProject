@@ -75,6 +75,11 @@ export class NavService {
           type: 'link',
         },
         {
+          path: '/subcategories/list-subcategories',
+          title: 'Danh mục con',
+          type: 'link',
+        },
+        {
           path: '/coupons/list-coupons',
           title: 'Mã giảm giá',
           type: 'link',

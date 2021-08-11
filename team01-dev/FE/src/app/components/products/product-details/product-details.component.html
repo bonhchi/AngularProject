@@ -195,7 +195,7 @@
                           }"
                         >
                           <option
-                            *ngFor="let category of categories"
+                            *ngFor="let category of categories; let i = index"
                             value="{{ category.id }}"
                           >
                             {{ category.name }}

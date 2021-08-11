@@ -123,6 +123,16 @@ export const content: Routes = [
     },
   },
   {
+    path: 'subcategories',
+    loadChildren: () =>
+      import('../../components/subcategories/subcategories.module').then(
+        (m) => m.SubcategoryModule
+      ),
+    data: {
+      breadcrumb: 'Danh mục con',
+    },
+  },
+  {
     path: 'contact',
     loadChildren: () =>
       import('../../components/contacts/contact.module').then(

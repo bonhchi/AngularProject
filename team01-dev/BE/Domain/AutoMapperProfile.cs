@@ -202,6 +202,8 @@ namespace Domain
             CreateMap<Subcategory, UpdateSubcategoryDTO>().ReverseMap();
             CreateMap<Subcategory, DeleteSubcategoryDTO>().ReverseMap();
             CreateMap<SubcategoryType, SubcategoryTypeDTO>().ReverseMap();
+            CreateMap<PaginatedList<Subcategory>, PaginatedList<SubcategoryDTO>>().ReverseMap();
+
         }
     }
 }
