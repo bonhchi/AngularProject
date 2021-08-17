@@ -40,12 +40,94 @@
                   <span
                     class="text-danger"
                     *ngIf="
-                      (subcategoryFormControl.title?.touched || submitted) &&
-                      subcategoryFormControl.title.errors?.required
+                      (subcategoryFormControl.name?.touched || submitted) &&
+                      subcategoryFormControl.name.errors?.required
                     "
                   >
                     Tên danh mục con không được để trống hoặc không hợp lệ
                   </span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="validationCustom6" class="col-xl-3 col-md-4"
+                  ><span>*</span> Tên danh mục</label
+                >
+                <select
+                  class="col-md-4"
+                  formControlName="category"
+                  [ngClass]="{
+                    'is-invalid ':
+                      (subcategoryFormControl.category.touched || submitted) &&
+                      subcategoryFormControl.category.errors?.required
+                  }"
+                >
+                  <option
+                    *ngIf="item == null"
+                    value=""
+                    selected
+                    disabled
+                    hidden
+                  >
+                    Chọn loại danh mục
+                  </option>
+                  <option
+                    *ngFor="let category of categories; let i = index"
+                    value="{{ category.id }}"
+                  >
+                    {{ category.name }}
+                  </option>
+                </select>
+                <div class="invalid-feedback col-md-4 offset-md-0">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (subcategoryFormControl.category.touched || submitted) &&
+                      subcategoryFormControl.category.errors?.required
+                    "
+                    >Danh mục không được để trống</span
+                  >
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="validationCustom6" class="col-xl-3 col-md-4"
+                  ><span>*</span> Loại danh mục con</label
+                >
+                <select
+                  class="col-md-4"
+                  formControlName="subcategoryType"
+                  [ngClass]="{
+                    'is-invalid ':
+                      (subcategoryFormControl.subcategoryType.touched ||
+                        submitted) &&
+                      subcategoryFormControl.subcategoryType.errors?.required
+                  }"
+                >
+                  <option
+                    *ngIf="item == null"
+                    value=""
+                    selected
+                    disabled
+                    hidden
+                  >
+                    Chọn loại danh mục con
+                  </option>
+                  <option
+                    *ngFor="let item of subcategoryType; let i = index"
+                    value="{{ item.id }}"
+                  >
+                    {{ item.name }}
+                  </option>
+                </select>
+                <div class="invalid-feedback col-md-4 offset-md-0">
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (subcategoryFormControl.subcategoryType.touched ||
+                        submitted) &&
+                      subcategoryFormControl.subcategoryType.errors?.required
+                    "
+                    >Loại danh mục con không được để trống</span
+                  >
                 </div>
               </div>
             </form>

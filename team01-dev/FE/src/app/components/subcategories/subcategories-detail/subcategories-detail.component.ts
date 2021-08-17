@@ -96,10 +96,10 @@ export class SubcategoriesDetailComponent implements OnInit {
       name: this.subcategoryForm.value.name,
       categoryName: this.categories.filter(
         (it) => it.id == this.subcategoryForm.value.category
-      )[0].name,
+      )[0]?.name,
       subcategoryTypeName: this.subcategoryType.filter(
         (it) => it.id == this.subcategoryForm.value.subcategoryType
-      )[0].name,
+      )[0]?.name,
       categoryId: this.subcategoryForm.value.category,
       subcategoryTypeId: this.subcategoryForm.value.subcategoryType,
       id: this.item ? this.item.id : '',

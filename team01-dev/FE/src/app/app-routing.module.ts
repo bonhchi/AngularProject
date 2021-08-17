@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { content } from './shared/routes/content-routes';
 import { ContentLayoutComponent } from './shared/layout/content-layout/content-layout.component';
-import { LoginComponent } from './components/auth/login/login.component';
 import { AuthGuardsAdminService } from './lib/guards/auth.guard';
 import { RouterHelperService } from './lib/helpers';
 import { AuthModule } from './components/auth/auth.module';
@@ -19,7 +18,7 @@ const routes: Routes = [
     children: content,
     canActivate: [AuthGuardsAdminService],
   },
-  {path: '**', redirectTo: '/error'}
+  { path: '**', redirectTo: '/error' },
 ];
 
 @NgModule({

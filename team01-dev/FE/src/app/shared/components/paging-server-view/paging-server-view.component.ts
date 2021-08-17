@@ -4,18 +4,17 @@ import { range } from 'lodash';
 @Component({
   selector: 'app-paging-server-view',
   templateUrl: './paging-server-view.component.html',
-  styleUrls: ['./paging-server-view.component.scss']
+  styleUrls: ['./paging-server-view.component.scss'],
 })
 export class PagingServerViewComponent implements OnInit {
   @Input() data: any;
   @Output() page = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  get pagelist() {
+  get pageList() {
     if (!this.data) {
       return [];
     }
@@ -33,8 +32,7 @@ export class PagingServerViewComponent implements OnInit {
       : [];
   }
 
-  onPageIndexChange(pageIndex: number, pageSize: number = 10)
-  {
+  onPageIndexChange(pageIndex: number, pageSize: number = 10) {
     this.page.emit(pageIndex);
   }
 }

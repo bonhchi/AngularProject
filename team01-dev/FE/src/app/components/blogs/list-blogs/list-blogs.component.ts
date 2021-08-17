@@ -93,7 +93,7 @@ export class ListBlogsComponent implements OnInit {
 
   delete(event: any) {
     this.messageService
-      .confirm(`Bạn có muốn xóa bài báo?`, 'Có', 'Không')
+      .confirm(`Bạn có muốn xóa tin tức?`, 'Có', 'Không')
       .then((res) => {
         if (res.isConfirmed) {
           let blog = event.data as BlogModel;

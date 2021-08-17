@@ -72,7 +72,7 @@ export class ListFilesComponent implements OnInit {
         title: 'FileExt',
       },
       entityType: {
-        title: 'EnityType',
+        title: 'EntityType',
       },
       entityId: {
         title: 'EntityID',

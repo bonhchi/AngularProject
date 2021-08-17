@@ -80,7 +80,7 @@ export class PageContentDetailComponent implements OnInit {
     });
 
     this.modalHeader = new ModalHeaderModel();
-    this.modalHeader.title = this.item ? `Cập nhật` : `Thêm`;
+    this.modalHeader.title = this.item ? `Cập nhật ${this.item.title}` : `Thêm`;
     this.modalFooter = new ModalFooterModel();
     this.modalFooter.title = 'Lưu';
   }

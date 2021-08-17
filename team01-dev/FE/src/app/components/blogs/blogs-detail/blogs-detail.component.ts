@@ -77,8 +77,9 @@ export class BlogsDetailComponent implements OnInit {
 
   createModal() {
     this.modalHeader = new ModalHeaderModel();
-    this.modalHeader.title =
-      this.item != null ? `Cập nhật ${this.item.title}` : `Thêm bài báo`;
+    this.modalHeader.title = this.item
+      ? `Cập nhật ${this.item.title}`
+      : `Thêm tin tức`;
     this.modalFooter = new ModalFooterModel();
     this.modalFooter.title = 'Lưu';
   }

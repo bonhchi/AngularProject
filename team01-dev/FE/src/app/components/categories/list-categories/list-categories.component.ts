@@ -81,7 +81,7 @@ export class ListCategoriesComponent implements OnInit {
 
   openPopup(item: any) {
     var modalRef = this.modalService.open(CategoryDetailComponent, {
-      size: 'xl',
+      size: 'lg',
     });
     modalRef.componentInstance.item = item?.data;
     return modalRef.result.then(
@@ -107,7 +107,7 @@ export class ListCategoriesComponent implements OnInit {
         this.messageService.alert(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            'Server Disconnected',
+            'Mất kết nối với máy chủ',
           TypeSweetAlertIcon.ERROR
         );
         // if (er.error.hasError) {

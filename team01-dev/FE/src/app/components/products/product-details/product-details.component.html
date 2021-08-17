@@ -186,6 +186,7 @@
                           ><span>*</span> Tên danh mục</label
                         >
                         <select
+                          class="col-md-4"
                           formControlName="category"
                           [ngClass]="{
                             'is-invalid ':
@@ -195,13 +196,22 @@
                           }"
                         >
                           <option
+                            *ngIf="item == null"
+                            value=""
+                            selected
+                            disabled
+                            hidden
+                          >
+                            Chọn loại danh mục
+                          </option>
+                          <option
                             *ngFor="let category of categories; let i = index"
                             value="{{ category.id }}"
                           >
                             {{ category.name }}
                           </option>
                         </select>
-                        <div class="invalid-feedback col-md-3 offset-md-0">
+                        <div class="invalid-feedback col-md-4 offset-md-0">
                           <span
                             class="text-danger"
                             *ngIf="

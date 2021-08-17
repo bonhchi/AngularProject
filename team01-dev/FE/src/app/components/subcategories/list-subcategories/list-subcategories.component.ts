@@ -62,14 +62,14 @@ export class ListSubcategoriesComponent implements OnInit {
   delete(event: any) {
     let subcategory = event.data as SubcategoryModel;
     this.messageService
-      .confirm(`Bạn có muốn xóa sản phẩm?`, 'Có', 'Không')
+      .confirm(`Bạn có muốn xóa danh mục con?`, 'Có', 'Không')
       .then((res) => {
         if (res.isConfirmed) {
           this.subcategoryService
             .delete(subcategory)
             .then(() => {
               this.messageService.notification(
-                'Danh mục con xóa thành công',
+                'Xóa danh mục con thành công',
                 TypeSweetAlertIcon.SUCCESS
               );
               this.getSubcategories();

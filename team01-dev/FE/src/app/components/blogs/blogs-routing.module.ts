@@ -10,8 +10,8 @@ const routes: Routes = [
         path: 'list-blogs',
         component: ListBlogsComponent,
         data: {
-          title: 'Bài báo',
-          breadcrumb: 'Danh sách bài báo',
+          title: 'Tin tức',
+          breadcrumb: 'Danh sách tin tức',
         },
       },
     ],

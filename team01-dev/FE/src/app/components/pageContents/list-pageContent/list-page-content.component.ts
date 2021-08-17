@@ -34,6 +34,8 @@ export class ListPageContentComponent {
     actions: {
       position: 'right',
       columnTitle: 'Chức năng',
+      add: false,
+      delete: false,
     },
     columns: {
       title: {
@@ -86,9 +88,6 @@ export class ListPageContentComponent {
             'Mất kết nối với máy chủ',
           TypeSweetAlertIcon.ERROR
         );
-        // if (er.error.hasError) {
-        //   // console.log(er.error.message);
-        // }
       });
   }
 

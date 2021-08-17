@@ -43,7 +43,7 @@ export class NavService {
       children: [
         {
           path: '/blogs/list-blogs',
-          title: 'Bài báo',
+          title: 'Tin tức',
           type: 'link',
         },
         {

@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private activedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
     private messageService: MessageService
@@ -40,10 +40,10 @@ export class LoginComponent implements OnInit {
 
   owlcarousel = [
     {
-      title: 'Welcome to Clothing Store',
+      title: 'Chào mừng đến với cửa hàng',
     },
     {
-      title: 'This is the management page',
+      title: 'Đây là trang quản lý',
     },
   ];
   owlcarouselOptions = {
@@ -84,17 +84,18 @@ export class LoginComponent implements OnInit {
       })
       .catch((er) => {
         this.messageService.alert(
-          'Login Fail',
+          'Đăng nhập thất bại',
           TypeSweetAlertIcon.ERROR,
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            'Server Disconnected'
+            'Mất kết nối với máy chủ'
         );
       });
   }
 
   backUrl() {
-    var returnUrl = this.activedRoute.snapshot.queryParams['returnUrl'] || '/';
+    var returnUrl =
+      this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
     this.router.navigateByUrl(returnUrl);
   }
 }

@@ -79,7 +79,7 @@ export const content: Routes = [
     loadChildren: () =>
       import('../../components/blogs/blogs.module').then((m) => m.BlogsModule),
     data: {
-      breadcrumb: 'Bài báo',
+      breadcrumb: 'Tin tức',
     },
   },
   {

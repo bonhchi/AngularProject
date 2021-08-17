@@ -3,12 +3,11 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  Input,
   OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService, FileService } from 'src/app/lib/data/services';
+import { AuthService } from 'src/app/lib/data/services';
 import { environment } from 'src/app/lib/environments/environment';
 import { NavService } from '../../service/nav.service';
 
