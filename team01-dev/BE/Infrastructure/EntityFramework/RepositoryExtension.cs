@@ -26,8 +26,5 @@ namespace Infrastructure.EntityFramework
             current++;
             return $"{prefix}-{DateTime.Now:ddMMyy}-{current:00000}";
         }
-
-
-
     }
 }

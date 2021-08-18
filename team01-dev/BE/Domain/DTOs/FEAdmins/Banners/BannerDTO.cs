@@ -1,6 +1,5 @@
 ﻿using Domain.DTOs.BaseDTOs;
 
-
 namespace Domain.DTOs.Banners
 {
     public class BannerDTO : BaseDTO

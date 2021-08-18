@@ -4,8 +4,6 @@ using Common.Http;
 using Domain.DTOs.Mails;
 using Infrastructure.Mails;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Service.Gmails
 {

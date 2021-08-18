@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Infrastructure.Extensions
 {
@@ -15,12 +12,6 @@ namespace Infrastructure.Extensions
             var attr = GetDisplayAttribute(enu);
             return attr != null ? attr.Name : enu.ToString();
         }
-        //public static string ToJson(this Enum enu)
-        //{
-        //    var name = enu.GetName();
-        //    var id = enu.GetHashCode();
-        //    return Serializer.JsonHelpers.SerializeJson(new { Id = id, Name = name });
-        //}
 
         public static string GetDescription(this Enum enu)
         {
@@ -81,7 +72,6 @@ namespace Infrastructure.Extensions
                     return resourceManager.GetString(resourceKey);
                 }
             }
-
             return resourceKey; // Fallback with the key name
         }
     }

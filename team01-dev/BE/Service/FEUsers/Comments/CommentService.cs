@@ -21,7 +21,6 @@ namespace Service.Comments
         private readonly IRepositoryAsync<Product> _productRepository;
         private readonly IRepositoryAsync<Blog> _blogRepository;
         private readonly IUserManager _userManager;
-        //private readonly UserInformationDTO _userInformation;
 
         public CommentService(IRepositoryAsync<Comment> commentRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IUserManager userManager, IRepositoryAsync<Product> productRepository, IRepositoryAsync<Blog> blogRepository)
         {
@@ -47,7 +46,7 @@ namespace Service.Comments
                                     .FirstOrDefault();
                 if (beforeComment.IsNotNullOrEmpty())
                 {
-                    var SubtractionTime = (DateTime.Now - beforeComment.CreateByDate);
+                    var SubtractionTime = DateTime.Now - beforeComment.CreateByDate;
                     if (SubtractionTime.TotalMinutes < CommonConstantsComment.LimitTime)
                     {
                         var NextTimeToComment = Convert.ToInt32((beforeComment.CreateByDate.AddMinutes(CommonConstantsComment.LimitTime) - DateTime.Now).TotalMinutes).ToString();
@@ -114,12 +113,12 @@ namespace Service.Comments
             var resultEntity = await _commentRepository.GetPaginatedListAsync(it => it.EntityType.Contains("Blog") && 
                 (
                     search.Search == null ||
-                    (
+                    
                         it.Content.Contains(search.Search.Content)||
                         it.FullName.Contains(search.Search.FullName) ||
-                        it.CustomerId == (search.Search.CustomerId) ||
-                        it.EntityId == (search.Search.EntityId)
-                    )
+                        it.CustomerId == search.Search.CustomerId ||
+                        it.EntityId == search.Search.EntityId
+                    
                 )
                 , search.PageSize
                 , search.PageIndex * search.PageSize
@@ -143,12 +142,12 @@ namespace Service.Comments
             var resultEntity = await _commentRepository.GetPaginatedListAsync(it => it.EntityType.Contains("Product") &&
                 (
                     search.Search == null ||
-                    (
+                    
                         it.Content.Contains(search.Search.Content) ||
                         it.FullName.Contains(search.Search.FullName) ||
-                        it.CustomerId == (search.Search.CustomerId) ||
-                        it.EntityId == (search.Search.EntityId)
-                    )
+                        it.CustomerId == search.Search.CustomerId ||
+                        it.EntityId == search.Search.EntityId
+                    
                 )
                 , search.PageSize
                 , search.PageIndex * search.PageSize

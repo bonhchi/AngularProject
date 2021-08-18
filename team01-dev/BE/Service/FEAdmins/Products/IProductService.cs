@@ -15,6 +15,5 @@ namespace Service.Products
         Task<ReturnMessage<List<ProductDTO>>> GetByCategory(Guid id);
         Task<ReturnMessage<ProductDTO>> GetById(Guid id);
         Task<ReturnMessage<UpdateProductDTO>> UpdateCount(UpdateProductDTO product ,int quantity);
-
     }
 }

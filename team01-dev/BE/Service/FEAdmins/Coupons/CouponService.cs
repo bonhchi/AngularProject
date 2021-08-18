@@ -112,13 +112,12 @@ namespace Service.Coupons
             }
 
             var resultEntity = await _couponRepository.GetPaginatedListAsync(it => search.Search == null ||
-                (
                     (
                         (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Code.Contains(search.Search.Code) ||
                         it.Name.Contains(search.Search.Name)
                     )
-                ) && !it.IsDeleted
+                 && !it.IsDeleted
                 , search.PageSize
                 , search.PageIndex * search.PageSize
                 , t => t.StartDate

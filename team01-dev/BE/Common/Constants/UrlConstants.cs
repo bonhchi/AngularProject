@@ -6,8 +6,8 @@ namespace Common.Constants
     {
         public const string Host = "https://localhost:44309";
 
-        public static string BaseLocalUrlFile = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Files");
-        public static string BaseCloudUrlFile = Path.Combine(Host, "Files");
+        public static readonly string BaseLocalUrlFile = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Files");
+        public static readonly string BaseCloudUrlFile = Path.Combine(Host, "Files");
 
         public const string BaseApi = "/api";
 

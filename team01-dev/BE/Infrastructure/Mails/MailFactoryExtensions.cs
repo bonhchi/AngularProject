@@ -11,7 +11,6 @@ namespace Infrastructure.Mails
             services.AddTransient<IEmailConfiguration, EmailConfiguration>();
             return services;
         }
-
         public static IServiceCollection AddEmail(this IServiceCollection services, Action<EmailConfiguration> configure)
         {
             if (configure == null)

@@ -15,17 +15,14 @@ namespace Service.ServiceFeUser
 {
     public class ProductDetailsFeService : IProductDetailsFeService
     {
-        private readonly IRepositoryAsync<Product> _productRepository;
-        private readonly IRepositoryAsync<Category> _categoryRepository; //not use
+        private readonly IRepositoryAsync<Product> _productRepository; 
         private readonly IMapper _mapper;
-        //private UserInformationDTO _userInformationDto;
         private readonly IUserManager _userManager;
 
-        public ProductDetailsFeService(IRepositoryAsync<Category> categoryRepository, IRepositoryAsync<Product> productRepository, IMapper mapper, IUserManager userManager)
+        public ProductDetailsFeService(IRepositoryAsync<Product> productRepository, IMapper mapper, IUserManager userManager)
         {
             _productRepository = productRepository;
             _mapper = mapper;
-            _categoryRepository = categoryRepository;
             _userManager = userManager;
             
         }

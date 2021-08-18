@@ -6,13 +6,9 @@ namespace Domain.Entities
     public class Subcategory : BaseEntity
     {
         public string Name { get; set; }
-
         public Guid SubcategoryTypeId { get; set; }
-
         public Guid CategoryId { get; set; }
-
         public virtual Category Category { get; set; }
-
         public virtual SubcategoryType SubcategoryType { get; set; }
 
         public override void Insert()

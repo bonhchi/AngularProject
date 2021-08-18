@@ -1,6 +1,5 @@
 ﻿using Common.Constants;
 using Domain.DTOs.CustomerFE;
-using Infrastructure.Mails;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
@@ -15,11 +14,9 @@ namespace BE.Controllers.FEUsers
     public class AuthCustomerController : BaseController
     {
         private readonly IAuthCustomerUserService _authCustomerService;
-        private readonly IEmailService _emailService;
-        public AuthCustomerController(IAuthService authService, IUserManager userManager, IFileService fileService, IAuthCustomerUserService authCustomerService, IEmailService emailService) : base(authService, userManager, fileService)
+        public AuthCustomerController(IAuthService authService, IUserManager userManager, IFileService fileService, IAuthCustomerUserService authCustomerService) : base(authService, userManager, fileService)
         {
             _authCustomerService = authCustomerService;
-            _emailService = emailService;
         }
 
         [HttpPost(UrlConstants.BaseLoginCustomer)]

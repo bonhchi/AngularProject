@@ -53,7 +53,6 @@ namespace Service.Categories
             }
         }
 
-
         public async Task<ReturnMessage<CategoryDTO>> DeleteAsync(DeleteCategoryDTO model)
         {
             try
@@ -91,14 +90,14 @@ namespace Service.Categories
             }
 
             var query = _categoryRepository.Queryable().Where(it => (search.Search == null ||
-                (
-                    (
+                
+                    
                         (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
                         it.Name.Contains(search.Search.Name) ||
                         it.Description.Contains(search.Search.Description)
-                    )
+                    
 
-                )) && !it.IsDeleted)
+                ) && !it.IsDeleted)
                 .OrderBy(it => it.Name)
                 .ThenBy(it => it.Name.Length);
             var resultEntity = new PaginatedList<Category>(query, search.PageIndex * search.PageSize, search.PageSize);

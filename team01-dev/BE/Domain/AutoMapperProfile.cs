@@ -84,8 +84,6 @@ namespace Domain
             //CreateMap<CreateFileDTO, SaveFileDTO>().ReverseMap();
             CreateMap<SaveFileDTO, CreateFileDTO>();
 
-
-
             //product
             CreateMap<PaginatedList<Product>, PaginatedList<ProductDTO>>().ReverseMap();
             CreateMap<Product, ProductDTO>()
@@ -96,7 +94,6 @@ namespace Domain
             CreateMap<UpdateProductDTO, ProductDTO>().ReverseMap();
             CreateMap<IQueryable<ProductDTO>, PaginatedList<Product>>().ReverseMap();
             CreateMap<Product, ProductDTOFeUser>().ReverseMap();
-
 
             //Coupon
             CreateMap<PaginatedList<Coupon>, PaginatedList<CouponDTO>>().ReverseMap();
@@ -111,7 +108,6 @@ namespace Domain
             CreateMap<Blog, CreateBlogDTO>().ReverseMap();
             CreateMap<Blog, UpdateBlogDTO>().ReverseMap();
             CreateMap<Blog, DeleteBlogDTO>().ReverseMap();
-
 
             //Order
             CreateMap<PaginatedList<Order>, PaginatedList<OrderDTO>>().ReverseMap();
@@ -138,17 +134,14 @@ namespace Domain
                 .ForMember(a => a.Email, b => b.MapFrom(c => c.Customer.IsNullOrEmpty() ? c.Email : c.Customer.Email))
                 .ForMember(a => a.Phone, b => b.MapFrom(c => c.Customer.Phone))
                 .ForMember(a => a.Id, b => b.MapFrom(c => c.Customer.UserId))
-
                 .ReverseMap();
             CreateMap<User, CreateCustomerDTO>().ReverseMap();
             CreateMap<User, UpdateCustomerDTO>().ReverseMap();
             CreateMap<User, DeleteCustomerDTO>().ReverseMap();
-
             CreateMap<Customer, CustomerDTO>().ReverseMap();
             CreateMap<Customer, CreateCustomerDTO>().ReverseMap();
             CreateMap<Customer, UpdateCustomerDTO>().ReverseMap();
             CreateMap<Customer, DeleteCustomerDTO>().ReverseMap();
-
             CreateMap<User, CustomerDataReturnDTO>()
                .ForMember(a => a.FirstName, b => b.MapFrom(c => c.Customer.IsNullOrEmpty() ? c.FirstName : c.Customer.FirstName))
                .ForMember(a => a.LastName, b => b.MapFrom(c => c.Customer.IsNullOrEmpty() ? c.LastName : c.Customer.LastName))
@@ -164,7 +157,6 @@ namespace Domain
             CreateMap<Product, HomeProductDTO>()
                  .ForMember(t => t.CategoryName, k => k.MapFrom(h => h.Category.Name)).ReverseMap();
             CreateMap<Blog, HomeBlogDTO>().ReverseMap();
-
             CreateMap<Banner, HomeBannerDTO>().ReverseMap();
 
             // PageContent
@@ -192,7 +184,6 @@ namespace Domain
             //Gmail
             CreateMap<SendMailDTO, EmailMessage>().ReverseMap();
             CreateMap<ReplyEmailDTO, EmailMessage>().ReverseMap();
-
 
             //Subcategory
             CreateMap<Subcategory, SubcategoryDTO>().

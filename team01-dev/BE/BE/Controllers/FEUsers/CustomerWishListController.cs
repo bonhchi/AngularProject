@@ -1,14 +1,10 @@
-﻿using BE.Controllers;
-using Common.Constants;
-using Common.Pagination;
+﻿using Common.Constants;
 using Domain.DTOs.CustomerWishList;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
-using Service.Contacts;
 using Service.CustomerWishLists;
 using Service.Files;
-using System;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers

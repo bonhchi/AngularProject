@@ -134,16 +134,16 @@ namespace Service.Users
             }
             var query = _userRepository.Queryable().Where(it => it.Type == UserType.Admin &&
                     (search.Search == null ||
-                        (
-                            (
+                        
+                            
                                 (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                                 it.Username.Contains(search.Search.Username) ||
                                 it.Email.Contains(search.Search.Email) ||
                                 it.FirstName.Contains(search.Search.FirstName) ||
                                 it.LastName.Contains(search.Search.LastName) ||
                                 it.ImageUrl.Contains(search.Search.ImageUrl)
-                            )
-                        )
+                            
+                        
                     )
                 )
                 .OrderBy(it => it.Username)

@@ -9,13 +9,9 @@ namespace Domain.DTOs.SocialMedias
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-
         public string Link { get; set; }
-
         public string IconUrl { get; set; }
-
         public int DisplayOrder { get; set; }
-
         public List<FileDTO> Files { get; set; }
 
     }

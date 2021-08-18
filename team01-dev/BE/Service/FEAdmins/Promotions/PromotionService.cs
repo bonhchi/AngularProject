@@ -70,13 +70,9 @@ namespace Service.Promotions
             }
 
             var resultEntity = await _promotionRepository.GetPaginatedListAsync(it => search.Search == null ||
-                (
-                    (
                         (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Title.Contains(search.Search.Title) ||
                         it.Description.Contains(search.Search.Description)
-                    )
-                )
                 , search.PageSize
                 , search.PageIndex * search.PageSize
                 , t => t.Title

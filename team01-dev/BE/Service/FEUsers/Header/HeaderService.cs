@@ -20,7 +20,7 @@ namespace Service.Header
         private readonly IRepositoryAsync<InformationWebsite> _webInfoRepository;
         private readonly IMapper _mapper;
 
-        public HeaderService(IRepositoryAsync<InformationWebsite> webInfoRepository, IRepositoryAsync<SocialMedia> socialMediaRepository, IRepositoryAsync<Category> categoryRepository, IMapper mapper, IRepositoryAsync<Blog> blogRepository)
+        public HeaderService(IRepositoryAsync<InformationWebsite> webInfoRepository, IRepositoryAsync<Category> categoryRepository, IMapper mapper, IRepositoryAsync<Blog> blogRepository)
         {
             _categoryRepository = categoryRepository;
             _blogRepository = blogRepository;
@@ -30,7 +30,7 @@ namespace Service.Header
 
         public async Task<ReturnMessage<HeaderDTO>> GetHeader()
         {
-            HeaderDTO headerDTO = new HeaderDTO();
+            HeaderDTO headerDTO = new();
             var blogQueries = _blogRepository.Queryable().Where(it => !it.IsDeleted).OrderByDescending(it => it.CreateByDate).ThenBy(it => it.Title).ThenBy(it => it.Title.Length).Take(5);
             var blog = _mapper.Map<List<BlogDTO>>(blogQueries);
 
@@ -39,9 +39,9 @@ namespace Service.Header
 
             var webInfoQueries = _webInfoRepository.Find(CommonConstants.WebSiteInformationId);
             var webInfo = _mapper.Map<InformationWebDTO>(webInfoQueries);
-            headerDTO.blogs = blog;
-            headerDTO.categories = category;
-            headerDTO.informationWeb = webInfo;
+            headerDTO.Blogs = blog;
+            headerDTO.Categories = category;
+            headerDTO.InformationWeb = webInfo;
 
             var result = new ReturnMessage<HeaderDTO>(false, headerDTO, MessageConstants.ListSuccess);
 
@@ -49,28 +49,5 @@ namespace Service.Header
             return result;
         }
 
-        //public ReturnMessage<List<BlogDTO>> GetBlogs()
-        //{
-        //    var listDTO = _blogRepository.GetList();
-        //    var list = _mapper.Map<List<BlogDTO>>(listDTO);
-        //    var result = new ReturnMessage<List<BlogDTO>>(false, list, MessageConstants.ListSuccess);
-        //    return result;
-        //}
-
-        //public ReturnMessage<List<CategoryDTO>> GetCategories()
-        //{
-        //    var listDTO = _categoryRepository.Queryable().Where(it => !it.IsDeleted).OrderBy(it => it.Name).ThenBy(it => it.Name.Length).ToList();
-        //    var list = _mapper.Map<List<CategoryDTO>>(listDTO);
-        //    var result = new ReturnMessage<List<CategoryDTO>>(false, list, MessageConstants.ListSuccess);
-        //    return result;
-        //}
-
-        //public ReturnMessage<List<SocialMediaDTO>> GetSocialMedias()
-        //{
-        //    var listDTO = _socialMediaRepository.GetList();
-        //    var list = _mapper.Map<List<SocialMediaDTO>>(listDTO);
-        //    var result = new ReturnMessage<List<SocialMediaDTO>>(false, list, MessageConstants.ListSuccess);
-        //    return result;
-        //}
     }
 }

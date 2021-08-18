@@ -9,12 +9,10 @@ namespace Service.Common
         Task<ReturnMessage<TResponse>> UpdateAsync(UpdateT model);
         Task<ReturnMessage<TResponse>> DeleteAsync(DeleteT model);
     }
-
     public interface ICommonCRUDService<TResponse> where TResponse : class
     {
 
     }
-
     public interface ICommonCRUDService<TResponse, UpdateT> where TResponse : class
     {
         Task<ReturnMessage<TResponse>> UpdateAsync(UpdateT model);

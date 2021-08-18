@@ -105,13 +105,13 @@ namespace Service.Files
             }
 
             var resultEntity = await _fileRepository.GetPaginatedListAsync(it => search.Search == null ||
-                (
-                    (
+                
+                    
                         (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Name.Contains(search.Search.Name)
                     //it.Description.Contains(search.Search.Description)
-                    )
-                )
+                    
+                
                 , search.PageSize
                 , search.PageIndex * search.PageSize
                 , t => t.Name

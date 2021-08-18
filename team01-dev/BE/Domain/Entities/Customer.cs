@@ -5,7 +5,6 @@ using Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Domain.Entities
 {
@@ -26,7 +25,6 @@ namespace Domain.Entities
         [StringLength(11)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$")]
         public string Phone { get; set; }
-
         public Guid? UserId { get; set; }
         public virtual User User { get; set; }
         public ICollection<CustomerWishList> CustomerWishLists { get; set; }

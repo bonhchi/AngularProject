@@ -3,7 +3,6 @@ import { Router } from "@angular/router";
 import { BannerModel } from "src/app/lib/data/models/banners/banner.model";
 import { FileService } from "src/app/lib/data/services";
 import { HomeSlider } from "src/app/shared/data/slider";
-
 @Component({
   selector: "app-slider",
   templateUrl: "./slider.component.html",
@@ -32,11 +31,10 @@ export class SliderComponent implements OnInit {
       window.open(slider.link, "_blank").focus();
       return;
     }
-    if(slider?.link)
-    {
+    if (slider?.link) {
       this.route.navigateByUrl(slider.link);
       return;
     }
-    this.route.navigateByUrl('/product');
+    this.route.navigateByUrl("/product");
   }
 }

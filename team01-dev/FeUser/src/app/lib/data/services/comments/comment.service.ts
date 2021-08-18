@@ -1,10 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClientService } from "src/app/lib/http/http-client";
-import { SearchPaganationDTO } from "../../models";
-import {
-  CommentModel,
-  SearchCommentModel,
-} from "../../models/comments/comment.model";
+import { CommentModel } from "../../models/comments/comment.model";
 
 @Injectable()
 export class CommentService {

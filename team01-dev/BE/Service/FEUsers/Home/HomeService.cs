@@ -22,7 +22,6 @@ namespace Service.Home
         private readonly IRepositoryAsync<Banner> _bannerRepository;
         private readonly IUserManager _userManager;
         private readonly IMapper _mapper;
-        //private UserInformationDTO _userInformationDto;
 
         public HomeService(IRepositoryAsync<Product> productRepository, IUserManager userManager, IRepositoryAsync<Blog> blogRepository, IRepositoryAsync<Banner> bannerRepository, IMapper mapper)
         {
@@ -32,7 +31,6 @@ namespace Service.Home
             _bannerRepository = bannerRepository;
             _mapper = mapper;
             _userManager = userManager;
-            /*_userInformationDto = _userManager.GetInformationUser();*/ // not use
         }
 
         public async Task<ReturnMessage<List<ProductDTO>>> GetTopCollectionProducts()
@@ -140,7 +138,6 @@ namespace Service.Home
             }
         }
 
-        //async missing
         public async Task<ReturnMessage<List<BlogDTO>>> GetBlogs()
         {
             try
@@ -156,7 +153,7 @@ namespace Service.Home
                 return new ReturnMessage<List<BlogDTO>>(true, null, MessageConstants.Error);
             }
         }
-        //async missing
+
         public async Task<ReturnMessage<List<BannerDTO>>> GetBanners()
         {
             try

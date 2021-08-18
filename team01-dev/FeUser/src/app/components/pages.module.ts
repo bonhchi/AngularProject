@@ -4,8 +4,6 @@ import { GalleryModule } from "@ks89/angular-modal-gallery";
 import { SharedModule } from "../shared/shared.module";
 import { PagesRoutingModule } from "./pages-routing.module";
 import { HomeComponent } from "./home/home.component";
-// Widgest Components
-
 import { BlogComponent } from "./home/widgets/blog/blog.component";
 import { LogoComponent } from "./home/widgets/logo/logo.component";
 import { InstagramComponent } from "./home/widgets/instagram/instagram.component";
@@ -29,14 +27,13 @@ import { BlogMainComponent } from "./blogs/blog-main/blog-main.component";
 import { PageContentComponent } from "./page-content/page-content.component";
 import { ProfileComponent } from "./profile/profile/profile.component";
 import { PageContentInfoComponent } from "./page-content/PageInfo/page-info.component";
-import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 import { WishlistComponent } from "./wishlist/wishlist.component";
-  import { CKEditorModule } from '@ckeditor/ckeditor5-angular'
+import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { ErrorComponent } from "./error/error.component";
-  @NgModule({
+@NgModule({
   declarations: [
     HomeComponent,
-    // Widgest Components
     SliderComponent,
     BlogComponent,
     LogoComponent,

@@ -6,8 +6,6 @@ namespace Service.Header
 {
     public interface IHeaderService 
     {
-        //ReturnMessage<List<SocialMediaDTO>> GetSocialMedias();
         Task<ReturnMessage<HeaderDTO>> GetHeader();
-
     }
 }

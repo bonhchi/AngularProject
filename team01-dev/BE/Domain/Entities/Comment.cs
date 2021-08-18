@@ -1,7 +1,4 @@
-﻿using Domain.DTOs.Comments;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace Domain.Entities
 {

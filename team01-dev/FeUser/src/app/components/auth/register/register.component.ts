@@ -95,7 +95,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .then((data: ReturnMessage<UserDataReturnDTOModel>) => {
         localStorage.setItem("token", data.data.token);
         this.authService.changeUserInfo(data.data);
-        // this.backUrl();
       })
       .catch((er) => {
         this.sweetAlertService.alert(

@@ -86,9 +86,9 @@ export class CartService {
     const stock = product.stock;
     if (stock < qty || stock == 0) {
       this.toastrService.error(
-        "You can not add more items than available. In stock " +
+        "Bạn không thể thêm sản phẩm hơn số lượng hiện có trong cửa hàng " +
           stock +
-          " items."
+          " sản phẩm."
       );
       return false;
     }
@@ -110,14 +110,6 @@ export class CartService {
     localStorage.setItem("cartItems", JSON.stringify(state.cart));
     return true;
   }
-
-  // Total amount
-
-  /*
-     ---------------------------------------------
-     ---------------  Wish List  -----------------
-     ---------------------------------------------
-   */
 
   // Get Wishlist Items
   public get wishlistItems(): Observable<ProductModel[]> {
@@ -153,12 +145,6 @@ export class CartService {
     return true;
   }
 
-  /*
-    ---------------------------------------------
-    -------------  Compare Product  -------------
-    ---------------------------------------------
-  */
-
   // Get Compare Items
   public get compareItems(): Observable<ProductModel[]> {
     const itemsStream = new Observable((observer) => {
@@ -176,7 +162,7 @@ export class CartService {
         ...product,
       });
     }
-    this.toastrService.success("Product has been added in compare.");
+    this.toastrService.success("Sản phẩm đã được thêm vào để so sánh");
     localStorage.setItem("compareItems", JSON.stringify(state.compare));
     return true;
   }

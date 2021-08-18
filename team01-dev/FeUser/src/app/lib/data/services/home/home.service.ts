@@ -84,7 +84,7 @@ export class HomeService {
         ...product,
       });
     }
-    this.toastrService.success("Product has been added in compare.");
+    this.toastrService.success("Sản phẩm đã được thêm vào so sánh");
     localStorage.setItem("compareItems", JSON.stringify(state.compare));
     return true;
   }
@@ -117,9 +117,9 @@ export class HomeService {
     const stock = product.stock;
     if (stock < qty || stock == 0) {
       this.toastrService.error(
-        "You can not add more items than available. In stock " +
+        "Bạn không thể thêm sản phẩm hơn số lượng hiện có trong cửa hàng " +
           stock +
-          " items."
+          " sản phẩm."
       );
       return false;
     }

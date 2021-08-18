@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Dynamic;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 
 namespace Infrastructure.Extensions
@@ -23,8 +21,6 @@ namespace Infrastructure.Extensions
             Validator.TryValidateObject(obj, new ValidationContext(obj), validationResultList);
             return validationResultList;
         }
-
-       
 
         public static DateTime StartOfDate(this DateTime dt)
         {
@@ -143,7 +139,7 @@ namespace Infrastructure.Extensions
             try
             {
                 var provider = Thread.CurrentThread.CurrentCulture;
-                var date = $"{data.ToString("dd/MM/yyyy")} {value.GetTime()}";
+                var date = $"{data:dd/MM/yyyy} {value.GetTime()}";
                 if (value != null)
                     return DateTime.ParseExact(date, "dd/MM/yyyy HH:mm", provider);
             }

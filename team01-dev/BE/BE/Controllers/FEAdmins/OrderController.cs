@@ -16,12 +16,10 @@ namespace BE.Controllers.FEAdmins
     {
         private readonly IOrderService _orderService;
 
-
         public OrderController(IOrderService orderService, IAuthService authService, IUserManager userManager, IFileService fileService) : base(authService, userManager, fileService)
         {
             _orderService = orderService;
         }
-        //async
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<OrderDTO> serachPagination)
         {
@@ -30,14 +28,12 @@ namespace BE.Controllers.FEAdmins
         }
         [HttpGet]
         [Route(UrlConstants.OrderStatus)]
-        //async
         public async Task<IActionResult> GetByStatus([FromQuery] string status)
         {
             var result = await _orderService.GetByStatus(status);
             return CommonResponse(result);
         }
 
-        //async
         [HttpGet]
         [Route(UrlConstants.OrderId)]
         public async Task<IActionResult> GetById([FromQuery] Guid id)

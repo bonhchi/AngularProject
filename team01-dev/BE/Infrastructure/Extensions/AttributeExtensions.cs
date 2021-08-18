@@ -19,7 +19,7 @@ namespace Infrastructure.Extensions
             {
                 return valueSelector(att);
             }
-            return default(TValue);
+            return default;
         }
 
         public static IList<TAttribute> GetAttributeType<TAttribute>(this Type type) where TAttribute : Attribute

@@ -18,7 +18,7 @@ export class PagesComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private sweetalertService: MessageService
+    private messageService: MessageService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -36,8 +36,8 @@ export class PagesComponent implements OnInit {
           this.authService.changeUserInfo(res.data);
         })
         .catch((res) => {
-          this.sweetalertService.alert(
-            "Login Expires",
+          this.messageService.alert(
+            "Hết thời gian đăng nhập",
             TypeSweetAlertIcon.ERROR
           );
           localStorage.removeItem("token");

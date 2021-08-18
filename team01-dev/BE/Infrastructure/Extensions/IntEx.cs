@@ -8,7 +8,5 @@ namespace Infrastructure.Extensions
         {
             return ids?.Any() == true ? string.Join(",", ids) : string.Empty;
         }
-
-
     }
 }

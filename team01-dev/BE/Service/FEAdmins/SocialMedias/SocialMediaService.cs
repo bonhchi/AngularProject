@@ -102,14 +102,13 @@ namespace Service.SocialMedias
             }
 
             var resultEntity = await _socialMediaRepository.GetPaginatedListAsync(it => search.Search == null ||
-                (
                     (
                         (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Title.Contains(search.Search.Title) ||
                         it.Link.Contains(search.Search.Link) ||
                         it.IconUrl.Contains(search.Search.IconUrl)
                     )
-                ) && !it.IsDeleted
+                 && !it.IsDeleted
                 , search.PageSize
                 , search.PageIndex * search.PageSize
                 , t => -t.DisplayOrder

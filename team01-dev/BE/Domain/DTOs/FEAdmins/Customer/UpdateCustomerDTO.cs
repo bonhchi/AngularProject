@@ -24,10 +24,8 @@ namespace Domain.DTOs.Customer
         [StringLength(11)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$")]
         public string Phone { get; set; }
-
         public string Username { get; set; }
         public string Password { get; set; }
-
         public string ImageUrl { get; set; }
         public List<FileDTO> Files { get; set; }
     }

@@ -1,7 +1,5 @@
-﻿using Infrastructure.EntityFramework.Extensions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

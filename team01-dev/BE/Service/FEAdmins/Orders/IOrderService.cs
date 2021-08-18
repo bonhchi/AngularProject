@@ -14,7 +14,5 @@ namespace Service.Orders
         Task<ReturnMessage<PaginatedList<OrderDTO>>> SearchPaginationAsync(SearchPaginationDTO<OrderDTO> search);
         Task<ReturnMessage<OrderDTO>> GetById(Guid Id);
         Task<ReturnMessage<List<OrderDTO>>> GetByStatus(string status);
-
-
     }
 }

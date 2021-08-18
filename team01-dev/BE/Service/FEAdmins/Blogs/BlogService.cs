@@ -39,7 +39,6 @@ namespace Service.Blogs
             }
             try
             {
-
                 var entity = _mapper.Map<CreateBlogDTO, Blog>(model);
                 entity.CreatedByName = CommonConstantsBlog.CreateByName; //name depends on user who logged in with role
                 entity.Insert();
@@ -106,7 +105,7 @@ namespace Service.Blogs
                 return new ReturnMessage<BlogDTO>(true, null, ex.Message);
             }
         }
-        // check for async
+
         public async Task<ReturnMessage<PaginatedList<BlogDTO>>> SearchPaginationAsync(SearchPaginationDTO<BlogDTO> search)
         {
             if (search == null)
@@ -115,7 +114,7 @@ namespace Service.Blogs
             }
 
             var query = _blogRepository.Queryable().Where(it => search.Search == null ||
-                (
+  
                     (
                         (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Title.Contains(search.Search.Title) ||
@@ -123,13 +122,13 @@ namespace Service.Blogs
                         it.ContentHTML.Contains(search.Search.ContentHTML) ||
                         it.ImageUrl.Contains(search.Search.ImageUrl)
                     )
-                ) && !it.IsDeleted).OrderBy(it => it.Title).ThenBy(it => it.Title.Length);
+                 && !it.IsDeleted).OrderBy(it => it.Title).ThenBy(it => it.Title.Length);
+
             var resultEntity = new PaginatedList<Blog>(query, search.PageIndex * search.PageSize, search.PageSize);
             var data = _mapper.Map<PaginatedList<Blog>, PaginatedList<BlogDTO>>(resultEntity);
             var result = new ReturnMessage<PaginatedList<BlogDTO>>(false, data, MessageConstants.GetPaginationSuccess);
             await Task.CompletedTask;
             return result;
         }
-
     }
 }

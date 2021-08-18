@@ -10,15 +10,12 @@ import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { SharedModule } from "./shared/shared.module";
 import { AppRoutingModule } from "./app-routing.module";
-
 import { AppComponent } from "./app.component";
 import { PagesComponent } from "./components/pages.component";
 import { environment } from "./lib/environments/environment";
 import { AppConfig } from "./lib/environments/config/appConfig";
 import { AuthModule } from "./components/auth/auth.module";
-
 import { NgHttpLoaderModule } from "ng-http-loader";
-import { ImageWrapperComponent } from "./shared/components/imageWrapper/imageWrapper.component";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {

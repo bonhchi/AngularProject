@@ -207,17 +207,13 @@ namespace Service.Customers
             }
 
             var query = _userRepository.Queryable().Include(it => it.Customer).Where(it => it.Type == UserType.Customer && it.IsDeleted == false &&
-                    (search.Search == null ||
-                        (
-                            (
+                    (search.Search == null ||            
                                 (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                                 it.Username.Contains(search.Search.Username) ||
                                 it.Email.Contains(search.Search.Email) ||
                                 it.FirstName.Contains(search.Search.FirstName) ||
                                 it.LastName.Contains(search.Search.LastName) ||
                                 it.ImageUrl.Contains(search.Search.ImageUrl)
-                            )
-                        )
                     )
                 )
                 .OrderBy(it => it.Username)

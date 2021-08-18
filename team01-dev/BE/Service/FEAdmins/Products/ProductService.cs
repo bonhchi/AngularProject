@@ -107,14 +107,10 @@ namespace Service.Products
                 return new ReturnMessage<PaginatedList<ProductDTO>>(false, null, MessageConstants.Error);
             }
             var query = _productRepository.Queryable().Include(it => it.Category).Where(it => (search.Search == null ||
-                    (
-                        (
                             (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                             it.Name.Contains(search.Search.Name) ||
-                            it.Description.Contains(search.Search.Description)
-
-                        )
-                    )) && !it.IsDeleted
+                            it.Description.Contains(search.Search.Description)                 
+                    ) && !it.IsDeleted
                 )
                 .OrderBy(it => it.Name)
                 .ThenBy(it => it.Name.Length);

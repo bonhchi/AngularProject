@@ -47,7 +47,5 @@ namespace BE.Controllers.FEUsers
             var result = await _userBlogService.GetBlog(id);
             return CommonResponse(result);
         }
-
-        
     }
 }

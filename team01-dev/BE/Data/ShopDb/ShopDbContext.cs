@@ -9,7 +9,6 @@ namespace Data
         public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options)
         {
         }
-
         public DbSet<SocialMedia> SocialMedias { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
