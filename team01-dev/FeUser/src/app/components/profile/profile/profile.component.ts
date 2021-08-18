@@ -34,8 +34,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   submittedProfile = false;
   submittedPassword = false;
 
-  // public modalFile: ModalFile;
-  // public fileURL: (String | ArrayBuffer)[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,15 +42,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private router: Router
   ) {
-    // this.user = JSON.parse(localStorage.getItem("user"));
-    // if (this.user) {
-    //   this.fileURL = [];
-    //   this.fileURL.push(this.user.imageUrl);
-    // }
-    // this.modalFile = new ModalFile();
-    // this.modalFile.typeFile = TypeFile.IMAGE;
-    // this.modalFile.multiBoolen = false;
-    // this.modalFile.enityType = EntityType.CUSTOMER;
   }
   ngOnDestroy(): void {
     this.subDataUser.unsubscribe();
@@ -111,7 +100,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
           Validators.maxLength(90),
         ],
       ],
-      // imageUrl: [this.user ? this.user.imageUrl : "", [Validators.required]],
     });
   }
 
@@ -128,9 +116,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   checkValidatorsPassword(group: FormGroup) {
     const pass = group.get("newPassword");
-    const confirmpass = group.get("confirmPassword");
-    if (pass.value !== confirmpass.value) {
-      confirmpass.setErrors({ mustMatch: true });
+    const confirmPass = group.get("confirmPassword");
+    if (pass.value !== confirmPass.value) {
+      confirmPass.setErrors({ mustMatch: true });
     }
   }
 
@@ -146,16 +134,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .changePassword(data)
       .then((res: ReturnMessage<null>) => {
         this.messageService.notification(
-          "Change Password Success",
+          "Thay đổi mật khẩu thành công",
           TypeSweetAlertIcon.SUCCESS
         );
         this.passwordSwitch();
       })
       .catch((er) => {
         this.messageService.alert(
-          "Change Password Fail",
+          "Thay đổi mật khẩu thất bại",
           TypeSweetAlertIcon.ERROR,
-          er.error.message ?? er.error.error ?? "Server Disconnected"
+          er.error.message ?? er.error.error ?? "Mất kết nối với máy chủ"
         );
       });
   }

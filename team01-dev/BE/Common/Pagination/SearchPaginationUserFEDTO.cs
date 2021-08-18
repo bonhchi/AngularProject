@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static Common.Constants.DataType;
+﻿using static Common.Constants.DataType;
 
 namespace Common.Pagination
 {

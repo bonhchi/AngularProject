@@ -26,7 +26,6 @@ namespace Infrastructure.Mails
 
         public async Task<List<EmailMessageMultiple>> ReceiveEmail(int maxCount = 10)
         {
-
             using (var emailClient = new Pop3Client())
             {
                 await emailClient.ConnectAsync(_emailConfiguration.PopServer, _emailConfiguration.PopPort, true);
@@ -52,10 +51,7 @@ namespace Infrastructure.Mails
                 return emails;
             }
 
-
-
         }
-
         public void Send(EmailMessage emailMessage)
         {
             Task.Factory.StartNew(async () =>
@@ -136,10 +132,6 @@ namespace Infrastructure.Mails
                     {
                         builder.TextBody = emailMessage.Content;
                     }
-
-
-
-
                     if (emailMessage.AttachmentFiles != null)
                     {
                         foreach (var file in emailMessage.AttachmentFiles)
@@ -178,7 +170,6 @@ namespace Infrastructure.Mails
 
             });
         }
-
         public async Task<bool> SendMail(EmailMessageMultiple emailMessage)
         {
 
@@ -207,9 +198,6 @@ namespace Infrastructure.Mails
                 {
                     builder.TextBody = emailMessage.Content;
                 }
-
-
-
 
                 if (emailMessage.AttachmentFiles != null)
                 {
@@ -248,11 +236,7 @@ namespace Infrastructure.Mails
                 result = false;
                 _logger.LogError(ex.Message, ex);
             }
-
             return result;
         }
-
-
     }
-
 }

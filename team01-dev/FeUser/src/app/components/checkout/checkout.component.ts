@@ -24,7 +24,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   public subTotal: any;
   public totalAmount: any;
   public totalItem: any;
-
   public couponValue = 0;
   public couponInvalid: boolean;
   public couponDisplay: boolean = false;
@@ -32,7 +31,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   public couponPercent: string;
   public couponCode: string;
   public order: OrderModel = new OrderModel();
-
   subDataUser: Subscription;
 
   constructor(
@@ -71,16 +69,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       return;
     }
     this.loadModel();
-    // console.log(this.order);
     this.orderService
       .create(this.order)
       .then((resp) => {
         this.cartService.removeAll();
         this.routerService.navigate(["checkout/success"], { state: resp });
       })
-      .catch((er) => {
-        // console.log(er);
-      });
+      .catch((er) => {});
   }
 
   loadModel() {

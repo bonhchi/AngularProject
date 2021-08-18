@@ -11,19 +11,16 @@ namespace Infrastructure.Mails
             ReplyAddresses = new List<EmailAddress>();
             AttachmentFiles = new List<AttachmentFile>();
         }
-
         public List<EmailAddress> ToAddresses { get; set; }
         public List<EmailAddress> FromAddresses { get; set; }
         public List<EmailAddress> ReplyAddresses { get; set; }
         public List<EmailAddress> CcAddresses { get; set; }
         public List<AttachmentFile> AttachmentFiles { get; set; }
-
         public string KeyTemplate { get; set; }
         public string Subject { get; set; }
         public string Content { get; set; }
         public EmailContentTypeEnum ContentType { get; set; }
     }
-
 
     public class EmailMessage
     {

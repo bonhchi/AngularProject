@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,10 +11,6 @@ namespace Infrastructure.EntityFramework
         void InsertAsync(TEntity entity);
 
         Task<TEntity> UpdateAsync(TEntity entity);
-
-        //Task<IQueryable<TEntity>> QueryableAsync();
-
-        //Task<DbSet<TEntity>> DbSetAsync { get; }
 
         Task<IEnumerable<TEntity>> UpdateRangeAsync(IEnumerable<TEntity> entities);
 

@@ -34,9 +34,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   comments: PageModel<CommentModel>;
   searchModel: any;
   item: any;
-
   public rating: number;
-
   subDataUser: Subscription;
 
   constructor(

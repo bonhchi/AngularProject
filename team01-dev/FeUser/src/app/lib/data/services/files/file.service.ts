@@ -13,17 +13,16 @@ export class FileService {
 
   private url = "/api/file";
   private urlDownload = this.url + "/download";
-  private urlGetType = this.url + "/type";
 
   constructor(private httpClient: HttpClientService) {}
 
   public static getLinkFile(fileName: String) {
     if (fileName.trim()) {
-      var result = fileName.includes('http')
+      var result = fileName.includes("http")
         ? fileName
         : `${AppConfig.settings.API_URL}/Files/${fileName}`;
       return result.toString();
     }
-    return '';
+    return "";
   }
 }

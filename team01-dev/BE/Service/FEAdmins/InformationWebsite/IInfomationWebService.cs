@@ -7,7 +7,6 @@ namespace Service.InformationWebsiteServices
     public interface IInfomationWebService
     {
         Task<ReturnMessage<InformationWebDTO>> GetInfo();
-
         Task<ReturnMessage<InformationWebDTO>> UpdateAsync(UpdateInformationWebDTO model);
     }
 }

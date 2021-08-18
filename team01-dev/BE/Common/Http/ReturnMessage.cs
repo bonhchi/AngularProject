@@ -2,7 +2,6 @@
 {
     public class ReturnMessage<T>
     {
-
         public bool HasError { get; set; }
         public string StatusCode { get; set; }
         public string Message { get; set; }

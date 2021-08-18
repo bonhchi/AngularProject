@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Entities
 {
@@ -10,7 +8,6 @@ namespace Domain.Entities
         public Guid CustomerId { get; set; }
         public virtual Product Product { get; set; }
         public virtual Customer Customer { get; set; }
-
 
         public override void Insert()
         {

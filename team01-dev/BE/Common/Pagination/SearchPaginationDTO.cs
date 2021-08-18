@@ -1,10 +1,7 @@
-﻿using System.Linq;
-
-namespace Common.Pagination
+﻿namespace Common.Pagination
 {
     public class SearchPaginationDTO<T>
     {
-
         public T Search { get; set; }
         public int PageIndex
         {

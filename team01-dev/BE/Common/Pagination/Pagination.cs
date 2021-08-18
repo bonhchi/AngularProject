@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Common.Pagination
+﻿namespace Common.Pagination
 {
     public class Pagination
     {

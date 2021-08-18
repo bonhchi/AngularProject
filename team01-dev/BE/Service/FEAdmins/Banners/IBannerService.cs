@@ -9,6 +9,6 @@ namespace Service.Banners
 {
     public interface IBannerService : ICommonCRUDService<BannerDTO, CreateBannerDTO, UpdateBannerDTO, DeleteBannerDTO>
     {
-        Task<ReturnMessage<PaginatedList<BannerDTO>>> SearchPagination(SearchPaginationDTO<BannerDTO> search);
+        Task<ReturnMessage<PaginatedList<BannerDTO>>> SearchPaginationAsync(SearchPaginationDTO<BannerDTO> search);
     }
 }

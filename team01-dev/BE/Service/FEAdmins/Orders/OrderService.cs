@@ -21,12 +21,11 @@ namespace Service.Orders
     {
         private readonly IRepositoryAsync<Order> _orderRepository;
         private readonly IRepositoryAsync<Coupon> _couponRepository;
-        private readonly IRepositoryAsync<Product> _productRepository;
         private readonly ICouponService _couponService;
         private readonly IProductService _productService;
         private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IMapper _mapper;
-        public OrderService(IRepositoryAsync<Product> productRepository, IProductService productService, ICouponService couponService, IRepositoryAsync<Order> orderRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IRepositoryAsync<Coupon> couponRepository)
+        public OrderService(IProductService productService, ICouponService couponService, IRepositoryAsync<Order> orderRepository, IUnitOfWorkAsync unitOfWork, IMapper mapper, IRepositoryAsync<Coupon> couponRepository)
         {
             _orderRepository = orderRepository;
             _unitOfWork = unitOfWork;
@@ -34,7 +33,6 @@ namespace Service.Orders
             _couponRepository = couponRepository;
             _couponService = couponService;
             _productService = productService;
-            _productRepository = productRepository;
         }
 
         public async Task<ReturnMessage<OrderDTO>> CreateAsync(CreateOrderDTO model)
@@ -129,13 +127,9 @@ namespace Service.Orders
             }
 
             var resultEntity = _orderRepository.GetPaginatedList(it => search.Search == null ||
-                (
-                    (
                         (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.FullName.Contains(search.Search.FullName) ||
                         it.Code.Contains(search.Search.Code)
-                    )
-                )
                 , search.PageSize
                 , search.PageIndex * search.PageSize
                 , t => t.CreateByDate

@@ -11,7 +11,6 @@ import {
 import { MessageService } from "src/app/lib/data/services";
 import { HomeService } from "src/app/lib/data/services/home/home.service";
 import { ProductListService } from "src/app/lib/data/services/productlist/productlist.service";
-
 import { ETypeGridLayout } from "src/app/shared/data";
 
 @Component({
@@ -42,7 +41,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     public productListService: ProductListService,
-    private sweetalertService: MessageService
+    private messageService: MessageService
   ) {}
   ngOnDestroy(): void {
     this.subscribe.unsubscribe();
@@ -50,7 +49,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Get Query params..
     this.subscribe = this.route.queryParams.subscribe((params) => {
       this.products = [];
       this.params = {};
@@ -113,10 +111,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
         this.products.length == 0
           ? (this.isEmptyProduct = true)
           : (this.isEmptyProduct = false);
-        // console.log(this.products);
       })
       .catch((res) =>
-        this.sweetalertService.alert(
+        this.messageService.alert(
           res.error.message ?? res.error,
           TypeSweetAlertIcon.ERROR
         )
@@ -125,12 +122,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   // Infinite scroll
   public onScroll() {
-    // add another items
     this.params.pageIndex++;
     this.addItems();
   }
 
-  // Append filter value to Url
   updateFilter(tags: any) {
     this.resetPage();
 
@@ -246,9 +241,5 @@ export class ProductListComponent implements OnInit, OnDestroy {
       queryParams: params,
       skipLocationChange: false,
     });
-    // .finally(() => {
-    //   this.viewScroller.setOffset([120, 120]);
-    //   this.viewScroller.scrollToAnchor("products"); // Anchore Link
-    // });
   }
 }

@@ -9,6 +9,5 @@ namespace Service.Profiles
     {
         Task<ReturnMessage<UserDataReturnDTO>> UpdateAsync(UpdateProfileDTO model);
         Task<ReturnMessage<UpdateProfileDTO>> ChangePassword(ChangePassworProfileDTO model);
-
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.DTOs.CustomerProfileFeUser
+﻿namespace Domain.DTOs.CustomerProfileFeUser
 {
     public class ChangePasswordCustomerProfileFeUserDTO
     {

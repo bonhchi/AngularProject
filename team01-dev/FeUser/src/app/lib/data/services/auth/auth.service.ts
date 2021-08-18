@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { environment } from "src/app/lib/environments/environment";
 import { HttpClientService } from "src/app/lib/http/http-client";
-import { AuthLoginModel, AuthRegisterModel, ReturnMessage } from "../../models";
+import { AuthLoginModel, AuthRegisterModel } from "../../models";
 import { UserDataReturnDTOModel } from "../../models/users/user.model";
 
 @Injectable({
@@ -14,9 +13,6 @@ export class AuthService {
   private url = "/api/user/auth";
   private urlLogin = this.url + "/login";
   private urlRegister = this.url + "/regist";
-  private urlCheckEmail = this.url + "/checkemail";
-  private urlCheckPhone = this.url + "/checkphone";
-  private urlCheckUserName = this.url + "/checkusername";
 
   ngOnInit(): void {}
 

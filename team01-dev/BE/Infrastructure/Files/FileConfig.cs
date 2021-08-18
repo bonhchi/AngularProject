@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Infrastructure.Files
+﻿namespace Infrastructure.Files
 {
     public class FileConfig
     {

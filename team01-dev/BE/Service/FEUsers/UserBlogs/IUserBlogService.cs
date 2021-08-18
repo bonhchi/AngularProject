@@ -14,6 +14,5 @@ namespace Service.UserBlogs
         Task<ReturnMessage<List<BlogDTO>>> TopBlog(List<BlogDTO> model);
         Task<ReturnMessage<List<BlogDTO>>> RecentBlog(List<BlogDTO> model);
         Task<ReturnMessage<PaginatedList<BlogDTO>>> SearchPaginationAsync(SearchPaginationDTO<BlogDTO> search);
-
     }
 }

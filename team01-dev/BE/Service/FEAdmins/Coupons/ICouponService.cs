@@ -11,6 +11,5 @@ namespace Service.Coupons
     {
         Task<ReturnMessage<PaginatedList<CouponDTO>>> SearchPaginationAsync(SearchPaginationDTO<CouponDTO> search);
         Task<ReturnMessage<CouponDTO>> GetByCode(string code);
-
     }
 }

@@ -49,10 +49,10 @@ namespace Service.Footer
                 var queryInformationWeb = await _informationRepository.FindAsync(CommonConstants.WebSiteInformationId);
                 var informationWeb = _mapper.Map<InformationWebsite, InformationWebDTO>(queryInformationWeb);
 
-                footerDTO.categories = categories;
-                footerDTO.socialMedias = socialmedias;
-                footerDTO.pageContents = pagecontents;
-                footerDTO.informationWeb = informationWeb;
+                footerDTO.Categories = categories;
+                footerDTO.SocialMedias = socialmedias;
+                footerDTO.PageContents = pagecontents;
+                footerDTO.InformationWeb = informationWeb;
 
                 return new ReturnMessage<FooterDTO>(false, footerDTO, MessageConstants.ListSuccess);
             }

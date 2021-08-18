@@ -22,10 +22,6 @@ namespace Infrastructure.Extensions
         {
             return obj != null;
         }
-        public static bool IsNotNullOrGuidDefault(this Guid obj)
-        {
-            return obj != null && obj == Guid.Empty;
-        }
         public static bool IsNotNullOrGuidDefault(this Guid? obj)
         {
             return obj != null && obj == Guid.Empty;
@@ -115,10 +111,6 @@ namespace Infrastructure.Extensions
         {
             return obj == null || !obj.Any();
         }
-        public static bool IsNotNull(this Guid obj)
-        {
-            return obj != null && obj != Guid.Empty;
-        }
         public static bool IsNotNull(this Guid? obj)
         {
             return obj != null && obj != Guid.Empty;
@@ -142,7 +134,6 @@ namespace Infrastructure.Extensions
                 source[index] = newValue;
             return index;
         }
-
 
         public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, T oldValue, T newValue)
         {

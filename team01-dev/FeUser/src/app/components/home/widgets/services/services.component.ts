@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ReturnMessage } from "src/app/lib/data/models";
-import { PageContentModel } from "src/app/lib/data/models/pageContent/pageContent.model";
+import { PageContentModel } from "src/app/lib/data/models/page-content/page-content.model";
 import { PageContentService } from "src/app/lib/data/services/pageContent/pageContent.service";
 import { TypeDisplayImage } from "src/app/shared/data";
 

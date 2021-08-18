@@ -111,21 +111,16 @@ namespace Service.Banners
                 return new ReturnMessage<BannerDTO>(true, null, ex.Message);
             }
         }
-        public async Task<ReturnMessage<PaginatedList<BannerDTO>>> SearchPagination(SearchPaginationDTO<BannerDTO> search)
+        public async Task<ReturnMessage<PaginatedList<BannerDTO>>> SearchPaginationAsync(SearchPaginationDTO<BannerDTO> search)
         {
             if (search == null)
             {
                 return new ReturnMessage<PaginatedList<BannerDTO>>(false, null, MessageConstants.DeleteSuccess);
             }
-
             var resultEntity = await _bannerRepository.GetPaginatedListAsync(it => search.Search == null ||
-                (
-                    (
-                        (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                        (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Title.Contains(search.Search.Title) ||
-                        it.Description.Contains(search.Search.Description)
-                    )
-                )
+                        it.Description.Contains(search.Search.Description)               
                 , search.PageSize
                 , search.PageIndex
                 , t => -t.DisplayOrder
@@ -135,8 +130,6 @@ namespace Service.Banners
 
             return result;
         }
-
-
     }
 }
 

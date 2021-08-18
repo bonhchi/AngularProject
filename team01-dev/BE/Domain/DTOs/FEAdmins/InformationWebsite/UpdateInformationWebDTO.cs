@@ -1,6 +1,5 @@
 ﻿using Domain.DTOs.BaseDTOs;
 
-
 namespace Domain.DTOs.InfomationWeb
 {
     public class UpdateInformationWebDTO : BaseUpdateDTO

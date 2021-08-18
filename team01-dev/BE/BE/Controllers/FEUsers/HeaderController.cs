@@ -19,30 +19,6 @@ namespace BE.Controllers.FEUsers
             _headerService = headerService;
         }
 
-        //[HttpGet]
-        //[Route("categories")]
-        //public IActionResult GetCategories()
-        //{
-        //    var result = _headerService.GetCategories();
-        //    return CommonResponse(result);
-        //}
-
-        //[HttpGet]
-        //[Route("social-medias")]
-        //public IActionResult GetSocialMedias()
-        //{
-        //    var result = _headerService.GetSocialMedias();
-        //    return CommonResponse(result);
-        //}
-
-        //[HttpGet]
-        //[Route("blogs")]
-        //public IActionResult GetBlogs()
-        //{
-        //    var result = _headerService.GetBlogs();
-        //    return CommonResponse(result);
-        //}
-
         [HttpGet]
         public async Task<IActionResult> GetHeader()
         {

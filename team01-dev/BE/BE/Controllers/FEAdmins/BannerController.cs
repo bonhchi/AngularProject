@@ -1,8 +1,6 @@
 ﻿using Common.Constants;
-using Common.Http;
 using Common.Pagination;
 using Domain.DTOs.Banners;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
@@ -26,7 +24,7 @@ namespace BE.Controllers.FEAdmins
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] SearchPaginationDTO<BannerDTO> serachPagination)
         {
-            var result = await _bannerService.SearchPagination(serachPagination);
+            var result = await _bannerService.SearchPaginationAsync(serachPagination);
             return CommonResponse(result);
         }
 

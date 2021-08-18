@@ -12,7 +12,6 @@ namespace Infrastructure.EntityFramework
         public int TotalPage { get; private set; }
         public int PageSize { get; private set; }
         public List<T> Results { get; set; }
-
         public bool HasPreviousPage => PageIndex > 1;
         public bool HasNextPage => PageIndex < TotalPage;
 

@@ -78,11 +78,9 @@ namespace Service.Files
             saveFile.EntityType = DataType.TypeName[saveFile.EntityType];
             
             var filePaths = UrlConstants.BaseLocalUrlFile;
-            //var urlPath = UrlConstants.BaseCloudUrlFile;
-            List<CreateFileDTO> createFileDTOs = new List<CreateFileDTO>();
+            List<CreateFileDTO> createFileDTOs = new();
             if (!Directory.Exists(filePaths))
             {
-                //Directory.Delete(filePath, true);
                 Directory.CreateDirectory(filePaths);
             }
             if (saveFile.Files != null && saveFile.Files.Count > 0)
@@ -109,24 +107,6 @@ namespace Service.Files
                         if (DataType.TypeAccept[DataType.ETypeFile.Image].Contains(ext) && saveFile.TypeUpload == 1)
                         {
                             var uploadParams = new ImageUploadParams();
-
-                            // convert to new file stream avoid different file name
-                            //using (var fileStream = new FileStream(filePath, FileMode.Create))
-                            //{
-                            //    formFile.CopyTo(fileStream);
-                            //    ImageUploadParams imageUploadParams = new ImageUploadParams()
-                            //    {
-                            //        File = new FileDescription(filePath),
-                            //    };
-                            //    var uploadParams = imageUploadParams;
-                            //    var result = _cloudinary.Upload(uploadParams);
-                            //    item.Url = result.SecureUrl.ToString();
-                            //    item.Name = formFile.FileName;
-                            //    item.FileExt = ext;
-                            //    item.TypeUpload = 1;
-                            //}
-
-
                             //upload file with base64 stream
                             using (var memory = new MemoryStream())
                             {
@@ -170,7 +150,6 @@ namespace Service.Files
                     throw new Exception(ex.Message);
                 }
             }
-
             await Task.CompletedTask;
             return createFileDTOs;
         }

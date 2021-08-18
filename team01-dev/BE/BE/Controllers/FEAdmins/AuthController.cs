@@ -1,14 +1,9 @@
 ﻿using Common.Constants;
-using Common.Http;
-using Common.MD5;
 using Domain.DTOs.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
-using Service.Users;
-using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -41,7 +36,6 @@ namespace BE.Controllers.FEAdmins
         {
             var userDataReturn = await _authService.GetInformationUser();
             return CommonResponse(userDataReturn);
-
         }
     }
 }

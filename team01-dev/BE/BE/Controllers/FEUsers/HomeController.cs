@@ -1,10 +1,8 @@
-﻿using BE.Controllers;
-using Common.Constants;
+﻿using Common.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
 using Service.Home;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BE.Controllers.FEUsers

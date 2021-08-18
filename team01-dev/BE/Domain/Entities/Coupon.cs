@@ -1,8 +1,5 @@
 ﻿using Domain.DTOs.Coupons;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Entities
 {

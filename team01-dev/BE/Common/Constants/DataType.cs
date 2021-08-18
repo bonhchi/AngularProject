@@ -4,7 +4,7 @@ namespace Common.Constants
 {
     public struct DataType
     {
-        public static Dictionary<string, string> TypeName = new Dictionary<string, string>()
+        public static Dictionary<string, string> TypeName = new()
         {
             {"banner", "BAN" },
             {"category", "CATE" },
@@ -22,7 +22,7 @@ namespace Common.Constants
             File
         }
 
-        public static Dictionary<string, ETypeFile> TypeFile = new Dictionary<string, ETypeFile>()
+        public static Dictionary<string, ETypeFile> TypeFile = new()
         {
             { "BAN", ETypeFile.Image },
             { "CATE", ETypeFile.Image },
@@ -34,13 +34,13 @@ namespace Common.Constants
             { "BLOG", ETypeFile.Image },
         };
 
-        public static Dictionary<ETypeFile, string> TypeAccept = new Dictionary<ETypeFile, string>()
+        public static Dictionary<ETypeFile, string> TypeAccept = new()
         {
             { ETypeFile.Image, ".jpg, .jpeg, .png, .icon" },
             { ETypeFile.File, ".jpg, .jpeg, .png, .icon, .doc, .docx, .xls, .xlsx, .pdf, .pptx, .ppt, .txt" },
         };
 
-        public static bool CheckTypeAccept(String typeFile, String ext)
+        public static bool CheckTypeAccept(string typeFile, string ext)
         {
             var eTypeFile = TypeFile[typeFile];
             var typeAccept = TypeAccept[eTypeFile];

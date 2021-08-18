@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { UserDataReturnDTOModel } from '../../models/users/user.model';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { UserDataReturnDTOModel } from "../../models/users/user.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
-export class UserMangermentService {
+export class UserManagementService {
   private subject: BehaviorSubject<UserDataReturnDTOModel>;
   constructor() {
-    var user = JSON.parse(localStorage.getItem('user'));
+    var user = JSON.parse(localStorage.getItem("user"));
     this.subject = new BehaviorSubject<UserDataReturnDTOModel>(
       user ? user : null
     );

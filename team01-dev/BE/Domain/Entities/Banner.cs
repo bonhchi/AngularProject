@@ -1,6 +1,5 @@
 ﻿using Domain.DTOs.Banners;
 using Domain.DTOs.Users;
-using System;
 
 namespace Domain.Entities
 {
@@ -11,7 +10,6 @@ namespace Domain.Entities
         public string Link { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-
 
         public override void Insert()
         {

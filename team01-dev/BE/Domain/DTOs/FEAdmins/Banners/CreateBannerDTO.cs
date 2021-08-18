@@ -1,5 +1,4 @@
-﻿
-using Domain.DTOs.BaseDTOs;
+﻿using Domain.DTOs.BaseDTOs;
 using Domain.DTOs.Files;
 using System.Collections.Generic;
 

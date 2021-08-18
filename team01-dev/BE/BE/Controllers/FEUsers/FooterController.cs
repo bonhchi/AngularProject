@@ -9,7 +9,6 @@ namespace BE.Controllers.FEUsers
 {
     [Route(UrlConstants.BaseFooter)]
     [ApiController]
-
     public class FooterController : BaseController
     {
         private readonly IFooterService _footerService;

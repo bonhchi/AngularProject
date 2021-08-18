@@ -24,7 +24,6 @@ namespace BE.Controllers.FEAdmins
             _infomationWebService = infomationWebService;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Get()
         {

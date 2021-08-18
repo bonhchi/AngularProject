@@ -63,11 +63,11 @@ namespace Service.OrderDetails
             }
 
             var query = _orderDetailRepository.Queryable().Include(it => it.Product).Where(it => search.Search == null ||
-                    (
-                        (
-                            (search.Search.Id != Guid.Empty && it.Id == search.Search.Id)
-                        )
-                    )
+                    
+                        
+                            search.Search.Id != Guid.Empty && it.Id == search.Search.Id
+                        
+                    
                 )
                 .OrderBy(it => it.Product.Name)
                 .ThenBy(it => it.Product.Name.Length);

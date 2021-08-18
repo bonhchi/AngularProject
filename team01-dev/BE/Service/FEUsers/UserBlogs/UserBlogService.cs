@@ -54,8 +54,6 @@ namespace Service.UserBlogs
             return result;
         }
 
-       
-
         public async Task<ReturnMessage<List<BlogDTO>>>TopBlog(List<BlogDTO> model)
         {
             if (model == null)
@@ -66,7 +64,6 @@ namespace Service.UserBlogs
             return TakeBlog(3);
         }
 
-
         
         public async Task<ReturnMessage<PaginatedList<BlogDTO>>> SearchPaginationAsync(SearchPaginationDTO<BlogDTO> search)
         {
@@ -76,15 +73,11 @@ namespace Service.UserBlogs
             }
 
             var resultEntity = await _blogRepository.GetPaginatedListAsync(it => search.Search == null ||
-                (
-                    (
                         (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Title.Contains(search.Search.Title) ||
                         it.ShortDes.Contains(search.Search.ShortDes) ||
                         it.ContentHTML.Contains(search.Search.ContentHTML) ||
                         it.ImageUrl.Contains(search.Search.ImageUrl)
-                    )
-                )
                 , search.PageSize
                 , search.PageIndex
                 , t => t.CreateByDate

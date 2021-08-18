@@ -19,7 +19,6 @@ namespace Domain.DTOs.Orders
         public string CouponCode { get; set; }
         public decimal CouponPercent { get; set; }
         public decimal CouponValue { get; set; }
-
         public List<CreateOrderDetailDTO> OrderDetails{ get; set; }
     }
 }

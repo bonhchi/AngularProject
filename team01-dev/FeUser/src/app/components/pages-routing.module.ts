@@ -10,7 +10,6 @@ import { HomeComponent } from "./home/home.component";
 import { OrderSuccessComponent } from "./order-success/order-success.component";
 import { PageContentComponent } from "./page-content/page-content.component";
 import { ProductDetailsComponent } from "./product/product-details/product-details.component";
-
 import { ProductListComponent } from "./product/product-list/product-list.component";
 import { ProfileComponent } from "./profile/profile/profile.component";
 import { WishlistComponent } from "./wishlist/wishlist.component";
@@ -65,7 +64,7 @@ const routes: Routes = [
   {
     path: "error",
     component: ErrorComponent,
-  }
+  },
 ];
 
 @NgModule({

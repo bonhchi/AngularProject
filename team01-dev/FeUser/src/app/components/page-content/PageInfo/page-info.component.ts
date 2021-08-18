@@ -4,12 +4,11 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Subscription } from "rxjs";
 import { ReturnMessage, TypeSweetAlertIcon } from "src/app/lib/data/models";
-import { PageContentInfoModel } from "src/app/lib/data/models/pageContent/pageContent.model";
+import { PageContentInfoModel } from "src/app/lib/data/models/page-content/page-content.model";
 import { UserDataReturnDTOModel } from "src/app/lib/data/models/users/user.model";
 import { AuthService, MessageService } from "src/app/lib/data/services";
 import { ContactService } from "src/app/lib/data/services/contacts/contact.service";
 import { PageContentService } from "src/app/lib/data/services/pageContent/pageContent.service";
-
 @Component({
   selector: "app-page-info",
   styleUrls: ["./page-info.component.scss"],
@@ -27,7 +26,7 @@ export class PageContentInfoComponent implements OnInit, OnDestroy {
     private pageContentService: PageContentService,
     private contactService: ContactService,
     private messageService: MessageService,
-    private authservice: AuthService,
+    private authService: AuthService,
     private fb: FormBuilder,
     private sanitizer: DomSanitizer
   ) {}
@@ -37,7 +36,7 @@ export class PageContentInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subDataUser = this.authservice.callUserInfo.subscribe((it) => {
+    this.subDataUser = this.authService.callUserInfo.subscribe((it) => {
       this.userInfo = it;
       this.initForm();
     });
@@ -83,7 +82,6 @@ export class PageContentInfoComponent implements OnInit, OnDestroy {
 
   Submit() {
     this.submitted = true;
-
     if (this.contactForm.invalid) {
       return;
     }

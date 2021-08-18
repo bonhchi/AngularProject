@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Infrastructure.Auth
+﻿namespace Infrastructure.Auth
 {
     public class JwtTokenConfig
     {

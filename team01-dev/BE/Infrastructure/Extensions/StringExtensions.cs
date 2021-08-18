@@ -1,5 +1,4 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -42,10 +41,9 @@ namespace Infrastructure.Extensions
             {
                 case null: throw new ArgumentNullException(nameof(input));
                 case "": throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
-                default: return input.First().ToString().ToUpper() + input.Substring(1);
+                default: return string.Concat(input.First().ToString().ToUpper(), input.AsSpan(1));
             }
         }
-
 
         public static string GetInitial(this string names, string separator = "")
         {
@@ -240,7 +238,6 @@ namespace Infrastructure.Extensions
             {
                 return false;
             }
-
             try
             {
                 return Regex.IsMatch(email,
@@ -260,9 +257,7 @@ namespace Infrastructure.Extensions
             {
                 return "";
             }
-
             input = input.Trim();
-
             Regex regex = new Regex(@"\p{IsCombiningDiacriticalMarks}+");
             string str = input.Normalize(NormalizationForm.FormD);
             string str2 = regex.Replace(str, string.Empty).Replace('đ', 'd').Replace('Đ', 'D');
@@ -285,7 +280,6 @@ namespace Infrastructure.Extensions
             {
                 input = input.Replace(((char)i).ToString(), "");
             }
-
             Regex regex = new Regex(@"\p{IsCombiningDiacriticalMarks}+");
             string str = input.Normalize(NormalizationForm.FormD);
             string str2 = regex.Replace(str, string.Empty).Replace('đ', 'd').Replace('Đ', 'D');
@@ -348,8 +342,6 @@ namespace Infrastructure.Extensions
             }
         }
 
-
-
         public static bool IsValidFileName(this string expression, bool platformIndependent = true)
         {
             string sPattern = @"^(?!^(PRN|AUX|CLOCK\$|NUL|CON|COM\d|LPT\d|\..*)(\..+)?$)[^\x00-\x1f\\?*:\"";|/]+$";
@@ -395,7 +387,6 @@ namespace Infrastructure.Extensions
             return val is DateTime;
         }
 
-
         public static string ReformatEmails(this string emails)
         {
             if (!emails.IsValid())
@@ -410,7 +401,6 @@ namespace Infrastructure.Extensions
             return toUTC ? DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(unixTimeStamp)).UtcDateTime :
                 DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(unixTimeStamp)).DateTime;
         }
-
         public static DateTime ToDateTimeFromEpoch(this string epochTime)
         {
             DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 1, System.DateTimeKind.Utc);

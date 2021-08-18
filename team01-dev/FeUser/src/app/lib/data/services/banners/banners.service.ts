@@ -1,14 +1,11 @@
 import { Injectable } from "@angular/core";
 import { HttpClientService } from "src/app/lib/http/http-client";
 import { BannerModel } from "../../models/banners/banner.model";
-
-
 @Injectable()
 export class BannersService {
+  private url = "/api/banner";
 
-  private url = '/api/banner';
-
-  constructor(private httpClient: HttpClientService) { }
+  constructor(private httpClient: HttpClientService) {}
 
   get(request: any) {
     return this.httpClient.getObservable(this.url, request).toPromise();
@@ -33,4 +30,3 @@ export class BannersService {
     return this.create(model);
   }
 }
-

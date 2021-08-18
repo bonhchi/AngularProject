@@ -7,11 +7,10 @@ namespace Infrastructure.Utilities
 {
     public class DateUtilities
     {
-
         public static int GetWeeksInYear(int year)
         {
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
-            DateTime date1 = new DateTime(year, 12, 31);
+            DateTime date1 = new(year, 12, 31);
             Calendar cal = dfi.Calendar;
             return cal.GetWeekOfYear(date1, dfi.CalendarWeekRule,
                                                 dfi.FirstDayOfWeek);
@@ -26,7 +25,7 @@ namespace Infrastructure.Utilities
                 endDateMonth = DateTime.Today;
             }
 
-            List<DateTime> dates = new List<DateTime>();
+            List<DateTime> dates = new();
             for (var i = startDateMonth; i.Date <= endDateMonth.Date; i = i.AddDays(1))
             {
                 dates.Add(i);
@@ -39,7 +38,7 @@ namespace Infrastructure.Utilities
             var startDateMonth = startDate;
             var endDateMonth = endDate;
 
-            List<DateTime> dates = new List<DateTime>();
+            List<DateTime> dates = new();
             for (var i = startDateMonth; i.Date <= endDateMonth.Date; i = i.AddDays(1))
             {
                 dates.Add(i);
@@ -52,7 +51,7 @@ namespace Infrastructure.Utilities
             var startDateMonth = startDate;
             var endDateMonth = endDate;
 
-            List<DateTime> dates = new List<DateTime>();
+            List<DateTime> dates = new();
             for (var i = startDateMonth; i.Date <= endDateMonth.Date; i = i.AddDays(1))
             {
                 dates.Add(i);
@@ -64,7 +63,7 @@ namespace Infrastructure.Utilities
             var startDateMonth = startDate;
             var endDateMonth = endDate;
 
-            List<DateTime> dates = new List<DateTime>();
+            List<DateTime> dates = new();
             for (var i = startDateMonth; i.Date <= endDateMonth.Date; i = i.AddDays(1))
             {
                 dates.Add(i);
@@ -86,7 +85,7 @@ namespace Infrastructure.Utilities
                 endDateMonth = date;
             }
 
-            List<DateTime> dates = new List<DateTime>();
+            List<DateTime> dates = new();
             for (var i = startDateMonth; i.Date <= endDateMonth.Date; i = i.AddDays(1))
             {
                 dates.Add(i);
@@ -132,7 +131,7 @@ namespace Infrastructure.Utilities
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
 
-        public static DateTime FirstDateOfWeek(int year, int weekOfYear, System.Globalization.CultureInfo ci)
+        public static DateTime FirstDateOfWeek(int year, int weekOfYear, CultureInfo ci)
         {
             DateTime jan1 = new DateTime(year, 1, 1);
             int daysOffset = (int)ci.DateTimeFormat.FirstDayOfWeek - (int)jan1.DayOfWeek;
@@ -147,7 +146,7 @@ namespace Infrastructure.Utilities
 
         public static int MonthDifference(DateTime lValue, DateTime rValue)
         {
-            return Math.Abs((lValue.Month - rValue.Month) + 12 * (lValue.Year - rValue.Year));
+            return Math.Abs(lValue.Month - rValue.Month + 12 * (lValue.Year - rValue.Year));
         }
     }
 }

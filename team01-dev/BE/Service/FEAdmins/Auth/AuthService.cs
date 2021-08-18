@@ -7,7 +7,6 @@ using Domain.DTOs.User;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Infrastructure.Extensions;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -15,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace Service.Auth
 {
-    //missing async
     public class AuthService : IAuthService
     {
         private readonly IRepositoryAsync<User> _userRepository;
@@ -23,8 +21,7 @@ namespace Service.Auth
         private readonly IMapper _mapper;
 
         public AuthService(
-            IUserManager userManager, IRepositoryAsync<User> repository, IMapper mapper,
-            IHttpContextAccessor httpContextAccessor)
+            IUserManager userManager, IRepositoryAsync<User> repository, IMapper mapper)
         {
             _userManager = userManager;
             _userRepository = repository;

@@ -66,10 +66,8 @@ namespace Service
             services.AddScoped<IHeaderService, HeaderService>();
             services.AddScoped<IFooterService, FooterService>();
 
-
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IOrderService, OrderService>();
-
 
             services.AddScoped<IHomeService, HomeService>();
 
@@ -117,7 +115,6 @@ namespace Service
             //subcategory
             services.AddScoped<ISubcategoryService, SubcategoryService>();
             services.AddScoped<ISubcategoryTypeService, SubcategoryTypeService>();
-            
         }
     }
 }
