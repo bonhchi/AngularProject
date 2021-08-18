@@ -1,20 +1,8 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { VirtualTimeScheduler } from 'rxjs';
-import {
-  FileDtoModel,
-  ReturnMessage,
-  TypeSweetAlertIcon,
-} from 'src/app/lib/data/models';
+import { ReturnMessage, TypeSweetAlertIcon } from 'src/app/lib/data/models';
 import { UserModel } from 'src/app/lib/data/models/users/user.model';
-import { FileService } from 'src/app/lib/data/services';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 import { UserService } from 'src/app/lib/data/services/users/user.service';
 

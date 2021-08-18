@@ -17,7 +17,6 @@ import {
   ModalHeaderModel,
   TypeFile,
 } from 'src/app/shared/components/modals/models/modal.model';
-// import * as DecoupledEditor from 'src/app/lib/customCkeditor/ckeditor5-build-decoupled-document';
 import * as ClassicEditor from 'src/app/lib/customCkeditor/ckeditor5-build-classic';
 import Base64UploaderPlugin from 'src/app/lib/@ckeditor/Base64Upload';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
@@ -85,12 +84,9 @@ export class ProductDetailsComponent implements OnInit {
         this.messageService.alert(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            'Server Disconnected',
+            'Mất kết nối với máy chủ',
           TypeSweetAlertIcon.ERROR
         );
-        // if (er.error.hasError) {
-        //   console.log(er.error.message);
-        // }
       });
   }
   save() {

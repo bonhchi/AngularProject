@@ -1,11 +1,10 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TypeSweetAlertIcon } from 'src/app/lib/data/models';
 import { CategoryModel } from 'src/app/lib/data/models/categories/category.model';
 import { CategoryService } from 'src/app/lib/data/services/categories/category.service';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
-
 import {
   EntityType,
   ModalFile,

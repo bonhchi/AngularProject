@@ -1,7 +1,6 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileDtoModel, ReturnMessage } from 'src/app/lib/data/models';
-import { FileService } from 'src/app/lib/data/services';
 import {
   ModalHeaderModel,
   ModalFooterModel,
@@ -28,9 +27,9 @@ export class CreateImageComponent implements OnInit {
 
   install() {
     this.modalHeader = new ModalHeaderModel();
-    this.modalHeader.title = this.item ? `[Update] ${this.item.id}` : `[Add]`;
+    this.modalHeader.title = this.item ? `Cập nhật ${this.item.id}` : `Thêm`;
     this.modalFooter = new ModalFooterModel();
-    this.modalFooter.title = 'Save';
+    this.modalFooter.title = 'Lưu';
     this.modalImage = new ModalFile();
 
     if (this.typeMulti == 1 || this.typeMulti == 2) {
@@ -49,9 +48,7 @@ export class CreateImageComponent implements OnInit {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // console.log(this.item);
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   onChangeData(event: { add: string[]; remove: string; removeAll: boolean }) {
     if (event == null) {
@@ -84,12 +81,10 @@ export class CreateImageComponent implements OnInit {
   }
 
   close(event: any) {
-    // console.log(event);
     this.ngbActiveModal.close();
   }
 
   save(event: any) {
-    // console.log(event);
     this.ngbActiveModal.close();
   }
 }

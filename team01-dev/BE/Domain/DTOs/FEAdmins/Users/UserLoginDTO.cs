@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.DTOs.User
+﻿namespace Domain.DTOs.User
 {
     public class UserLoginDTO
     {

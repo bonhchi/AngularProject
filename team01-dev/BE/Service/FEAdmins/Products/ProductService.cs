@@ -49,7 +49,7 @@ namespace Service.Products
                     return new ReturnMessage<ProductDTO>(true, null, MessageConstants.Error);
                 }
                 entity.CategoryId = category.Id;
-                entity.Category = category;
+                entity.Category = category; //checking error
                 entity.Insert();
                 _productRepository.InsertAsync(entity);
                 await _unitOfWork.SaveChangesAsync();

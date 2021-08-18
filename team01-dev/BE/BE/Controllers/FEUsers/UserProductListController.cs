@@ -44,7 +44,7 @@ namespace BE.Controllers.FEUsers
             var result = await _userProductListService.GetByCategory(id);
             return CommonResponse(result);
         }
-
+        
         [HttpGet(UrlConstants.RevelantProduct)]
         public async Task<IActionResult> RelevantProduct([FromQuery] string name)
         {

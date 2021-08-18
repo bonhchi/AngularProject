@@ -11,8 +11,6 @@ using Domain.DTOs.Profiles;
 using Domain.DTOs.Users;
 using Domain.DTOs.Products;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
 using Domain.DTOs.Blogs;
 using Domain.DTOs.Orders;
 using Domain.DTOs.ProductsFeUser;
@@ -29,7 +27,8 @@ using Domain.DTOs.CustomerWishList;
 using Domain.DTOs.Mails;
 using Infrastructure.Mails;
 using Domain.DTOs.CustomerFE;
-
+using Domain.DTOs.FEAdmins.Subcategory;
+using Domain.DTOs.FEAdmins.SubcategoryType;
 
 namespace Domain
 {
@@ -193,6 +192,18 @@ namespace Domain
             //Gmail
             CreateMap<SendMailDTO, EmailMessage>().ReverseMap();
             CreateMap<ReplyEmailDTO, EmailMessage>().ReverseMap();
+
+
+            //Subcategory
+            CreateMap<Subcategory, SubcategoryDTO>().
+                ForMember(t => t.CategoryName, k => k.MapFrom(h => h.Category.Name)).
+                ForMember(t => t.SubcategoryTypeName, k => k.MapFrom(h => h.SubcategoryType.Name)).ReverseMap();
+            CreateMap<Subcategory, CreateSubcategoryDTO>().ReverseMap();
+            CreateMap<Subcategory, UpdateSubcategoryDTO>().ReverseMap();
+            CreateMap<Subcategory, DeleteSubcategoryDTO>().ReverseMap();
+            CreateMap<SubcategoryType, SubcategoryTypeDTO>().ReverseMap();
+            CreateMap<PaginatedList<Subcategory>, PaginatedList<SubcategoryDTO>>().ReverseMap();
+
         }
     }
 }

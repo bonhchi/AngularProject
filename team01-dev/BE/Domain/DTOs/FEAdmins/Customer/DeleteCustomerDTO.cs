@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Domain.DTOs.BaseDTOs;
+using System;
 
 namespace Domain.DTOs.Customer
 {
-    public class DeleteCustomerDTO
+    public class DeleteCustomerDTO: BaseDeleteDTO
     {
         public Guid Id { get; set; }
     }

@@ -1,10 +1,7 @@
-﻿using Common.Constants;
-using Common.Http;
-using Domain.DTOs.User;
+﻿using Common.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Auth;
 using Service.Files;
-using System.Collections.Generic;
 
 namespace BE.Controllers
 {

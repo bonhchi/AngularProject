@@ -1,5 +1,5 @@
-import { FileDtoModel } from 'src/app/components/models/files/file.model';
 import { BaseModel } from '../common';
+import { FileDtoModel } from '../files/file.model';
 
 export interface PageContentModel extends BaseModel {
   title: string;

@@ -1,18 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   ChangePasswordProfileModel,
-  FileDtoModel,
   ProfileModel,
   ReturnMessage,
   TypeSweetAlertIcon,
   UserDataReturnDTOModel,
 } from 'src/app/lib/data/models';
 
-import {
-  AuthService,
-  FileService,
-  ProfileService,
-} from 'src/app/lib/data/services';
+import { AuthService, ProfileService } from 'src/app/lib/data/services';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -20,7 +15,6 @@ import {
   TypeFile,
   EntityType,
 } from 'src/app/shared/components/modals/models/modal.model';
-import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 

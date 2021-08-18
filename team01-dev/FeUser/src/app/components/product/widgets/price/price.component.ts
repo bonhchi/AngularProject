@@ -10,8 +10,6 @@ import {
 } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { LabelType, Options } from "ng5-slider";
-import { Subject } from "rxjs";
-import { FormControl } from "@angular/forms";
 
 @Component({
   selector: "app-price",

@@ -4,7 +4,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TypeSweetAlertIcon } from 'src/app/lib/data/models';
 import { BlogModel } from 'src/app/lib/data/models/blogs/blog.model';
 import { PageModel, ReturnMessage } from 'src/app/lib/data/models/common';
-import { FileService } from 'src/app/lib/data/services';
 import { BlogService } from 'src/app/lib/data/services/blogs/blog.service';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 import { CustomViewCellStringComponent } from 'src/app/shared/components/custom-view-cell-string/custom-view-cell-string.component';
@@ -94,7 +93,7 @@ export class ListBlogsComponent implements OnInit {
 
   delete(event: any) {
     this.messageService
-      .confirm(`Bạn có muốn xóa bài báo?`, 'Có', 'Không')
+      .confirm(`Bạn có muốn xóa tin tức?`, 'Có', 'Không')
       .then((res) => {
         if (res.isConfirmed) {
           let blog = event.data as BlogModel;

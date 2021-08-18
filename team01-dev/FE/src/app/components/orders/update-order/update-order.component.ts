@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  PageModel,
-  ReturnMessage,
-  TypeSweetAlertIcon,
-} from 'src/app/lib/data/models';
+import { ReturnMessage, TypeSweetAlertIcon } from 'src/app/lib/data/models';
 import {
   OrderDetailModel,
   OrderModel,

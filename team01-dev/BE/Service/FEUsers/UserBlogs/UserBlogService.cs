@@ -60,7 +60,7 @@ namespace Service.UserBlogs
         {
             if (model == null)
             {
-                return new ReturnMessage<List<BlogDTO>>(false, null, MessageConstants.DeleteSuccess);
+                return new ReturnMessage<List<BlogDTO>>(false, null, MessageConstants.DataError);
             }
             await Task.CompletedTask;
             return TakeBlog(3);
@@ -78,7 +78,7 @@ namespace Service.UserBlogs
             var resultEntity = await _blogRepository.GetPaginatedListAsync(it => search.Search == null ||
                 (
                     (
-                        (search.Search.Id == Guid.Empty ? false : it.Id == search.Search.Id) ||
+                        (search.Search.Id != Guid.Empty && it.Id == search.Search.Id) ||
                         it.Title.Contains(search.Search.Title) ||
                         it.ShortDes.Contains(search.Search.ShortDes) ||
                         it.ContentHTML.Contains(search.Search.ContentHTML) ||

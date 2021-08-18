@@ -1,12 +1,11 @@
-﻿using Domain.DTOs.Files;
+﻿using Domain.DTOs.BaseDTOs;
 using Domain.DTOs.OrderDetails;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.DTOs.Orders
 {
-    public class CreateOrderDTO
+    public class CreateOrderDTO: BaseCreateDTO
     {
         public string FullName { get; set; }
         public string Address { get; set; }

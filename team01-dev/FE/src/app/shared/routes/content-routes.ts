@@ -79,7 +79,7 @@ export const content: Routes = [
     loadChildren: () =>
       import('../../components/blogs/blogs.module').then((m) => m.BlogsModule),
     data: {
-      breadcrumb: 'Bài báo',
+      breadcrumb: 'Tin tức',
     },
   },
   {
@@ -120,6 +120,16 @@ export const content: Routes = [
       ),
     data: {
       breadcrumb: 'Khách hàng',
+    },
+  },
+  {
+    path: 'subcategories',
+    loadChildren: () =>
+      import('../../components/subcategories/subcategories.module').then(
+        (m) => m.SubcategoryModule
+      ),
+    data: {
+      breadcrumb: 'Danh mục con',
     },
   },
   {

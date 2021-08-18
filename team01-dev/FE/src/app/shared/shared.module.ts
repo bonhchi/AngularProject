@@ -53,8 +53,8 @@ import { MessageService } from '../lib/data/services/messages/message.service';
     NgxDropzoneModule,
     SweetAlert2Module.forRoot(),
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [NavService, WINDOW_PROVIDERS, FileService,MessageService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [NavService, WINDOW_PROVIDERS, FileService, MessageService],
   exports: [
     UiImageLoaderDirective,
     FeatherIconsComponent,

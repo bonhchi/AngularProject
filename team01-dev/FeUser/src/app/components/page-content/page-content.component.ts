@@ -1,10 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ReturnMessage } from "src/app/lib/data/models";
-import {
-  PageContentInfoModel,
-  PageContentModel,
-} from "src/app/lib/data/models/pageContent/pageContent.model";
+import { PageContentModel } from "src/app/lib/data/models/pageContent/pageContent.model";
 import { PageContentService } from "src/app/lib/data/services/pageContent/pageContent.service";
 import * as DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 

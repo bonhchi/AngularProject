@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Domain.DTOs.BaseDTOs;
+using System;
 
 namespace Domain.DTOs.PageContent
 {
-    public class UpdatePageContentDTO
+    public class UpdatePageContentDTO : BaseUpdateDTO
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

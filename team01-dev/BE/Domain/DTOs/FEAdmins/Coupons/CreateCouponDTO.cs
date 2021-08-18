@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Domain.DTOs.BaseDTOs;
+using System;
 
 namespace Domain.DTOs.Coupons
 {
-    public class CreateCouponDTO
+    public class CreateCouponDTO: BaseCreateDTO
     {
         public string Code { get; set; }
         public string Name { get; set; }

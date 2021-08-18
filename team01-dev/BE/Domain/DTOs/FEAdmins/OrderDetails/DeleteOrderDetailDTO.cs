@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Domain.DTOs.BaseDTOs;
+using System;
 
 namespace Domain.DTOs.OrderDetails
 {
-    public class DeleteOrderDetailDTO
+    public class DeleteOrderDetailDTO : BaseDeleteDTO
     {
         public Guid Id { get; set; }
     }

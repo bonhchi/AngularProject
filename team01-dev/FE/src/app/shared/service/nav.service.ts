@@ -43,7 +43,7 @@ export class NavService {
       children: [
         {
           path: '/blogs/list-blogs',
-          title: 'Bài báo',
+          title: 'Tin tức',
           type: 'link',
         },
         {
@@ -72,6 +72,11 @@ export class NavService {
         {
           path: '/categories/list-categories',
           title: 'Danh mục',
+          type: 'link',
+        },
+        {
+          path: '/subcategories/list-subcategories',
+          title: 'Danh mục con',
           type: 'link',
         },
         {

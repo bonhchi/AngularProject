@@ -1,11 +1,11 @@
-﻿using Domain.DTOs.Files;
+﻿using Domain.DTOs.BaseDTOs;
+using Domain.DTOs.Files;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.DTOs.SocialMedias
 {
-    public class UpdateSocialMediaDTO
+    public class UpdateSocialMediaDTO : BaseUpdateDTO
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

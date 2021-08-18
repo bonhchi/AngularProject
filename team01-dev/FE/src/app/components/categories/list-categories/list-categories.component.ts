@@ -10,7 +10,6 @@ import { FileService } from 'src/app/lib/data/services';
 import { CategoryService } from 'src/app/lib/data/services/categories/category.service';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 import { CustomViewCellStringComponent } from 'src/app/shared/components/custom-view-cell-string/custom-view-cell-string.component';
-import { ViewImageCellComponent } from 'src/app/shared/components/viewimagecell/viewimagecell.component';
 import { CategoryDetailComponent } from '../categories-details/categories-details.component';
 
 @Component({
@@ -82,7 +81,7 @@ export class ListCategoriesComponent implements OnInit {
 
   openPopup(item: any) {
     var modalRef = this.modalService.open(CategoryDetailComponent, {
-      size: 'xl',
+      size: 'lg',
     });
     modalRef.componentInstance.item = item?.data;
     return modalRef.result.then(
@@ -108,7 +107,7 @@ export class ListCategoriesComponent implements OnInit {
         this.messageService.alert(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            'Server Disconnected',
+            'Mất kết nối với máy chủ',
           TypeSweetAlertIcon.ERROR
         );
         // if (er.error.hasError) {

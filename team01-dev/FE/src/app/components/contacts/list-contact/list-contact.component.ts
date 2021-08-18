@@ -7,7 +7,6 @@ import { ContactModel } from 'src/app/lib/data/models/contact/contact.model';
 import { PageContentModel } from 'src/app/lib/data/models/pageContent/pageContent.model';
 import { ContactService } from 'src/app/lib/data/services/contacts/contact.service';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
-import { PageContentService } from 'src/app/lib/data/services/pageContents/pageContent.service';
 import { CustomViewCellStringComponent } from 'src/app/shared/components/custom-view-cell-string/custom-view-cell-string.component';
 import { CustomViewCellComponent } from 'src/app/shared/components/customViewCell/customViewCell.component';
 import { ContactDetailComponent } from '../contact-details/contact-details.component';
@@ -98,7 +97,7 @@ export class ListContactComponent {
           let contact = event.data as ContactModel;
           this.contactService.delete(contact).then(() => {
             this.messageService.notification(
-              'Contact has been deleted',
+              'Liên hệ đã được xóa',
               TypeSweetAlertIcon.SUCCESS
             );
             this.getList();
@@ -113,7 +112,6 @@ export class ListContactComponent {
       .then((res: ReturnMessage<ContactModel[]>) => {
         if (!res.hasError) {
           this.contacts = res.data;
-          // console.log('contact', res.data);
         }
       })
       .catch((er) => {

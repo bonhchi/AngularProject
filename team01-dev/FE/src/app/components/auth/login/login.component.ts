@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Data, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   AuthLoginModel,
   ReturnMessage,
@@ -22,10 +22,10 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private activedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private messageService: MessageService,
+    private messageService: MessageService
   ) {
     this.createLoginForm();
     this.createRegisterForm();
@@ -40,11 +40,10 @@ export class LoginComponent implements OnInit {
 
   owlcarousel = [
     {
-      title: 'Welcome to Clothing Store',
-
+      title: 'Chào mừng đến với cửa hàng',
     },
     {
-      title: 'This is the management page',
+      title: 'Đây là trang quản lý',
     },
   ];
   owlcarouselOptions = {
@@ -67,7 +66,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   async onLogin() {
     this.submitted = true;
@@ -85,15 +84,18 @@ export class LoginComponent implements OnInit {
       })
       .catch((er) => {
         this.messageService.alert(
-          'Login Fail',
+          'Đăng nhập thất bại',
           TypeSweetAlertIcon.ERROR,
-          er.error.message ?? JSON.stringify(er.error.error) ?? "Server Disconnected",
+          er.error.message ??
+            JSON.stringify(er.error.error) ??
+            'Mất kết nối với máy chủ'
         );
       });
   }
 
   backUrl() {
-    var returnUrl = this.activedRoute.snapshot.queryParams['returnUrl'] || '/';
+    var returnUrl =
+      this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
     this.router.navigateByUrl(returnUrl);
   }
 }

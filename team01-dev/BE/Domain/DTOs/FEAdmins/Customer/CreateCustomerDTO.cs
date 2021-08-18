@@ -1,13 +1,11 @@
-﻿using Common.Enums;
+﻿using Domain.DTOs.BaseDTOs;
 using Domain.DTOs.Files;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Domain.DTOs.Customer
 {
-    public class CreateCustomerDTO
+    public class CreateCustomerDTO : BaseCreateDTO
     {
         [Required]
         [StringLength(35)]

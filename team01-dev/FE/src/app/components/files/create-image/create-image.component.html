@@ -3,10 +3,10 @@
   (onAction)="close($event)"
 ></app-modal-header>
 <div class="modal-body" class="card-body" style="margin: auto; width: 50%">
-  EnityID:
+  EntityID:
   <input type="text" placeholder="ID" [(ngModel)]="modalImage.entityId" />
   <br />
-  EnityType:
+  EntityType:
   <select *ngIf="select" [(ngModel)]="modalImage.entityType">
     <option *ngFor="let item of select" value="{{ item.key }}">
       {{ item.value }}

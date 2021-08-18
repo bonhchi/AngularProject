@@ -38,8 +38,12 @@ export class ListSocialMediaComponent implements OnInit {
         }
       })
       .catch((er) => {
-        if (er.error.hasError) {
-        }
+        this.messageService.alert(
+          er.error.message ??
+            JSON.stringify(er.error.error) ??
+            'Mất kết nối với máy chủ',
+          TypeSweetAlertIcon.ERROR
+        );
       });
   }
 

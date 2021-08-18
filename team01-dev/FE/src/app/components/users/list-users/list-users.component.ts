@@ -7,9 +7,8 @@ import {
   TypeSweetAlertIcon,
   UserDataReturnDTOModel,
 } from 'src/app/lib/data/models';
-import { CategoryModel } from 'src/app/lib/data/models/categories/category.model';
 import { UserModel } from 'src/app/lib/data/models/users/user.model';
-import { AuthService, FileService } from 'src/app/lib/data/services';
+import { AuthService } from 'src/app/lib/data/services';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 import { CustomViewCellStringComponent } from 'src/app/shared/components/custom-view-cell-string/custom-view-cell-string.component';
 import { ViewImageCellComponent } from 'src/app/shared/components/viewimagecell/viewimagecell.component';

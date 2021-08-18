@@ -1,12 +1,11 @@
-﻿using Domain.DTOs.Files;
+﻿using Domain.DTOs.BaseDTOs;
 using Domain.DTOs.OrderDetails;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.DTOs.Orders
 {
-    public class UpdateOrderDTO
+    public class UpdateOrderDTO: BaseUpdateDTO
     {
         public Guid Id { get; set; }
         public string FullName { get; set; }

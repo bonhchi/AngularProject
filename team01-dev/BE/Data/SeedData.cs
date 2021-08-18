@@ -99,12 +99,21 @@ namespace Data
                             IsActive = true,
                             HasDisplayHomePage = false,
                             ImageUrl = CommonConstantsProduct.ImageUrl,
-                            ObjectState = Infrastructure.EntityFramework.ObjectState.Added
+                            ObjectState = ObjectState.Added
                         });;
                         ctx.SaveChanges();
                     }
                 }
-
+                if(!await ctx.SubcategoryTypes.AnyAsync())
+                {
+                    foreach(var item in SubcategoryTypeConstants.ListSubcategoryType)
+                    {
+                        item.Value.ObjectState = ObjectState.Added;
+                        item.Value.Id = item.Key;
+                        ctx.SubcategoryTypes.Add(item.Value);
+                        ctx.SaveChanges();
+                    }
+                }
             }
             catch (Exception ex)
             {

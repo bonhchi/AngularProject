@@ -29,10 +29,7 @@ export class ListProductsComponent implements OnInit {
     private modalService: NgbModal,
     private productService: ProductService,
     private messageService: MessageService
-  ) {
-    this.params.pageIndex = 0;
-    this.fetch();
-  }
+  ) {}
 
   public settings = {
     mode: 'external',
@@ -133,9 +130,6 @@ export class ListProductsComponent implements OnInit {
             'Mất kết nối với máy chủ',
           TypeSweetAlertIcon.ERROR
         );
-        // if (er.error.hasError) {
-        //   // console.log(er.error.message);
-        // }
       });
   }
 
@@ -149,7 +143,10 @@ export class ListProductsComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.params.pageIndex = 0;
+    this.fetch();
+  }
 
   onPage(event) {
     this.params.pageIndex = event;

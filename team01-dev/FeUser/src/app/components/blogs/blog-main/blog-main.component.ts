@@ -38,7 +38,7 @@ export class BlogMainComponent implements OnInit {
         this.messageService.alert(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            "Server Disconnected",
+            "Mất kết nối với máy chủ",
           TypeSweetAlertIcon.ERROR
         );
       });
@@ -55,7 +55,7 @@ export class BlogMainComponent implements OnInit {
         this.messageService.alert(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            "Server Disconnected",
+            "Mất kết nối với máy chủ",
           TypeSweetAlertIcon.ERROR
         );
       });
@@ -73,7 +73,7 @@ export class BlogMainComponent implements OnInit {
         this.messageService.alert(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            "Server Disconnected",
+            "Mất kết nối với máy chủ",
           TypeSweetAlertIcon.ERROR
         );
       });

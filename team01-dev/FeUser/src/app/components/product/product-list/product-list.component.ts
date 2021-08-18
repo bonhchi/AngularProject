@@ -1,13 +1,5 @@
-import { ViewportScroller } from "@angular/common";
-import {
-  Component,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { SpinnerVisibilityService } from "ng-http-loader";
 import { Subscription } from "rxjs";
 import {
   ETypeSort,

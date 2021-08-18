@@ -10,8 +10,6 @@ import {
   ModalHeaderModel,
   TypeFile,
 } from 'src/app/shared/components/modals/models/modal.model';
-
-// import * as DecoupledEditor from 'src/app/lib/customCkeditor/ckeditor5-build-decoupled-document';
 import * as ClassicEditor from 'src/app/lib/customCkeditor/ckeditor5-build-classic';
 import { MessageService } from 'src/app/lib/data/services/messages/message.service';
 import { TypeSweetAlertIcon } from 'src/app/lib/data/models';
@@ -79,8 +77,9 @@ export class BlogsDetailComponent implements OnInit {
 
   createModal() {
     this.modalHeader = new ModalHeaderModel();
-    this.modalHeader.title =
-      this.item != null ? `Cập nhật ${this.item.title}` : `Thêm bài báo`;
+    this.modalHeader.title = this.item
+      ? `Cập nhật ${this.item.title}`
+      : `Thêm tin tức`;
     this.modalFooter = new ModalFooterModel();
     this.modalFooter.title = 'Lưu';
   }

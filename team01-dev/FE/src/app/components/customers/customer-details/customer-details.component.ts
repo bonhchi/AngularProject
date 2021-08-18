@@ -104,9 +104,7 @@ export class CustomerDetailsComponent implements OnInit {
       .save(this.user)
       .then(() => {
         this.messageService.notification(
-          this.item
-            ? 'Thông tin đã được cập nhật'
-            : 'Thông tin đã được cập nhật',
+          this.item ? 'Thông tin đã được cập nhật' : 'Thông tin đã được tạo',
           TypeSweetAlertIcon.SUCCESS
         );
         this.ngbActiveModal.close();

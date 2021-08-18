@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { TypeSweetAlertIcon } from "src/app/lib/data/models";
@@ -13,13 +6,8 @@ import { BlogModel } from "src/app/lib/data/models/blogs/blog.model";
 import {
   CommentModel,
   CreateCommentModel,
-  SearchCommentModel,
 } from "src/app/lib/data/models/comments/comment.model";
-import {
-  PageModel,
-  ReturnMessage,
-  SearchPaganationDTO,
-} from "src/app/lib/data/models/common";
+import { PageModel, ReturnMessage } from "src/app/lib/data/models/common";
 import { UserDataReturnDTOModel } from "src/app/lib/data/models/users/user.model";
 import {
   AuthService,
@@ -82,7 +70,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
           this.messageService.alert(
             er.error.message ??
               JSON.stringify(er.error.error) ??
-              "Server Disconnected",
+              "Mất kết nối với máy chủ",
             TypeSweetAlertIcon.ERROR
           );
         });
@@ -115,7 +103,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
         this.messageService.alert(
           er.error.message ??
             JSON.stringify(er.error.error) ??
-            "Server Disconnected",
+            "Mất kết nối với máy chủ",
           TypeSweetAlertIcon.ERROR
         );
       });

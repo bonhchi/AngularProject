@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Domain.DTOs.BaseDTOs;
+using System;
 
 namespace Domain.DTOs.Coupons
 {
-    public class UpdateCouponDTO
+    public class UpdateCouponDTO: BaseUpdateDTO
     {
         public Guid Id { get; set; }
         public string Code { get; set; }
