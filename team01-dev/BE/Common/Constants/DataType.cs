@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 namespace Common.Constants
 {
     public struct DataType
     {
-        public static Dictionary<string, string> TypeName = new()
+        public static readonly Dictionary<string, string> TypeName = new()
         {
             {"banner", "BAN" },
             {"category", "CATE" },
@@ -22,7 +21,7 @@ namespace Common.Constants
             File
         }
 
-        public static Dictionary<string, ETypeFile> TypeFile = new()
+        public static readonly Dictionary<string, ETypeFile> TypeFile = new()
         {
             { "BAN", ETypeFile.Image },
             { "CATE", ETypeFile.Image },
@@ -34,7 +33,7 @@ namespace Common.Constants
             { "BLOG", ETypeFile.Image },
         };
 
-        public static Dictionary<ETypeFile, string> TypeAccept = new()
+        public static readonly Dictionary<ETypeFile, string> TypeAccept = new()
         {
             { ETypeFile.Image, ".jpg, .jpeg, .png, .icon" },
             { ETypeFile.File, ".jpg, .jpeg, .png, .icon, .doc, .docx, .xls, .xlsx, .pdf, .pptx, .ppt, .txt" },

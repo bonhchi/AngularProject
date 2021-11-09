@@ -29,7 +29,7 @@ namespace BE.Controllers.FEAdmins
         }
 
         [HttpGet]
-        [Route("order")]//const
+        [Route(UrlConstants.GetOrder)]
         public async Task<IActionResult> GetByOrder([FromQuery]Guid id)
         {
             var result = await _orderDetailService.GetByOrder(id);

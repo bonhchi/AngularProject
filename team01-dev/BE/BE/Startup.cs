@@ -25,7 +25,6 @@ namespace BE
         public void ConfigureServices(IServiceCollection services)
         {
 
-
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
@@ -36,7 +35,6 @@ namespace BE
                             .AllowAnyHeader();
                     });
             });
-
 
             services.AddControllers();
 
@@ -102,7 +100,6 @@ namespace BE
             {
                 app.UseDeveloperExceptionPage();
             }
-
 
             app.UseHttpsRedirection();
 

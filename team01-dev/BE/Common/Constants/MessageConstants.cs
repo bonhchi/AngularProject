@@ -2,6 +2,7 @@
 {
     public struct MessageConstants
     {
+        // can be changed to vnese if any
         public const string CreateSuccess = "Create successfully";
         public const string UpdateSuccess = "Update successfully";
         public const string DeleteSuccess = "Delete successfully";
