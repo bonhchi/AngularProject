@@ -1,5 +1,6 @@
 ﻿using Domain.DTOs.PromotionDetails;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
@@ -7,8 +8,11 @@ namespace Domain.Entities
     {
         public Guid PromotionID { get; set; }
         public Guid ProductId { get; set; } // product price = 2,000,000 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal PriceSale { get; set; } //last price = 1,800,000 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal ValuePercent { get; set; } //value has percent from promotion = 10 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Value { get; set; } //value from promotion = 200,000 
         public virtual Promotion Promotion { get; set; }
         public virtual Product Product { get; set; }

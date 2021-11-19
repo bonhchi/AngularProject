@@ -1,5 +1,6 @@
 ﻿using Common.Constants;
 using Domain.DTOs.Blogs;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
@@ -9,6 +10,7 @@ namespace Domain.Entities
         public string ShortDes { get; set; }
         public string ContentHTML { get; set; }
         public string ImageUrl { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal RatingScore { get; set; }
 
         public override void Insert()

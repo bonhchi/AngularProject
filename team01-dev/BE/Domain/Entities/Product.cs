@@ -1,6 +1,7 @@
 ﻿using Domain.DTOs.Products;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
@@ -9,6 +10,7 @@ namespace Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
         public bool IsFeatured { get; set; }
         public string ContentHTML { get; set; }
@@ -16,6 +18,7 @@ namespace Domain.Entities
         public int DisplayOrder { get; set; }
         public int SaleCount { get; set; }
         public Guid CategoryId { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal RatingScore { get; set; }
         public virtual Category Category { get; set; }
         public ICollection<CustomerWishList> CustomerWishLists { get; set; }
