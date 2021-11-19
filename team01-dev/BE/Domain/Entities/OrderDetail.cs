@@ -1,5 +1,7 @@
 ﻿using Domain.DTOs.OrderDetails;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Domain.Entities
 {
     public class OrderDetail : BaseEntity
@@ -7,8 +9,10 @@ namespace Domain.Entities
     {
         public Guid OrderId { get; set; }
         public Guid ProductId { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
         public int Quantity { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal TotalAmount { get; set; }
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }

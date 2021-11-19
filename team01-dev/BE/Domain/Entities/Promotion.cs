@@ -1,5 +1,6 @@
 ﻿using Domain.DTOs.Promotions;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
@@ -10,6 +11,7 @@ namespace Domain.Entities
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndtDate { get; set; }
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Value { get; set; }
         public string ImageUrl { get; set; }
         public bool HasPercent { get; set; }

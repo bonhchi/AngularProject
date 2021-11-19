@@ -39,7 +39,8 @@ namespace BE.Controllers.FEUsers
         public async Task<IActionResult> RecentBlog([FromQuery] List<BlogDTO> model)
         {
             var result = await _userBlogService.RecentBlog(model);
-            return CommonResponse(result);        }
+            return CommonResponse(result);
+        }
 
         [HttpGet(UrlConstants.GetBlog)]
         public async Task<IActionResult> GetBlog(Guid id)

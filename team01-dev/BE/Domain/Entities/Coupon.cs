@@ -1,5 +1,6 @@
 ﻿using Domain.DTOs.Coupons;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
@@ -8,6 +9,7 @@ namespace Domain.Entities
         public string Code { get; set; }
         public string Name { get; set; }
         public bool HasPercent { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Value { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

@@ -7,7 +7,7 @@ namespace BE.Controllers
 {
     public class BaseController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthService _authService; // detect use or not use
         public readonly IUserManager _userManager;
         public readonly IFileService _fileService;
         public BaseController(IAuthService authService, IUserManager userManager, IFileService fileService)

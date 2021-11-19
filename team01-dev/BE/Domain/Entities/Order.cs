@@ -3,6 +3,7 @@ using Domain.DTOs.Orders;
 using Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
@@ -15,15 +16,17 @@ namespace Domain.Entities
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Status { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal TotalAmount { get; set; }
         public int TotalItem { get; set; }
         public string Note { get; set; }
         public Guid CouponId { get; set; }
         public string CouponName { get; set; }
         public string CouponCode { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal CouponPercent { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal CouponValue { get; set; }
-
 
         public Guid? CustomerId { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }

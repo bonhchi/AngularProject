@@ -33,7 +33,7 @@ namespace BE.Controllers.FEUsers
             return CommonResponse(result);
         }
 
-        [HttpGet("forgetpassword")] // const
+        [HttpGet(UrlConstants.GetForgetPassword)] // const
         public async Task<IActionResult> Forgetpassword ([FromQuery] CustomerEmailDTO model)
         {
             var result = await _authCustomerService.ForgetPassword(model);

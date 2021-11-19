@@ -121,8 +121,14 @@ namespace Common.Constants
 
         //Subcategory
         public const string BaseSubcategory = BaseApi + "/subcategory";
-        public const string BaseSubcategoryType = BaseApi + "/subcategory-type"; 
-       
+        public const string BaseSubcategoryType = BaseApi + "/subcategory-type";
+
+
+        //Order route
+        public const string GetOrder = "order";
+
+        //forgot pass
+        public const string GetForgetPassword = "forgetpassword";
 
     }
 }
